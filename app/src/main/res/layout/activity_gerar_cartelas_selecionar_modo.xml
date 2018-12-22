@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".GerarCartelasSelecionarModo">
+    tools:context=".Modelos.View.GerarCartelasSelecionarModo">
 
     <TextView
         android:id="@+id/txtSelecionarModoCarregarAnteriores"
@@ -14,7 +14,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Carregar Cartelas anteriores"
+        android:text="Selecionar e editar cartelas anteriores"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -75,4 +75,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

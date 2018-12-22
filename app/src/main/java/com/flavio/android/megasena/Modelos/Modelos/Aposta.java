@@ -1,6 +1,6 @@
 
 
-package com.flavio.android.megasena.Modelos;
+package com.flavio.android.megasena.Modelos.Modelos;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,8 @@ public class Aposta {
     private ArrayList<Sequencia> sequencias = new ArrayList<>();
     private boolean premiado;
     private double valor;
-    
+    private int quantidadeSequencias;
+
     public int getId() {
         return id;
     }
@@ -27,7 +28,10 @@ public class Aposta {
     public void setSorteio(int sorteio) {
         this.sorteio = sorteio;
     }
-    
+
+    public int getQuantidadeSequencias(){
+        return this.quantidadeSequencias;
+    }
     
     public Sequencia getSequencia(int indice){
         return this.sequencias.get(indice);
@@ -49,6 +53,7 @@ public class Aposta {
     public void adicionaSequencia(int[] numeros){
         Sequencia seq = new Sequencia(numeros);
         this.sequencias.add(seq);
+        quantidadeSequencias++;
     }
     /**
      * Gera e adiciona na lista de sequencias uma quantidade de sequencias de mesmo tamanho
@@ -75,7 +80,10 @@ public class Aposta {
                             }
                         }
 //Caso a sequencia numérica seja inédita na aposta, adiciona na lista de sequencias
-                    if(!repetido) this.sequencias.add(s);
+                    if(!repetido) {
+                        this.sequencias.add(s);
+                        quantidadeSequencias++;
+                    }
                 }while(repetido);
             }else{
                 break;

@@ -1,5 +1,5 @@
 
-package com.flavio.android.megasena.Modelos;
+package com.flavio.android.megasena.Modelos.Modelos;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -234,7 +234,7 @@ public class Sequencia {
 -------------------------------------------------------------*/ 
         String resposta="";
         for(int i = 0; i < this.tamanho; i++){
-            resposta += this.numeros[i] +"\t";
+            resposta += this.numeros[i] +"\t ";
         }
         return resposta;
 /*-------------------------------------------------------------

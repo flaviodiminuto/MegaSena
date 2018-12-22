@@ -9,15 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Inicio">
+        <activity android:name=".Modelos.View.Inicio"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GerarCartelasSelecionarModo" />
-        <activity android:name=".GerarAutomatico"></activity>
+        <activity android:name=".Modelos.View.GerarCartelasSelecionarModo"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Modelos.View.GerarAutomatico"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Modelos.View.ApostaGerada"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Modelos.Recycler.Recycler2"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -1,10 +1,12 @@
-package com.flavio.android.megasena;
+package com.flavio.android.megasena.Modelos.View;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.flavio.android.megasena.R;
 
 public class GerarCartelasSelecionarModo extends AppCompatActivity {
         private ImageView btnAutomatico, btnCarregar;
