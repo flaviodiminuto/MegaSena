@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="10dp"
+    tools:context=".Modelos.View.Relatorio">
+
+    <ScrollView
+        android:id="@+id/scrollView5"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#394A4A"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/txtRelatorioTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Relatório de apostas"
+                android:textColor="@color/texto_cor"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="142dp"
+                tools:layout_editor_absoluteY="33dp"
+                android:layout_marginBottom="15dp"/>
+
+            <TextView
+                android:id="@+id/txtRelatorioQuantidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quantidade de apostas geradas"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtRelatorioQuantidadeValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="00 Apostas"
+                android:textColor="@color/texto_cor"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtRelatorioPremiadas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quantidade de apostas premiadas"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtRelatorioPremiadasValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:text="00 Apostas              00% do total"
+                android:textColor="@color/texto_cor"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtRelatorioSorteadas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Quantidade de sequencias sorteadas"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txtRelatorioSorteadasValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00 Sequências"
+                android:textColor="@color/texto_cor"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/btnRelatorioReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView5"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView5"
+        app:srcCompat="@drawable/baseline_arrow_back_white_18dp" />
+
+</android.support.constraint.ConstraintLayout>

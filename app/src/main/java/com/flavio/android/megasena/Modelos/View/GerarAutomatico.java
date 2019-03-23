@@ -1,22 +1,24 @@
 package com.flavio.android.megasena.Modelos.View;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flavio.android.megasena.Modelos.Modelos.Aposta;
-import com.flavio.android.megasena.Modelos.Recycler.Recycler2;
 import com.flavio.android.megasena.R;
 
 public class GerarAutomatico extends AppCompatActivity {
     private Aposta aposta;
     private EditText txt6, txt7, txt8, txt9, txt10, txt11, txt12, txt13, txt14, txt15;
-    private Button  gerarSequencia;
+    private ImageView gerarSequencia,returnBack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
@@ -36,25 +38,60 @@ public class GerarAutomatico extends AppCompatActivity {
             txt14 = findViewById ( R.id.edtGerar14 );
             txt15 = findViewById ( R.id.edtGerar15 ) ;
 
+/*--------------------------------------------------------------
+    Inicializa os botões
+--------------------------------------------------------------*/
             gerarSequencia = findViewById ( R.id.btnGerarAutomaticoGerarSequencia);
+            returnBack = findViewById ( R.id.btnAutomaticoReturn );
+
 /*--------------------------------------------------------------
     Ação ao precionar o botão "Gerar Sequencias"
 --------------------------------------------------------------*/
         gerarSequencia.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-               // adicionarSequencia ();
-                Intent it = new Intent ( GerarAutomatico.this, Recycler2.class );
-                startActivity ( it );
+                Intent it = new Intent ( GerarAutomatico.this, ApostaCarregada.class );
+                String resposta = adicionarSequencia ();
+                if(!resposta.equals ( "vazio" )) {
+                    it.putExtra ( "aposta", resposta );
+                    startActivity ( it );
+                }else{
+                    mensagem ( "Adicione a quantidade de sequencias que deseja Gerar" );
+                }
+            }
+        } );
+
+/*--------------------------------------------------------------
+    Ação ao precionar o botão "home"
+--------------------------------------------------------------*/
+        returnBack.setOnClickListener ( new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                onBackPressed ();
+            }
+        } );
+
+/*--------------------------------------------------------------
+    Ação ao clicar em OK do teclado ao estar selecionada a ultima editText
+--------------------------------------------------------------*/
+        txt15.setOnEditorActionListener ( new TextView.OnEditorActionListener () {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handle = false;
+                if(actionId == EditorInfo.IME_ACTION_DONE)
+                    handle = gerarSequencia.callOnClick ();
+
+                return handle;
             }
         } );
     }
 
-    private void adicionarSequencia(){
-        this.aposta = new Aposta ();
+
 /*--------------------------------------------------------------
     Adicionando as sequencias na aposta
 --------------------------------------------------------------*/
+    private String adicionarSequencia(){
+        this.aposta = new Aposta ();
         this.aposta.adicionaSequencia ( getNumero ( txt6 ),6 );
         this.aposta.adicionaSequencia ( getNumero ( txt7 ),7 );
         this.aposta.adicionaSequencia ( getNumero ( txt8 ),8 );
@@ -66,7 +103,10 @@ public class GerarAutomatico extends AppCompatActivity {
         this.aposta.adicionaSequencia ( getNumero ( txt14 ),14 );
         this.aposta.adicionaSequencia ( getNumero ( txt15 ),15 );
 
-        mensagem(this.aposta.toString ());
+        if(this.aposta.getQuantidadeSequencias ()==0){
+            return "vazio";
+        }
+        return aposta.getJson ();
     }
 
     private int getNumero(EditText edt){
@@ -77,7 +117,7 @@ public class GerarAutomatico extends AppCompatActivity {
     }
 
     private void mensagem(String texto){
-        Toast.makeText ( this, this.aposta.toString (), Toast.LENGTH_SHORT ).show ();
+        Toast.makeText ( this, texto, Toast.LENGTH_SHORT ).show ();
     }
 
 }

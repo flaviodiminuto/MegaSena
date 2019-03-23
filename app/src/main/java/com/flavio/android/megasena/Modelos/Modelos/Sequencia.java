@@ -74,7 +74,6 @@ public class Sequencia {
 
     public void setTamanho(int tamanho) {
         this.tamanho = tamanho;
-        gerarSequencia();
     }
 
     public int[] getNumeros() {
@@ -97,10 +96,14 @@ public class Sequencia {
     public double getValor() {
         return valor;
     }
-    
-/*-------------------------------------------------------------
-   O valor sempre será preenchido com a geração da sequencia
--------------------------------------------------------------*/
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    /*-------------------------------------------------------------
+       O valor sempre será preenchido com a geração da sequencia
+    -------------------------------------------------------------*/
     private void setValor(){
         switch(this.tamanho){
             case 6:
@@ -178,8 +181,8 @@ public class Sequencia {
            } 
         }
     }
-    
-        /**
+
+    /**
      * Compara se a sequencia numérica recebida está registrada nesta aposta
      * Serve tanto para preencher sem repetir sequencias quanto para
      * verificar se a numeração desta sequencia foi sorteada
@@ -199,9 +202,7 @@ public class Sequencia {
         if(seq.tamanho>this.tamanho) return seq.sequenciaEncontrada(this);//Recursivo
 /*-------------------------------------------------------------
   Verifica se a sequencia enviada está contida na sequencia atual
--------------------------------------------------------------*/
 
-/*-------------------------------------------------------------
 //Compara cada número da sequencia recebida com cada número da sequencia atual
 -------------------------------------------------------------*/
         for(int i = 0; i<seq.tamanho; i++){

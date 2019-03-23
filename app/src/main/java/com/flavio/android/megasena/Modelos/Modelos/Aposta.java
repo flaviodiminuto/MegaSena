@@ -2,13 +2,14 @@
 
 package com.flavio.android.megasena.Modelos.Modelos;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.List;
 
-
-public class Aposta {
+public class Aposta  {
     private int id;
-    private int sorteio;
-    private ArrayList<Sequencia> sequencias = new ArrayList<>();
+    private ArrayList<Sequencia> sequencias = new ArrayList<Sequencia>();
     private boolean premiado;
     private double valor;
     private int quantidadeSequencias;
@@ -21,20 +22,21 @@ public class Aposta {
         this.id = id;
     }
 
-    public int getSorteio() {
-        return sorteio;
-    }
-
-    public void setSorteio(int sorteio) {
-        this.sorteio = sorteio;
-    }
-
     public int getQuantidadeSequencias(){
         return this.quantidadeSequencias;
     }
-    
+
+    public void setQuantidadeSequencias(int quantidadeSequencias) {
+        this.quantidadeSequencias = quantidadeSequencias;
+    }
+
+
     public Sequencia getSequencia(int indice){
         return this.sequencias.get(indice);
+    }
+
+    public List<Sequencia> getSequencias(){
+        return this.sequencias;
     }
  
     /**
@@ -89,10 +91,17 @@ public class Aposta {
                 break;
             }
         }
+
 /*-------------------------------------------------------------
-  Apos gerar as sequencias da aposta calcula o valor da aposta
--------------------------------------------------------------*/
-      setValor();
+      Remove uma sequencia da aposta
+/*-------------------------------------------------------------*/
+      calculaValor ();
+    }
+
+    public void removerSequencia(int id){
+        this.sequencias.remove ( id );
+        this.quantidadeSequencias--;
+        calculaValor ();
     }
 
     public boolean isPremiado() {
@@ -103,11 +112,21 @@ public class Aposta {
         this.premiado = premiado;
     }
 
-    private void setValor(){
+    private void calculaValor(){
+        this.valor=0;
         for(Sequencia seq : this.sequencias){
             this.valor+=seq.getValor();
         }
     }
+
+    public void setSequencias(ArrayList <Sequencia> sequencias) {
+        this.sequencias = sequencias;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
     /**
      * 
      * @return valor total da aposta
@@ -136,9 +155,13 @@ public class Aposta {
     public String toString() {
         String resposta="";
         for(Sequencia montante1 : this.sequencias) {
-            resposta += sequencias.indexOf(montante1)+": "+ montante1.toString()+"\n\n";
+            resposta +="Jogo "+ sequencias.indexOf(montante1)+": \t"+ montante1.toString()+"\n\n";
         }
         return resposta;
     }
-    
+    public String getJson(){
+        Gson g = new Gson();
+        return g.toJson ( this );
+    }
+
 }

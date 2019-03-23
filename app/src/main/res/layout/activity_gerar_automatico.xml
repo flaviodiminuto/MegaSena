@@ -7,10 +7,24 @@
     android:background="@color/background"
     tools:context=".Modelos.View.GerarAutomatico">
 
-    <Button
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Gerar Aposta"
+        android:textColor="@color/texto_cor"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGerarAutomaticoGerarSequencia"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
         android:id="@+id/btnGerarAutomaticoGerarSequencia"
-        android:layout_width="232dp"
-        android:layout_height="50dp"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -18,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrolViewGerarSequenciaAutomatico" />
+        app:srcCompat="@drawable/btn_gerar_branco" />
 
     <ScrollView
         android:id="@+id/scrolViewGerarSequenciaAutomatico"
@@ -28,11 +42,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnGerarAutomaticoGerarSequencia"
+        android:background="#394A4A"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +65,8 @@
                 android:text="Sequencia de 6 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,15 +74,15 @@
 
             <EditText
                 android:id="@+id/edtGerar6"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +98,8 @@
                 android:text="Sequencia de 7 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,19 +107,19 @@
 
             <EditText
                 android:id="@+id/edtGerar7"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSequencia" />
 
             <TextView
                 android:id="@+id/text8"
@@ -113,7 +131,8 @@
                 android:text="Sequencia de 8 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,15 +141,15 @@
 
             <EditText
                 android:id="@+id/edtGerar8"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +165,8 @@
                 android:text="Sequencia de 9 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -154,15 +174,15 @@
 
             <EditText
                 android:id="@+id/edtGerar9"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -174,10 +194,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
                 android:text="Sequencia de 10 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -185,15 +207,15 @@
 
             <EditText
                 android:id="@+id/edtGerar10"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -209,7 +231,8 @@
                 android:text="Sequencia de 11 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -217,19 +240,19 @@
 
             <EditText
                 android:id="@+id/edtGerar11"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSequencia" />
 
             <TextView
                 android:id="@+id/text12"
@@ -241,7 +264,8 @@
                 android:text="Sequencia de 12 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -249,15 +273,15 @@
 
             <EditText
                 android:id="@+id/edtGerar12"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,7 +297,8 @@
                 android:text="Sequencia de 13 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -281,15 +306,15 @@
 
             <EditText
                 android:id="@+id/edtGerar13"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -301,10 +326,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="30dp"
                 android:text="Sequencia de 14 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -312,15 +339,15 @@
 
             <EditText
                 android:id="@+id/edtGerar14"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -336,7 +363,8 @@
                 android:text="Sequencia de 15 números"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@android:color/white"
+                android:textColor="@color/texto_cor"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -344,22 +372,35 @@
 
             <EditText
                 android:id="@+id/edtGerar15"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/bordas_arredondadas"
                 android:ems="10"
-                android:inputType="numberDecimal"
                 android:hint="0"
+                android:inputType="numberDecimal"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSequencia" />
 
 
         </LinearLayout>
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/btnAutomaticoReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/scrolViewGerarSequenciaAutomatico"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/scrolViewGerarSequenciaAutomatico"
+        app:layout_constraintTop_toTopOf="@+id/scrolViewGerarSequenciaAutomatico"
+        app:srcCompat="@drawable/baseline_arrow_back_white_18dp" />
 
 </android.support.constraint.ConstraintLayout>
