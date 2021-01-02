@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".View.CardSequencia"></activity>
         <activity
-            android:name=".Modelos.View.Inicio"
+            android:name=".View.Inicio"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,21 +20,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Modelos.View.GerarAutomatico"
+            android:name=".View.GerarAutomatico"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Modelos.View.VerificarSorteio"
+            android:name=".View.VerificarSorteio"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Modelos.View.ApostaCarregada"
+            android:name=".View.ApostaCarregada"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Modelos.View.ListaApostas"
+            android:name=".View.ListaApostas"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Modelos.View.Informacoes"
+            android:name=".View.Informacoes"
             android:screenOrientation="portrait" />
-        <activity android:name=".Modelos.View.Relatorio"></activity>
+        <activity android:name=".View.Relatorio" />
     </application>
 
 </manifest>

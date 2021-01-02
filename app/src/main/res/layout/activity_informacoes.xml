@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="10dp"
-    tools:context=".Modelos.View.Informacoes">
+    tools:context=".View.Informacoes">
 
     <TextView
         android:id="@+id/txtInformTitulo"

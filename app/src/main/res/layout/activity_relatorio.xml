@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="10dp"
-    tools:context=".Modelos.View.Relatorio">
+    tools:context=".View.Relatorio">
 
     <ScrollView
         android:id="@+id/scrollView5"
