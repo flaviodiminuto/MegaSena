@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -62,28 +61,30 @@ public class ListaApostas extends AppCompatActivity {
 /*--------------------------------------------------------------
     Ação ao precionar o botão "returnBack"
 --------------------------------------------------------------*/
-        returnBack.setOnClickListener ( new View.OnClickListener () {
+        returnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed ();
+                onBackPressed();
             }
         } );
     }
 
-    private void preencherApostas() {
+    private Aposta consultarAposta(){
+        DaoApostaSequencia das = new DaoApostaSequencia(getApplicationContext());
+        if(!apostaEscolhida.getText().toString().equals("")
+                && Integer.parseInt( apostaEscolhida.getText().toString()) >= 0
+                && Integer.parseInt( apostaEscolhida.getText().toString()) <= this.apostas.size()){
+            return das.consultaApostaCompletaById(Integer.parseInt(apostaEscolhida.getText().toString()));
+        }else
+            Toast.makeText (this, "Selecione uma aposta da lista", Toast.LENGTH_SHORT ).show();
+        return null;
+    }
+
+    private void preencherApostas(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView.Adapter adapter = new ApostaAdapter(this.apostas);
         apostaRecycler.setHasFixedSize(true);
         apostaRecycler.setLayoutManager(layoutManager);
         apostaRecycler.setAdapter(adapter);
-    }
-
-    private Aposta consultarAposta(){
-        DaoApostaSequencia das = new DaoApostaSequencia ( getApplicationContext () );
-        if(!apostaEscolhida.getText ().toString ().equals ( "" ) && Integer.parseInt ( apostaEscolhida.getText ().toString () )>=0 && Integer.parseInt ( apostaEscolhida.getText ().toString () )<=this.apostas.size ()){
-            return das.consultaApostaCompletaById ( Integer.parseInt ( apostaEscolhida.getText ().toString () ) );
-        }else
-            Toast.makeText ( this, "Selecione uma aposta da lista", Toast.LENGTH_SHORT ).show ();
-    return null;
     }
 }
