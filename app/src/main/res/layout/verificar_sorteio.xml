@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".Modelos.View.VerificarSorteio"
+    tools:context=".View.VerificarSorteio"
     android:padding="10dp">
 
     <LinearLayout
@@ -29,7 +29,9 @@
             android:background="@drawable/bordas_arredondadas"
             android:hint="0"
             android:inputType="numberDecimal"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/texto_cor"
+            android:textColorHint="@color/texto_cor" />
 
         <EditText
             android:id="@+id/edtApostaGeradaNum2"
@@ -41,6 +43,8 @@
             android:hint="0"
             android:inputType="numberDecimal"
             android:textAlignment="center"
+            android:textColor="@color/texto_cor"
+            android:textColorHint="@color/texto_cor"
             android:visibility="visible" />
 
         <EditText
@@ -53,6 +57,8 @@
             android:hint="0"
             android:inputType="numberDecimal"
             android:textAlignment="center"
+            android:textColor="@color/texto_cor"
+            android:textColorHint="@color/texto_cor"
             android:visibility="visible" />
 
         <EditText
@@ -65,6 +71,8 @@
             android:hint="0"
             android:inputType="numberDecimal"
             android:textAlignment="center"
+            android:textColor="@color/texto_cor"
+            android:textColorHint="@color/texto_cor"
             android:visibility="visible" />
 
         <EditText
@@ -77,6 +85,8 @@
             android:hint="0"
             android:inputType="numberDecimal"
             android:textAlignment="center"
+            android:textColor="@color/texto_cor"
+            android:textColorHint="@color/texto_cor"
             android:visibility="visible" />
 
         <EditText
@@ -89,6 +99,8 @@
             android:hint="0"
             android:inputType="numberDecimal"
             android:textAlignment="center"
+            android:textColor="@color/texto_cor"
+            android:textColorHint="@color/texto_cor"
             android:visibility="visible" />
 
     </LinearLayout>
@@ -118,43 +130,32 @@
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="9dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/txtApostaGeradaPreencha"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#394A4A">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txtApostaGeradaTitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:padding="15dp"
+            android:text="Aposta XX"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:textColor="@color/texto_cor" />
 
-            <TextView
-                android:id="@+id/txtApostaGeradaTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="Aposta XX"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@color/texto_cor" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/verifica_sorteio_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/txtApostaGeradaSequencias"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX  XX"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="@color/texto_cor" />
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtVerificarSorteioAncora"
@@ -171,22 +172,16 @@
         android:id="@+id/btnVerificarReturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2"
-        app:layout_constraintTop_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_white_18dp" />
 
     <ImageView
         android:id="@+id/btnVerificarHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnVerificarReturn"
         app:layout_constraintEnd_toStartOf="@+id/btnVerificarReturn"
         app:layout_constraintHorizontal_bias="1.0"

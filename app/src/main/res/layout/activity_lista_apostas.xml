@@ -5,21 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".Modelos.View.ListaApostas">
+    tools:context=".View.ListaApostas">
 
     <EditText
         android:id="@+id/edtListaApostaNumSelecionado"
         android:layout_width="70dp"
         android:layout_height="40dp"
         android:layout_margin="5dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="144dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/bordas_arredondadas"
         android:gravity="center"
         android:hint="0"
         android:inputType="numberDecimal"
+        android:textColor="@color/texto_cor"
+        android:textColorHint="@color/texto_cor"
         app:layout_constraintBottom_toBottomOf="@+id/btnListaApostaSelecionaAposta"
         app:layout_constraintEnd_toStartOf="@+id/btnListaApostaSelecionaAposta"
         app:layout_constraintHorizontal_bias="1.0"
@@ -27,43 +29,45 @@
         app:layout_constraintTop_toTopOf="@+id/btnListaApostaSelecionaAposta"
         app:srcCompat="@drawable/bordas_arredondadas" />
 
-    <ScrollView
-        android:id="@+id/scrollView3"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#394A4A"
-        android:padding="10dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txtListaApostaTitulo"
+            android:layout_width="178dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Apostas Salvas"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/texto_cor"
+            tools:layout_editor_absoluteX="163dp"
+            tools:layout_editor_absoluteY="188dp" />
 
-            <TextView
-                android:id="@+id/txtListaApostaTitulo"
+        <ScrollView
+            android:id="@+id/scrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="10dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lista_aposta_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Apostas Salvas"
-                android:textColor="@color/texto_cor"
-                tools:layout_editor_absoluteX="163dp"
-                tools:layout_editor_absoluteY="188dp" />
+                android:scrollbars="vertical" />
+        </ScrollView>
 
-            <TextView
-                android:id="@+id/txtListaApostaConteudo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="aposta 1"
-                android:textColor="@color/texto_cor" />
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/btnListaApostaSelecionaAposta"
@@ -85,7 +89,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Selecione a aposta que deseja verificar"
+        android:text="Informe o número ou clique na aposta que deseja verificar"
         android:textColor="@color/texto_cor"
         app:layout_constraintBottom_toTopOf="@+id/btnListaApostaSelecionaAposta"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,15 +97,15 @@
 
     <ImageView
         android:id="@+id/btnListaReturn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView3"
+        android:layout_width="20dp"
+        android:layout_height="21dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/scrollView3"
-        app:layout_constraintTop_toTopOf="@+id/scrollView3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/baseline_arrow_back_white_18dp" />
 
 </android.support.constraint.ConstraintLayout>

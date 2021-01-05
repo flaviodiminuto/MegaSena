@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bordas_arredondadas"
+    android:padding="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    android:layout_marginTop="10dp">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_aposta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/card_aposta_layout_principal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="1dp"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_card_aposta_identificador"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Aposta: 00"
+                    android:textColor="@color/texto_cor"
+                    android:textColorHint="@color/texto_cor" />
+
+                <TextView
+                    android:id="@+id/txt_card_aposta_valor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Valor: R$ 00,00"
+                    android:textColor="@color/texto_cor"
+                    android:textColorHint="@color/texto_cor" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txt_card_aposta_quantidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="00 sequencia(s)"
+                android:textColor="@color/texto_cor"
+                android:textColorHint="@color/texto_cor" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

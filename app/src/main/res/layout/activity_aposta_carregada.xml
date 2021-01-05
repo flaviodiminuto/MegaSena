@@ -6,52 +6,38 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="10dp"
-    tools:context=".Modelos.View.ApostaCarregada">
+    tools:context=".View.ApostaCarregada">
 
-    <ScrollView
-        android:id="@+id/scrollView4"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:background="#394A4A"
-        android:padding="16dp"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="376dp"
+        android:layout_height="504dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="9dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.625"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/txtApostaCarregadaTitulo"
+        app:layout_constraintVertical_bias="0.472">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/jogos_recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp" />
 
-            <TextView
-                android:id="@+id/txtApostaCarregadaTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Aposta xx"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/texto_cor" />
-
-            <TextView
-                android:id="@+id/txtApostaCarregadaConteudo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:text="Jogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\nJogo xx XX XX XX XX XX XX\n\n"
-                android:textColor="@color/texto_cor" />
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/btnApostaCarregadaSalvar"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/btn_salvar_branco"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,39 +47,47 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Salvar Aposta"
         android:textColor="@color/texto_cor"
         app:layout_constraintBottom_toTopOf="@+id/btnApostaCarregadaSalvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <TextView
+        android:id="@+id/txtApostaCarregadaTitulo"
+        android:layout_width="277dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="10dp"
+        android:text="Aposta xx"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/texto_cor"
+        app:layout_constraintBottom_toBottomOf="@+id/btnGeradaHome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnGeradaHome"
+        app:layout_constraintVertical_bias="0.6" />
+
     <ImageView
         android:id="@+id/btnGeradaReturn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/scrollView4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/scrollView4"
-        app:layout_constraintTop_toTopOf="@+id/scrollView4"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.926"
+        app:layout_constraintStart_toEndOf="@+id/txtApostaCarregadaTitulo"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_white_18dp" />
 
     <ImageView
         android:id="@+id/btnGeradaHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnGeradaReturn"
         app:layout_constraintEnd_toStartOf="@+id/btnGeradaReturn"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/scrollView4"
         app:layout_constraintTop_toTopOf="@+id/btnGeradaReturn"
         app:srcCompat="@drawable/baseline_home_white_18dp" />
 
