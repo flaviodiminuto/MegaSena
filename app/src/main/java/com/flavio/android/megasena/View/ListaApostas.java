@@ -70,21 +70,38 @@ public class ListaApostas extends AppCompatActivity {
     }
 
     private Aposta consultarAposta(){
-        DaoApostaSequencia das = new DaoApostaSequencia(getApplicationContext());
-        if(!apostaEscolhida.getText().toString().equals("")
-                && Integer.parseInt( apostaEscolhida.getText().toString()) >= 0
-                && Integer.parseInt( apostaEscolhida.getText().toString()) <= this.apostas.size()){
-            return das.consultaApostaCompletaById(Integer.parseInt(apostaEscolhida.getText().toString()));
-        }else
-            Toast.makeText (this, "Selecione uma aposta da lista", Toast.LENGTH_SHORT ).show();
+        if(this.apostas.isEmpty()){
+            Toast.makeText(this, "Lista vazia, gere uma aposta antes!", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        
+        try{
+            DaoApostaSequencia das = new DaoApostaSequencia(getApplicationContext());
+            Aposta aposta =  das.consultaApostaCompletaById(getApostaSelecionada());
+            if (aposta == null) throw new Exception("Aposta nao encontrada");
+            return aposta;
+        }catch (Exception e) {
+            this.apostaEscolhida.setText("1");
+            Toast.makeText(this, "Selecione uma aposta da lista", Toast.LENGTH_SHORT).show();
+        }
         return null;
+    }
+
+    private int getApostaSelecionada() throws NumberFormatException {
+        String value = "0" + this.apostaEscolhida.getText().toString();
+        try {
+            return Double.valueOf(value).intValue();
+        }catch (NumberFormatException nfe){
+            nfe.printStackTrace();
+            throw  new NumberFormatException("Aposta não encontrada");
+        }
     }
 
     private void preencherApostas(){
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         RecyclerView.Adapter adapter = new ApostaAdapter(this.apostas);
-        apostaRecycler.setHasFixedSize(true);
-        apostaRecycler.setLayoutManager(layoutManager);
-        apostaRecycler.setAdapter(adapter);
+        this.apostaRecycler.setHasFixedSize(true);
+        this.apostaRecycler.setLayoutManager(layoutManager);
+        this.apostaRecycler.setAdapter(adapter);
     }
 }

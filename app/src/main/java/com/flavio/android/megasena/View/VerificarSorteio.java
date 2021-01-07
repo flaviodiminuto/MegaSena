@@ -162,7 +162,12 @@ public class VerificarSorteio extends AppCompatActivity {
         this.verificado = true;
     }
     private int getNumeroFromEditText(EditText edt){
-        if(edt.getText ().toString ().equals ( "" )) return 0;
-        return Integer.parseInt ( edt.getText ().toString () );
+        String value = "0" + edt.getText().toString();
+       try {
+           return Double.valueOf(value).intValue();
+       }catch (NumberFormatException nfe){
+           edt.setText(0);
+           return 0;
+       }
     }
 }
