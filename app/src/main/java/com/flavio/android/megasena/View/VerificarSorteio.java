@@ -1,15 +1,16 @@
 package com.flavio.android.megasena.View;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Dao.DaoAposta;
 import com.flavio.android.megasena.Dao.DaoSequencia;
@@ -29,10 +30,10 @@ public class VerificarSorteio extends AppCompatActivity {
     private TextView txtTitulo,txtSorteado,preenchaCampos;
     private RecyclerView verificaSorteioRecycler;
     private EditText edtNum1, edtNum2, edtNum3, edtNum4, edtNum5, edtNum6;
-    private ImageButton btnVerificar;
+    private ImageButton btnVerificar, btnGrafico;
     private ImageView home, returnBack;
     private boolean verificado;
-    private JogosAdapter adapter;
+    private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
 
     @Override
@@ -70,6 +71,16 @@ public class VerificarSorteio extends AppCompatActivity {
         for(EditText editText: camposNumerosSorteados){
             configEditText(editText);
         }
+
+
+        this.btnGrafico = findViewById(R.id.btn_grafico);
+        btnGrafico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(VerificarSorteio.this, NumerosMaisSorteados.class);
+                startActivity(it);
+            }
+        });
 
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
