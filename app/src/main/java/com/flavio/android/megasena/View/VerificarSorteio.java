@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.flavio.android.megasena.Dao.DaoAposta;
-import com.flavio.android.megasena.Dao.DaoSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.Modelos.Validacao;
@@ -22,17 +20,15 @@ import com.flavio.android.megasena.adapter.JogosAdapter;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class VerificarSorteio extends AppCompatActivity {
     private Aposta aposta;
-    private TextView txtTitulo,txtSorteado,preenchaCampos;
+    private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
     private EditText edtNum1, edtNum2, edtNum3, edtNum4, edtNum5, edtNum6;
     private ImageButton btnVerificar, btnGrafico;
     private ImageView home, returnBack;
-    private boolean verificado;
     private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
 
@@ -46,7 +42,6 @@ public class VerificarSorteio extends AppCompatActivity {
 --------------------------------------------------------------*/
         //TextView Titulo, Sequencias e sorteado
         this.txtTitulo = findViewById ( R.id.txtApostaGeradaTitulo );
-        this.txtSorteado = findViewById ( R.id.txtApostaGeradaPreencha );
 
         //EditTexts 1 a 6
         this.edtNum1 = findViewById ( R.id.edtApostaGeradaNum1 );
@@ -89,8 +84,6 @@ public class VerificarSorteio extends AppCompatActivity {
         Gson g = new Gson ();
         this.aposta = g.fromJson (bund.getString ( "aposta" ), Aposta.class );
 
-        if(!this.aposta.isPremiado ())verificado = false;
-
         exibirJogos();
 
         this.btnVerificar.setOnClickListener ( new View.OnClickListener () {
@@ -122,7 +115,6 @@ public class VerificarSorteio extends AppCompatActivity {
                 onBackPressed ();
             }
         } );
-
     }
 
     private int[] lerValoresCampos() {
@@ -139,7 +131,6 @@ public class VerificarSorteio extends AppCompatActivity {
     private void exibirJogos(){
         setTitulo();
         exibirSequencias();
-        setResultadoVerificacao(this.aposta.isPremiado());
     }
 
     private void exibirSequencias() {
@@ -149,46 +140,20 @@ public class VerificarSorteio extends AppCompatActivity {
         this.adapter = new JogosAdapter(this.aposta.getSequencias());
         this.verificaSorteioRecycler.setAdapter(this.adapter);
     }
-
-    private void setResultadoVerificacao(boolean premiado) {
-        if(premiado) {
-            this.txtSorteado.setText ( "Aposta sorteada\nParabéns!"  );
-        }else {
-            if (this.verificado) {
-                this.txtSorteado.setText ( "Aposta NÃO sorteada!" );
-            }
-        }
-    }
     private void setTitulo() {
         final String titulo = "Jogo(s): " + this.aposta.getQuantidadeSequencias();
         this.txtTitulo.setText (titulo) ;
     }
 
     /*--------------------------------------------------------------
-        Verifica se a sequencia apresentada nos editibox está na Aposta atual
+        Verifica se a sequencia apresentada nos EditTexts está na Aposta atual
     --------------------------------------------------------------*/
     private void verificarSorteio(){
-        /*Desenvolver mecanismo de verificação de número repetido nos campos e solicitar novo número caso já encontrado*/
-
-        DaoAposta da = new DaoAposta ( getApplicationContext () );
-        DaoSequencia ds = new DaoSequencia ( getApplicationContext () );
         Sequencia sequencia = new Sequencia (lerValoresCampos());
-
         sequencia.ordenar ();
         Validacao.setNumerosSorteados(sequencia.getNumeros());
-
-        for(Sequencia seq : this.aposta.getSequencias ()){
-            if(Arrays.equals (seq.getNumeros (), Validacao.getNumerosSorteados())){
-                this.aposta.setPremiado ( true );
-                sequencia = seq;
-                sequencia.setSorteado ( true );
-                ds.alterarSequencia ( sequencia );
-                da.alterarAposta ( this.aposta );
-                break;
-            }
-        }
-        this.verificado = true;
     }
+
     private int getNumeroFromEditText(EditText edt){
         String value = "0" + edt.getText().toString();
        try {

@@ -150,4 +150,32 @@ public class ApostaServiceTest {
         assertEquals(valorDesejado, aposta.getValor(), 0.0);
     }
 
+    @Test
+    public void VerificaQuantidadeDeAcertos(){
+        Aposta aposta = new Aposta();
+        int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
+        Sequencia verificada = new Sequencia(numeros);
+
+        int[] numerosSorteados1 = {2,12,13,14,15,16};
+        int[] numerosSorteados2 = {2,9,13,14,15,16};
+        int[] numerosSorteados3 = {2,9,1,14,15,16};
+        int[] numerosSorteados4 = {2,9,1,14,15,11};
+        int[] numerosSorteados5 = {2,9,1,7,15,11};
+        int[] numerosSorteados6 = {11,5,4,3,2,6};
+
+        Sequencia umacerto = new Sequencia(numerosSorteados1);
+        Sequencia doisAcertos = new Sequencia(numerosSorteados2);
+        Sequencia tresAcertos = new Sequencia(numerosSorteados3);
+        Sequencia quatroAcertos = new Sequencia(numerosSorteados4);
+        Sequencia cincoAcertos = new Sequencia(numerosSorteados5);
+        Sequencia seisAcertos = new Sequencia(numerosSorteados6);
+
+        assertEquals(1, apostaService.quantidadeAcertos(verificada,umacerto));
+        assertEquals(2, apostaService.quantidadeAcertos(verificada,doisAcertos));
+        assertEquals(3, apostaService.quantidadeAcertos(verificada,tresAcertos));
+        assertEquals(4, apostaService.quantidadeAcertos(verificada,quatroAcertos));
+        assertEquals(5, apostaService.quantidadeAcertos(verificada,cincoAcertos));
+        assertEquals(6, apostaService.quantidadeAcertos(verificada,seisAcertos));
+    }
+
 }

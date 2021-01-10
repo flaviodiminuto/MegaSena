@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ApostaService {
+    Sequencia sequenciaComMaisAcerto;
     private List<Sequencia> sequenciasComZeroAcertos;
     private List<Sequencia> sequenciasComUmAcerto;
     private List<Sequencia> sequenciasComDoisAcertos;
@@ -112,6 +113,25 @@ public class ApostaService {
     -------------------------------------------------------------*/
     }
 
+    public int quantidadeAcertos(Sequencia verificada, Sequencia desejada) {
+        verificada.ordenar();
+        desejada.ordenar();
+        int acertos = 0;
+
+        if (Arrays.equals(verificada.getNumeros(), desejada.getNumeros()))
+            return verificada.getNumeros().length;
+
+        for (int i = 0; i < desejada.getTamanho(); i++) {
+            for (int j = 0; j < verificada.getTamanho(); j++) {
+                if (desejada.getNumeros()[i] == verificada.getNumeros()[j]) {
+                    acertos++;
+                    break; //interrompe a iteracao do for interno
+                }
+            }
+        }
+        return acertos;
+    }
+
     private void calculaValor(Aposta aposta){
         double valor = 0;
         for(Sequencia sequencia : aposta.getSequencias()){
@@ -126,10 +146,22 @@ public class ApostaService {
      * @return true caso a sequencia esta contida na aposta
      */
     public boolean verificaSorteio(Aposta aposta, Sequencia sorteada){
-        for(Sequencia sequencia : aposta.getSequencias()){
-            if(sequenciaEncontrada(sequencia, sorteada)) return true;
+
+        for (Sequencia sequenciaVerificada : aposta.getSequencias()) {
+            switch (quantidadeAcertos(sequenciaVerificada,sorteada)){
+                case 0: sequenciasComZeroAcertos.add(sequenciaVerificada);break;
+                case 1: sequenciasComUmAcerto.add(sequenciaVerificada); break;
+                case 2: sequenciasComDoisAcertos.add(sequenciaVerificada); break;
+                case 3: sequenciasComTresAcertos.add(sequenciaVerificada); break;
+                case 4: sequenciasComQuatroAcertos.add(sequenciaVerificada); break;
+                case 5: sequenciasComCincoAcertos.add(sequenciaVerificada); break;
+                default: sequenciasComSeisAcertos.add(sequenciaVerificada); break;
+            }
         }
-        return false;
+
+        return !sequenciasComQuatroAcertos.isEmpty()
+                || !sequenciasComCincoAcertos.isEmpty()
+                || !sequenciasComSeisAcertos.isEmpty();
     }
 
     public String getJson(Aposta aposta){
