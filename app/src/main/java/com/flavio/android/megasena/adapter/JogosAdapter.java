@@ -11,29 +11,34 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flavio.android.megasena.Modelos.Sequencia;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHolder> {
     private List<Sequencia> sequencias;
+    public JogoViewHolder holder;
 
     public static class JogoViewHolder extends RecyclerView.ViewHolder{
         public View view;
         public List<TextView> numerosTextView;
         public boolean preenchido;
+        public List<LinearLayout> linhas;
         public JogoViewHolder(View view) {
             super(view);
             this.view = view;
             this.numerosTextView = new ArrayList<>();
-
-            //impede que o valor dos campos mudem depois de preenchidos
-            setIsRecyclable(false);
+            this.linhas = new ArrayList<>();
         }
     }
 
@@ -46,7 +51,8 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
     public JogoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_card_sequencia, parent, false);
-        return new JogoViewHolder(view);
+        this.holder = new JogoViewHolder(view);
+        return  this.holder;
     }
 
 /*--------------------------------------------------------------------------------------
@@ -60,7 +66,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         View view = holder.view;
         CardView card = view.findViewById(R.id.sequencias_card_view);
         setTituloCard(card, position);
-        preparaCamposNumericosCard(holder, position);
+        preparaCamposNumericosCard(holder, sequencias.get(position).getNumeros().length);
         setValorJogoCard(card,position);
         setNumerosCard(holder.numerosTextView,position);
         holder.preenchido = true;
@@ -92,11 +98,16 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         for (int i = 0; i < sequencias.get(position).getNumeros().length; i++) {
             int value = sequencias.get(position).getNumeros()[i];
             numerosTextView.get(i).setText(String.valueOf(value));
+            if(isNumeroSorteado(value)){
+                changeColorNumeroSorteado(numerosTextView.get(i));
+            }
         }
     }
 
-    private void preparaCamposNumericosCard(JogoViewHolder holder, int position){
-        int quantidadeLinhas = quantidadeLinhas(sequencias.get(position).getNumeros().length);
+    private void preparaCamposNumericosCard(JogoViewHolder holder, int tamanho){
+        if(holder.linhas.size() > 0 ) return;
+
+        int quantidadeLinhas = quantidadeLinhas(tamanho);
         View view = holder.view;
 
         LinearLayout layoutPrincipal = view.findViewById(R.id.layout_horizontal_sequencias);
@@ -121,6 +132,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
                 holder.numerosTextView.add(textView);
             }
             layoutPrincipal.addView(novaLinha);
+            holder.linhas.add(novaLinha);
         }
     }
 
@@ -144,5 +156,14 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         textView.setPadding(10,10,10,0);
         textView.setBackground(background);
+    }
+
+    private void changeColorNumeroSorteado(TextView textView){
+        //"#1DFF04"
+        textView.setTextColor(Color.parseColor("#1DFF04"));
+    }
+
+    public boolean isNumeroSorteado(Integer numero){
+        return Arrays.binarySearch(Validacao.getNumerosSorteados(), numero) > -1;
     }
 }

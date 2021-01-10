@@ -9,18 +9,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flavio.android.megasena.Dao.DaoAposta;
 import com.flavio.android.megasena.Dao.DaoSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class VerificarSorteio extends AppCompatActivity {
     private Aposta aposta;
@@ -30,6 +32,8 @@ public class VerificarSorteio extends AppCompatActivity {
     private ImageButton btnVerificar;
     private ImageView home, returnBack;
     private boolean verificado;
+    private JogosAdapter adapter;
+    private List<EditText> camposNumerosSorteados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +54,22 @@ public class VerificarSorteio extends AppCompatActivity {
         this.edtNum4 = findViewById ( R.id.edtApostaGeradaNum4 );
         this.edtNum5 = findViewById ( R.id.edtApostaGeradaNum5 );
         this.edtNum6 = findViewById ( R.id.edtApostaGeradaNum6 );
-
+        this.camposNumerosSorteados = new ArrayList<>();
+        this.camposNumerosSorteados.add(this.edtNum1);
+        this.camposNumerosSorteados.add(this.edtNum2);
+        this.camposNumerosSorteados.add(this.edtNum3);
+        this.camposNumerosSorteados.add(this.edtNum4);
+        this.camposNumerosSorteados.add(this.edtNum5);
+        this.camposNumerosSorteados.add(this.edtNum6);
         //Image Verificar (atua como botão)
         this.btnVerificar = findViewById ( R.id.btnApostaGeradaVerificar );
         this.home = findViewById ( R.id.btnVerificarHome );
         this.returnBack = findViewById ( R.id.btnVerificarReturn );
         this.verificaSorteioRecycler = findViewById ( R.id.verifica_sorteio_recycler );
+
+        for(EditText editText: camposNumerosSorteados){
+            configEditText(editText);
+        }
 
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
@@ -100,19 +114,29 @@ public class VerificarSorteio extends AppCompatActivity {
 
     }
 
+    private int[] lerValoresCampos() {
+        return new int[]{
+                getNumeroFromEditText ( edtNum1 ),
+                getNumeroFromEditText ( edtNum2 ),
+                getNumeroFromEditText ( edtNum3 ),
+                getNumeroFromEditText ( edtNum4 ),
+                getNumeroFromEditText ( edtNum5 ),
+                getNumeroFromEditText ( edtNum6 )
+        };
+    }
+
     private void exibirJogos(){
         setTitulo();
         exibirSequencias();
         setResultadoVerificacao(this.aposta.isPremiado());
-        setValor();
     }
 
     private void exibirSequencias() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         this.verificaSorteioRecycler.setHasFixedSize(true);
         this.verificaSorteioRecycler.setLayoutManager(layoutManager);
-        JogosAdapter adapter = new JogosAdapter(aposta.getSequencias());
-        this.verificaSorteioRecycler.setAdapter(adapter);
+        this.adapter = new JogosAdapter(this.aposta.getSequencias());
+        this.verificaSorteioRecycler.setAdapter(this.adapter);
     }
 
     private void setResultadoVerificacao(boolean premiado) {
@@ -124,11 +148,6 @@ public class VerificarSorteio extends AppCompatActivity {
             }
         }
     }
-
-    private void setValor() {
-        final String valorText = String.format("%nValor: R$ %.2f", aposta.getValor());
-    }
-
     private void setTitulo() {
         final String titulo = "Jogo(s): " + this.aposta.getQuantidadeSequencias();
         this.txtTitulo.setText (titulo) ;
@@ -139,30 +158,51 @@ public class VerificarSorteio extends AppCompatActivity {
     --------------------------------------------------------------*/
     private void verificarSorteio(){
         /*Desenvolver mecanismo de verificação de número repetido nos campos e solicitar novo número caso já encontrado*/
-        int[] numeros = {getNumeroFromEditText ( edtNum1 ), getNumeroFromEditText ( edtNum2 ), getNumeroFromEditText ( edtNum3 ), getNumeroFromEditText ( edtNum4 ), getNumeroFromEditText ( edtNum5 ), getNumeroFromEditText ( edtNum6 )};
-        Sequencia sequencia = new Sequencia ( numeros );
-        sequencia.ordenar ();
-        numeros = sequencia.getNumeros ();
-        //this.aposta.setPremiado ( this.aposta.verificaSorteio ( sequencia ) );
-       // if(this.aposta.isPremiado ()){
-            DaoAposta da = new DaoAposta ( getApplicationContext () );
-            DaoSequencia ds = new DaoSequencia ( getApplicationContext () );
 
-            for(Sequencia seq : this.aposta.getSequencias ()){
-                if(Arrays.equals (seq.getNumeros (),numeros)){
-                    this.aposta.setPremiado ( true );
-                    sequencia = seq;
-                    sequencia.setSorteado ( true );
-                    ds.alterarSequencia ( sequencia );
-                    da.alterarAposta ( this.aposta );
-                    break;
-                }
+        DaoAposta da = new DaoAposta ( getApplicationContext () );
+        DaoSequencia ds = new DaoSequencia ( getApplicationContext () );
+        Sequencia sequencia = new Sequencia (lerValoresCampos());
+
+        sequencia.ordenar ();
+        Validacao.setNumerosSorteados(sequencia.getNumeros());
+
+        for(Sequencia seq : this.aposta.getSequencias ()){
+            if(Arrays.equals (seq.getNumeros (), Validacao.getNumerosSorteados())){
+                this.aposta.setPremiado ( true );
+                sequencia = seq;
+                sequencia.setSorteado ( true );
+                ds.alterarSequencia ( sequencia );
+                da.alterarAposta ( this.aposta );
+                break;
             }
-        //}
+        }
         this.verificado = true;
     }
     private int getNumeroFromEditText(EditText edt){
-        if(edt.getText ().toString ().equals ( "" )) return 0;
-        return Integer.parseInt ( edt.getText ().toString () );
+        String value = "0" + edt.getText().toString();
+       try {
+           return Double.valueOf(value).intValue();
+       }catch (NumberFormatException nfe){
+           edt.setText(0);
+           return 0;
+       }
+    }
+
+    private void configEditText(EditText editText){
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    Sequencia sequencia = new Sequencia (lerValoresCampos());
+                    sequencia.ordenar ();
+                    setValidacaoValue(sequencia.getNumeros());
+                    exibirSequencias();
+                }
+            }
+        });
+    }
+
+    private void setValidacaoValue(int[] numeros){
+        Validacao.setNumerosSorteados(numeros);
     }
 }
