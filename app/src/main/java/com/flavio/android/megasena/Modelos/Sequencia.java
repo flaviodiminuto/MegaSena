@@ -1,7 +1,6 @@
 
 package com.flavio.android.megasena.Modelos;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class Sequencia {
@@ -33,8 +32,6 @@ public class Sequencia {
      * @param tamanho 
      */
     public Sequencia(int tamanho){
-        if(tamanho<6) this.tamanho=6;
-        if(tamanho>15) this.tamanho=15;
         this.tamanho = tamanho;
         this.numeros = new int[this.tamanho];
         this.sorteado= false;
@@ -144,6 +141,17 @@ public class Sequencia {
         Random random = new Random();
         int sorteado;
         boolean repetido;
+
+        if(this.tamanho < 6){
+            this.tamanho = 6;
+            this.setNumeros(new int[this.tamanho]);
+        }
+
+        if(this.tamanho > 15){
+            this.tamanho = 15;
+            this.setNumeros(new int[this.tamanho]);
+        }
+
         for(int i = 0; i<this.tamanho; i++){
 /*-------------------------------------------------------------
    Verifica se o número sorteado não é repetido
@@ -180,50 +188,6 @@ public class Sequencia {
                }
            } 
         }
-    }
-
-    /**
-     * Compara se a sequencia numérica recebida está registrada nesta aposta
-     * Serve tanto para preencher sem repetir sequencias quanto para
-     * verificar se a numeração desta sequencia foi sorteada
-     * @param seq
-     * @return boolean
-     */
-    public boolean sequenciaEncontrada(Sequencia seq){
-        seq.ordenar();
-/*-------------------------------------------------------------
-  Caso as duas sequencias tenham o mesmo tamanho e  números retorna verdadeiro
--------------------------------------------------------------*/
-        if(Arrays.equals(this.numeros, seq.getNumeros()))return true;
-/*-------------------------------------------------------------
-  Caso a sequencia recebida seja maior que a sequencia atual
-  retorna utilizando o metodo sequenciaEncontrada da sequencia maior
--------------------------------------------------------------*/
-        if(seq.tamanho>this.tamanho) return seq.sequenciaEncontrada(this);//Recursivo
-/*-------------------------------------------------------------
-  Verifica se a sequencia enviada está contida na sequencia atual
-
-//Compara cada número da sequencia recebida com cada número da sequencia atual
--------------------------------------------------------------*/
-        for(int i = 0; i<seq.tamanho; i++){
-            for(int j=0; j<this.tamanho; j++){
-/*-------------------------------------------------------------
-  Caso o número seja igual então podemos verificar o próximo número da sequencia recebida
--------------------------------------------------------------*/
-                if(seq.getNumeros()[i]==this.numeros[j]){
-                    break;
-                }
-/*-------------------------------------------------------------
-  Caso o verifiquemos toda a sequencia e não encontrarmos este número da sequencia recebida
-  então a sequencia recebida não está contida nesta e retorna false
--------------------------------------------------------------*/
-                if(j==(this.tamanho-1) && seq.getNumeros()[i]!=this.numeros[j]) return false;
-            }
-        }
-        return true;
-/*-------------------------------------------------------------
-  Fim do método sequenciaEncontrada
--------------------------------------------------------------*/ 
     }
 
     @Override

@@ -13,12 +13,14 @@ import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.View.VerificarSorteio;
+import com.flavio.android.megasena.service.ApostaService;
 
 import java.util.List;
 
 public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaViewHolder> {
     private List<Aposta> apostaList;
     private DaoApostaSequencia dao;
+    private ApostaService apostaService;
     public class ApostaViewHolder extends RecyclerView.ViewHolder {
         public ApostaViewHolder(View view) {
             super(view);
@@ -28,6 +30,7 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
 
     public ApostaAdapter(List<Aposta> apostasList) {
         this.apostaList = apostasList;
+        this.apostaService = new ApostaService();
     }
 
     @Override
@@ -65,7 +68,7 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
     private void carregaAposta(View view, int position){
         Intent it = new Intent( view.getContext(), VerificarSorteio.class );
         Aposta aposta = dao.consultaApostaCompletaById(apostaList.get(position).getId());
-        it.putExtra ("aposta", aposta.getJson());
+        it.putExtra ("aposta", apostaService.getJson(aposta));
         view.getContext().startActivity( it );
     }
 
