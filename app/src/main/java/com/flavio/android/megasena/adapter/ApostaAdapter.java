@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.View.VerificarSorteio;
 import com.flavio.android.megasena.service.ApostaService;
@@ -66,6 +67,7 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
     }
 
     private void carregaAposta(View view, int position){
+        Validacao.setNumerosSorteados(new int[6]);
         Intent it = new Intent( view.getContext(), VerificarSorteio.class );
         Aposta aposta = dao.consultaApostaCompletaById(apostaList.get(position).getId());
         it.putExtra ("aposta", apostaService.getJson(aposta));

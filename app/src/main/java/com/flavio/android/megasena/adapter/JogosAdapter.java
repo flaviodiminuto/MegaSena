@@ -63,7 +63,10 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         View view = holder.view;
         CardView card = view.findViewById(R.id.sequencias_card_view);
         setTituloCard(card, position);
-        preparaCamposNumericosCard(holder, sequencias.get(position).getNumeros().length);
+        Sequencia sequencia = sequencias.get(position);
+        int[] numeros = sequencia.getNumeros();
+        int tamanho = numeros.length;
+        preparaCamposNumericosCard(holder, tamanho);
         setValorJogoCard(card,position);
         setNumerosCard(holder.numerosTextView,position);
         holder.preenchido = true;

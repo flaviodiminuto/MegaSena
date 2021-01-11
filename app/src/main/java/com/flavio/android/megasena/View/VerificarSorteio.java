@@ -27,7 +27,7 @@ public class VerificarSorteio extends AppCompatActivity {
     private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
     private EditText edtNum1, edtNum2, edtNum3, edtNum4, edtNum5, edtNum6;
-    private ImageButton btnVerificar, btnGrafico;
+    private ImageButton btnVerificar;
     private ImageView home, returnBack;
     private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
@@ -67,16 +67,6 @@ public class VerificarSorteio extends AppCompatActivity {
             configEditText(editText);
         }
 
-
-        this.btnGrafico = findViewById(R.id.btn_grafico);
-        btnGrafico.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(VerificarSorteio.this, NumerosMaisSorteados.class);
-                startActivity(it);
-            }
-        });
-
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
 --------------------------------------------------------------*/
@@ -91,6 +81,7 @@ public class VerificarSorteio extends AppCompatActivity {
             public void onClick(View v) {
                     verificarSorteio ();
                     exibirJogos();
+                    redirecionarParaSorteioVerificado();
 
             }
         } );
@@ -117,6 +108,14 @@ public class VerificarSorteio extends AppCompatActivity {
         } );
     }
 
+    private void redirecionarParaSorteioVerificado() {
+        Intent it = new Intent(VerificarSorteio.this, SorteioVerificado.class);
+        if(aposta!=null) {
+            it.putExtra("aposta_id", this.aposta.getId());
+            startActivity(it);
+        }
+    }
+
     private int[] lerValoresCampos() {
         return new int[]{
                 getNumeroFromEditText ( edtNum1 ),
@@ -141,7 +140,7 @@ public class VerificarSorteio extends AppCompatActivity {
         this.verificaSorteioRecycler.setAdapter(this.adapter);
     }
     private void setTitulo() {
-        final String titulo = "Jogo(s): " + this.aposta.getQuantidadeSequencias();
+        final String titulo = "Quantidade de sequencias: " + this.aposta.getQuantidadeSequencias();
         this.txtTitulo.setText (titulo) ;
     }
 

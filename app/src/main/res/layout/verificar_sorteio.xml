@@ -116,17 +116,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageButton
-        android:id="@+id/btn_grafico"
-        android:layout_width="72dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.975"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/txtApostaGeradaPreencha"
         android:layout_width="wrap_content"
@@ -157,7 +146,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="Aposta XX"
+            android:textSize="15sp"
+            android:text="Quantidade de sequencias"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/texto_cor" />
 

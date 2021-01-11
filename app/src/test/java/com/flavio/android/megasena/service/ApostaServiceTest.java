@@ -96,7 +96,7 @@ public class ApostaServiceTest {
     }
 
     @Test
-    public void verificaSorteioSequenciaSemelhante(){
+    public void verificaSorteioSequenciaComCincoAcertos(){
         Aposta aposta = new Aposta();
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
@@ -104,7 +104,31 @@ public class ApostaServiceTest {
         int[] numerosVerificados = {1,2,3,4,5,12};
         Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
 
-        assertFalse(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+    }
+
+    @Test
+    public void verificaSorteioSequenciaComQuatroAcertos(){
+        Aposta aposta = new Aposta();
+        apostaService.adicionaSequencia(aposta,10,6);
+        int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
+        apostaService.adicionaSequencia(aposta,numeros);
+        int[] numerosVerificados = {1,2,3,4,13,12};
+        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+
+        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+    }
+
+    @Test
+    public void verificaSorteioSequenciaComSeisAcertos(){
+        Aposta aposta = new Aposta();
+        apostaService.adicionaSequencia(aposta,10,6);
+        int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
+        apostaService.adicionaSequencia(aposta,numeros);
+        int[] numerosVerificados = {1,2,3,4,5,11};
+        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+
+        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
     }
 
     @Test
@@ -152,7 +176,6 @@ public class ApostaServiceTest {
 
     @Test
     public void VerificaQuantidadeDeAcertos(){
-        Aposta aposta = new Aposta();
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         Sequencia verificada = new Sequencia(numeros);
 

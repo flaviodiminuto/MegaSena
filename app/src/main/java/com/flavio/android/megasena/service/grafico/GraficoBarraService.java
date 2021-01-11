@@ -13,10 +13,10 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.renderer.LegendRenderer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,10 +25,11 @@ public class GraficoBarraService {
 
     public static void getBarChart(Map<Integer,Integer> values,
                                    BarChart chart,
-                                   String label){
+                                   String legendLabel,
+                                   int[] colunasDeDestaque){
         configchart(chart);
-        configLegend(chart,values);
-        setBarChartValue(chart, values, label);
+        configLegend(chart,values,legendLabel, colunasDeDestaque);
+        setBarChartValue(chart, values, legendLabel, colunasDeDestaque);
     }
 
     private static void configchart(BarChart chart) {
@@ -53,20 +54,22 @@ public class GraficoBarraService {
         chart.setFitBars(true);
     }
 
-    private static void configLegend(BarChart chart, Map<Integer,Integer> values){
+    private static void configLegend(BarChart chart, Map<Integer,Integer> values,String legendLabel, int[] colunasDeDestaque){
         Legend legend = chart.getLegend();
         legend.mNeededHeight = 15f;
         legend.mTextHeightMax = 20f;
-        legend.setTextSize(10f);
+        legend.setTextSize(9f);
         legend.setTextColor(Color.WHITE);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setCustom(getLegendEntries(values));
+        legend.setCustom(getLegendEntries(values,legendLabel, colunasDeDestaque));
     }
 
-    private static void setBarChartValue(BarChart chart,Map<Integer,Integer> values,  String label) {
+    private static void setBarChartValue(BarChart chart,Map<Integer,Integer> values,
+                                         String legendLabel,
+                                         int[] colunasDeDestaque) {
         List<BarEntry> data = getBrEntry(values);
-        BarDataSet barDataSet = new BarDataSet(data,label);
-        barDataSet.setColors(getColors(values.size()), 255);
+        BarDataSet barDataSet = new BarDataSet(data,legendLabel);
+        barDataSet.setColors(getColors(values.size(), colunasDeDestaque), 255);
         BarData barData = new BarData(barDataSet);
         barData.setValueFormatter(new MyValueFormatter());
         barData.setValueTextColor(Color.WHITE);
@@ -75,10 +78,12 @@ public class GraficoBarraService {
         chart.invalidate();
     }
 
-    private static List<LegendEntry> getLegendEntries(Map<Integer,Integer> values){
+    private static List<LegendEntry> getLegendEntries(Map<Integer,Integer> values,
+                                                      String label,
+                                                      int[] colunasDeDestaque){
         List<LegendEntry> entriesList = new ArrayList<>();
-        String[] labels = getLabels(values);
-        int[] colors = getColors(values.size());
+        String[] labels = getLabels(values, label);
+        int[] colors = getColors(values.size(), colunasDeDestaque);
 
         for (int i = 0; i < values.size(); i++) {
             LegendEntry entry = new LegendEntry();
@@ -91,23 +96,26 @@ public class GraficoBarraService {
         return entriesList;
     }
 
-    private static int[] getColors(int tamanho) {
+    private static int[] getColors(int tamanho, int[] colunasDeDestaque) {
         int i = 0;
         int[] colors = new int[tamanho];
         while(i < tamanho){
-            colors[i] = i % 2 == 0 ? Color.parseColor("#394A4A") :  Color.WHITE;
+            if(Arrays.binarySearch(colunasDeDestaque, i) != -1)
+                colors[i] =  Color.parseColor("#00FF00");
+            else
+                colors[i] = i % 2 == 0 ? Color.parseColor("#394A4A") :  Color.WHITE;
             i++;
         }
         return colors;
     }
 
     @SuppressLint("DefaultLocale")
-    private static String[] getLabels(Map<Integer,Integer> values){
+    private static String[] getLabels(Map<Integer,Integer> values, String label){
         String[] labels = new String[values.size()];
         Set<Integer> chaves = values.keySet();
         int i = 0;
         for ( Integer chave : chaves) {
-            labels[i] = String.format("n°%d", chave);
+                labels[i] = String.format("%d %s", chave, label);
             i++;
         }
         return labels;

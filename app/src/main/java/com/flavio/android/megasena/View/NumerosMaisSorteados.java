@@ -33,7 +33,7 @@ public class NumerosMaisSorteados extends AppCompatActivity {
         Map<Integer, Integer> values = getvalues();
         List<Integer[]> chaveValorList = getChaveValorArray(values);
 
-        GraficoBarraService.getBarChart(values,graficoBarra, "");
+        GraficoBarraService.getBarChart(values,graficoBarra, "", new int[0]);
         preencheTabelaInferior(chaveValorList);
     }
 

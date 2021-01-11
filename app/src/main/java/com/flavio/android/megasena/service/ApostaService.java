@@ -1,21 +1,29 @@
 package com.flavio.android.megasena.service;
 
+import android.content.Context;
+
+import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ApostaService {
-    Sequencia sequenciaComMaisAcerto;
-    private List<Sequencia> sequenciasComZeroAcertos;
-    private List<Sequencia> sequenciasComUmAcerto;
-    private List<Sequencia> sequenciasComDoisAcertos;
-    private List<Sequencia> sequenciasComTresAcertos;
-    private List<Sequencia> sequenciasComQuatroAcertos;
-    private List<Sequencia> sequenciasComCincoAcertos;
-    private List<Sequencia> sequenciasComSeisAcertos;
+    private List<Sequencia> sequenciasComMaisAcertos = new ArrayList<>();
+    private List<Sequencia> sequenciasComZeroAcertos = new ArrayList<>();
+    private List<Sequencia> sequenciasComUmAcerto = new ArrayList<>();
+    private List<Sequencia> sequenciasComDoisAcertos = new ArrayList<>();
+    private List<Sequencia> sequenciasComTresAcertos = new ArrayList<>();
+    private List<Sequencia> sequenciasComQuatroAcertos = new ArrayList<>();
+    private List<Sequencia> sequenciasComCincoAcertos = new ArrayList<>();
+    private List<Sequencia> sequenciasComSeisAcertos = new ArrayList<>();
+
+    private DaoApostaSequencia daoApostaSequencia;
 
     /**
      * Gera e adiciona na lista de sequencias uma quantidade de sequencias de mesmo tamanho
@@ -167,5 +175,63 @@ public class ApostaService {
     public String getJson(Aposta aposta){
         Gson g = new Gson();
         return g.toJson ( aposta );
+    }
+
+    public Map<Integer, Integer> quantidadeAcertosMap() {
+        Map<Integer, Integer> quantidadesSorteadas = new HashMap<>();
+        quantidadesSorteadas.put(0, sequenciasComZeroAcertos.size());
+        quantidadesSorteadas.put(1, sequenciasComUmAcerto.size());
+        quantidadesSorteadas.put(2, sequenciasComDoisAcertos.size());
+        quantidadesSorteadas.put(3, sequenciasComTresAcertos.size());
+        quantidadesSorteadas.put(4, sequenciasComQuatroAcertos.size());
+        quantidadesSorteadas.put(5, sequenciasComCincoAcertos.size());
+        quantidadesSorteadas.put(6, sequenciasComSeisAcertos.size());
+        return quantidadesSorteadas;
+    }
+
+    public List<Sequencia> getSequenciaComMaisAcertos(int quantidade) {
+        List<Sequencia> sequenciaList = new ArrayList<>();
+        sequenciaList.addAll(sequenciasComSeisAcertos);
+        sequenciaList.addAll(sequenciasComCincoAcertos);
+        sequenciaList.addAll(sequenciasComQuatroAcertos);
+        sequenciaList.addAll(sequenciasComTresAcertos);
+        sequenciaList.addAll(sequenciasComDoisAcertos);
+        sequenciaList.addAll(sequenciasComUmAcerto);
+        sequenciaList.addAll(sequenciasComZeroAcertos);
+
+        return sequenciaList.subList(0,quantidade);
+    }
+
+    public Aposta getApostaCompletaById(int apostaId, Context context){
+        this.daoApostaSequencia = new DaoApostaSequencia(context);
+        return this.daoApostaSequencia.consultaApostaCompletaById(apostaId);
+    }
+
+    public List<Sequencia> getSequenciasComZeroAcertos() {
+        return sequenciasComZeroAcertos;
+    }
+
+    public List<Sequencia> getSequenciasComUmAcerto() {
+        return sequenciasComUmAcerto;
+    }
+
+    public List<Sequencia> getSequenciasComDoisAcertos() {
+        return sequenciasComDoisAcertos;
+    }
+
+    public List<Sequencia> getSequenciasComTresAcertos() {
+        return sequenciasComTresAcertos;
+    }
+
+    public List<Sequencia> getSequenciasComQuatroAcertos() {
+        return sequenciasComQuatroAcertos;
+    }
+
+    public List<Sequencia> getSequenciasComCincoAcertos() {
+        return sequenciasComCincoAcertos;
+    }
+
+    public List<Sequencia> getSequenciasComSeisAcertos() {
+        return sequenciasComSeisAcertos;
     }
 }
