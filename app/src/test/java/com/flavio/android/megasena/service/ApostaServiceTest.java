@@ -2,8 +2,12 @@ package com.flavio.android.megasena.service;
 
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
+import com.flavio.android.megasena.Modelos.Sorteio;
+import com.flavio.android.megasena.Modelos.Validacao;
 
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -80,19 +84,19 @@ public class ApostaServiceTest {
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6};
         apostaService.adicionaSequencia(aposta,numeros);
-        int[] numerosVerificados = {1,2,3,4,5,6};
-        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+        Validacao.setSorteio(new Sorteio());
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
 
-        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertTrue(apostaService.verificaSorteio(aposta));
     }
 
     @Test
     public void verificaSorteioApostaVazia(){
         Aposta aposta = new Aposta();
-        int[] numerosVerificados = {1,2,3,4,5,6};
-        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+        Validacao.setSorteio(new Sorteio());
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
 
-        assertFalse(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertFalse(apostaService.verificaSorteio(aposta));
     }
 
     @Test
@@ -101,10 +105,10 @@ public class ApostaServiceTest {
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         apostaService.adicionaSequencia(aposta,numeros);
-        int[] numerosVerificados = {1,2,3,4,5,12};
-        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+        Validacao.setSorteio(new Sorteio());
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "12");
 
-        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertTrue(apostaService.verificaSorteio(aposta));
     }
 
     @Test
@@ -113,10 +117,10 @@ public class ApostaServiceTest {
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         apostaService.adicionaSequencia(aposta,numeros);
-        int[] numerosVerificados = {1,2,3,4,13,12};
-        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+        Validacao.setSorteio(new Sorteio());
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "13", "12");
 
-        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertTrue(apostaService.verificaSorteio(aposta));
     }
 
     @Test
@@ -126,9 +130,10 @@ public class ApostaServiceTest {
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         apostaService.adicionaSequencia(aposta,numeros);
         int[] numerosVerificados = {1,2,3,4,5,11};
-        Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
+        Validacao.setSorteio(new Sorteio());
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "11");
 
-        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertTrue(apostaService.verificaSorteio(aposta));
     }
 
     @Test
@@ -140,7 +145,7 @@ public class ApostaServiceTest {
         int[] numerosVerificados = {11,5,4,3,2,6};
         Sequencia sequenciaVerificada = new Sequencia(numerosVerificados);
 
-        assertTrue(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertTrue(apostaService.verificaSorteio(aposta));
     }
 
     @Test
@@ -154,7 +159,7 @@ public class ApostaServiceTest {
 
         apostaService.removerSequencia(aposta,0);
 
-        assertFalse(apostaService.verificaSorteio(aposta,sequenciaVerificada));
+        assertFalse(apostaService.verificaSorteio(aposta));
         assertEquals(2, aposta.getQuantidadeSequencias());
         assertEquals(2, aposta.getSequencias().size());
     }
