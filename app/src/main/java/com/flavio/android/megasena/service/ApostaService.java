@@ -202,16 +202,13 @@ public class ApostaService {
     }
 
     public List<Sequencia> getSequenciaComMaisAcertos(int quantidade) {
-        List<Sequencia> sequenciaList = new ArrayList<>();
-        sequenciaList.addAll(sequenciasComSeisAcertos);
-        sequenciaList.addAll(sequenciasComCincoAcertos);
-        sequenciaList.addAll(sequenciasComQuatroAcertos);
-        sequenciaList.addAll(sequenciasComTresAcertos);
-        sequenciaList.addAll(sequenciasComDoisAcertos);
-        sequenciaList.addAll(sequenciasComUmAcerto);
-        sequenciaList.addAll(sequenciasComZeroAcertos);
-
-        return sequenciaList.isEmpty() ? new ArrayList<>() : sequenciaList.subList(0,quantidade);
+        return sequenciasComSeisAcertos.size() > 0 ? sequenciasComSeisAcertos.subList(0,quantidade) :
+            sequenciasComCincoAcertos.size() > 0 ? sequenciasComCincoAcertos.subList(0,quantidade) :
+            sequenciasComQuatroAcertos.size() > 0 ? sequenciasComQuatroAcertos.subList(0,quantidade) :
+            sequenciasComTresAcertos.size() > 0 ? sequenciasComTresAcertos.subList(0,quantidade) :
+            sequenciasComDoisAcertos.size() > 0 ? sequenciasComDoisAcertos.subList(0,quantidade) :
+            sequenciasComUmAcerto.size() > 0 ? sequenciasComUmAcerto.subList(0,quantidade) :
+            new ArrayList<>();
     }
 
     public Aposta getApostaCompletaById(int apostaId, Context context){
