@@ -148,12 +148,12 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
 
     @SuppressLint("SetTextI18n")
     private String getNumeroFromEditText(EditText edt){
-        String value = "000" + edt.getText().toString();
+        String value = "0" + edt.getText().toString();
        try {
-           return value.substring(1,4);
+           return value;
        }catch (NumberFormatException nfe){
-           edt.setText("000");
-           return "000";
+           edt.setText("0");
+           return "0";
        }
     }
 
