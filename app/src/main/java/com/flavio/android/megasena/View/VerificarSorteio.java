@@ -165,6 +165,8 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
         edtNum4.setText(sorteio.listaDezenas.get(i++).substring(1,3));
         edtNum5.setText(sorteio.listaDezenas.get(i++).substring(1,3));
         edtNum6.setText(sorteio.listaDezenas.get(i).substring(1,3));
+
+        exibirSequencias();
     }
 
     public Context context() {
