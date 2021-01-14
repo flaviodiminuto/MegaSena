@@ -67,7 +67,6 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
     }
 
     private void carregaAposta(View view, int position){
-        Validacao.setNumerosSorteados(new int[6]);
         Intent it = new Intent( view.getContext(), VerificarSorteio.class );
         Aposta aposta = dao.consultaApostaCompletaById(apostaList.get(position).getId());
         it.putExtra ("aposta", apostaService.getJson(aposta));

@@ -39,7 +39,7 @@ public class SorteioVerificado extends AppCompatActivity {
         int apostaId = bund != null ? bund.getInt ( "aposta_id" ) : 0;
         this.aposta = apostaService.getApostaCompletaById(apostaId, this);
 
-        apostaService.verificaSorteio(aposta, new Sequencia(Validacao.getNumerosSorteados()));
+        apostaService.verificaSorteio(aposta);
         preencheApostaComMaisAcertos();
         preencheGraficoAcertos();
 

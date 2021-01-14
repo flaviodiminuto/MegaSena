@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.flavio.android.megasena.Modelos.Aposta;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.service.ApostaService;
 
@@ -61,6 +62,7 @@ public class GerarAutomatico extends AppCompatActivity {
                 Intent it = new Intent ( GerarAutomatico.this, ApostaCarregada.class );
                 adicionarSequenciaNaAposta();
                 if(aposta.getQuantidadeSequencias() > 0) {
+                    Validacao.setSorteio(null);
                     it.putExtra ( "aposta", apostaService.getJson(aposta) );
                     startActivity ( it );
                 }else{

@@ -21,6 +21,7 @@ import com.flavio.android.megasena.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHolder> {
     private List<Sequencia> sequencias;
@@ -98,7 +99,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         for (int i = 0; i < sequencias.get(position).getNumeros().length; i++) {
             int value = sequencias.get(position).getNumeros()[i];
             numerosTextView.get(i).setText(String.valueOf(value));
-            if(isNumeroSorteado(value)){
+            if(Validacao.getSorteio() != null && isNumeroSorteado(value)){
                 changeColorNumeroSorteado(numerosTextView.get(i));
             }
         }
@@ -164,6 +165,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
     }
 
     public boolean isNumeroSorteado(Integer numero){
-        return Arrays.binarySearch(Validacao.getNumerosSorteados(), numero) > -1;
+        Predicate<String> numeroPredicate = n -> n.equals("0"+numero);
+        return Validacao.getSorteio().listaDezenas.stream().anyMatch(numeroPredicate);
     }
 }

@@ -1,13 +1,13 @@
 package com.flavio.android.megasena.Modelos;
 
 public class Validacao {
-    private static int[] numerosSorteados = new int[0];
+    private static Sorteio sorteio = null;
 
-    public static int[] getNumerosSorteados() {
-        return numerosSorteados;
+    public static Sorteio getSorteio() {
+        return sorteio;
     }
 
-    public static void setNumerosSorteados(int[] numerosSorteados) {
-        Validacao.numerosSorteados = numerosSorteados;
+    public static void setSorteio(Sorteio sorteio) {
+        Validacao.sorteio = sorteio;
     }
 }

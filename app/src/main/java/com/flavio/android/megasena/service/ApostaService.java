@@ -5,6 +5,7 @@ import android.content.Context;
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -153,10 +154,13 @@ public class ApostaService {
      * @param sorteada contendo os números a serem verificados
      * @return true caso a sequencia esta contida na aposta
      */
-    public boolean verificaSorteio(Aposta aposta, Sequencia sorteada){
+    public boolean verificaSorteio(Aposta aposta){
+        if(Validacao.getSorteio() == null) return false;
+        int[] numerosSoteados = getNumerosSoteados();
+        Sequencia sequenciaSorteada = new Sequencia(numerosSoteados);
 
         for (Sequencia sequenciaVerificada : aposta.getSequencias()) {
-            switch (quantidadeAcertos(sequenciaVerificada,sorteada)){
+            switch (quantidadeAcertos(sequenciaVerificada,sequenciaSorteada)){
                 case 0: sequenciasComZeroAcertos.add(sequenciaVerificada);break;
                 case 1: sequenciasComUmAcerto.add(sequenciaVerificada); break;
                 case 2: sequenciasComDoisAcertos.add(sequenciaVerificada); break;
@@ -170,6 +174,14 @@ public class ApostaService {
         return !sequenciasComQuatroAcertos.isEmpty()
                 || !sequenciasComCincoAcertos.isEmpty()
                 || !sequenciasComSeisAcertos.isEmpty();
+    }
+
+    private int[] getNumerosSoteados() {
+        int[] numeros = new int[6];
+        for (int i = 0; i < Validacao.getSorteio().listaDezenas.size(); i++) {
+            numeros[i] = Integer.parseInt(Validacao.getSorteio().listaDezenas.get(i));
+        }
+        return numeros;
     }
 
     public String getJson(Aposta aposta){
@@ -199,7 +211,7 @@ public class ApostaService {
         sequenciaList.addAll(sequenciasComUmAcerto);
         sequenciaList.addAll(sequenciasComZeroAcertos);
 
-        return sequenciaList.subList(0,quantidade);
+        return sequenciaList.isEmpty() ? new ArrayList<>() : sequenciaList.subList(0,quantidade);
     }
 
     public Aposta getApostaCompletaById(int apostaId, Context context){

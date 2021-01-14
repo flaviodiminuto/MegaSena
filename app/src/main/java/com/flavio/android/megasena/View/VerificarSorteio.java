@@ -1,5 +1,7 @@
 package com.flavio.android.megasena.View;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
-import com.flavio.android.megasena.Modelos.Sequencia;
+import com.flavio.android.megasena.Modelos.Sorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
+import com.flavio.android.megasena.interfaces.SorteioSubcriber;
+import com.flavio.android.megasena.service.grafico.SorteioService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class VerificarSorteio extends AppCompatActivity {
+public class VerificarSorteio extends AppCompatActivity implements SorteioSubcriber<Sorteio> {
     private Aposta aposta;
     private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
@@ -31,6 +36,8 @@ public class VerificarSorteio extends AppCompatActivity {
     private ImageView home, returnBack;
     private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
+    private SorteioService sorteioService;
+    private Sorteio sorteio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +69,9 @@ public class VerificarSorteio extends AppCompatActivity {
         this.home = findViewById ( R.id.btnVerificarHome );
         this.returnBack = findViewById ( R.id.btnVerificarReturn );
         this.verificaSorteioRecycler = findViewById ( R.id.verifica_sorteio_recycler );
+        this.sorteioService = new SorteioService();
 
-        for(EditText editText: camposNumerosSorteados){
-            configEditText(editText);
-        }
+        this.sorteioService.bindSorteio(this);
 
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
@@ -74,15 +80,13 @@ public class VerificarSorteio extends AppCompatActivity {
         Gson g = new Gson ();
         this.aposta = g.fromJson (bund.getString ( "aposta" ), Aposta.class );
 
-        exibirJogos();
+        setTitulo();
+        exibirSequencias();
 
         this.btnVerificar.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                    verificarSorteio ();
-                    exibirJogos();
-                    redirecionarParaSorteioVerificado();
-
+                redirecionarParaSorteioVerificado();
             }
         } );
 
@@ -111,25 +115,23 @@ public class VerificarSorteio extends AppCompatActivity {
     private void redirecionarParaSorteioVerificado() {
         Intent it = new Intent(VerificarSorteio.this, SorteioVerificado.class);
         if(aposta!=null) {
+            Sorteio sorteio = new Sorteio();
+            sorteio.listaDezenas = getValoresCampos();
+            Validacao.setSorteio(sorteio);
             it.putExtra("aposta_id", this.aposta.getId());
             startActivity(it);
         }
     }
 
-    private int[] lerValoresCampos() {
-        return new int[]{
+    private List<String> getValoresCampos() {
+        return Arrays.asList(
                 getNumeroFromEditText ( edtNum1 ),
                 getNumeroFromEditText ( edtNum2 ),
                 getNumeroFromEditText ( edtNum3 ),
                 getNumeroFromEditText ( edtNum4 ),
                 getNumeroFromEditText ( edtNum5 ),
                 getNumeroFromEditText ( edtNum6 )
-        };
-    }
-
-    private void exibirJogos(){
-        setTitulo();
-        exibirSequencias();
+        );
     }
 
     private void exibirSequencias() {
@@ -144,40 +146,28 @@ public class VerificarSorteio extends AppCompatActivity {
         this.txtTitulo.setText (titulo) ;
     }
 
-    /*--------------------------------------------------------------
-        Verifica se a sequencia apresentada nos EditTexts está na Aposta atual
-    --------------------------------------------------------------*/
-    private void verificarSorteio(){
-        Sequencia sequencia = new Sequencia (lerValoresCampos());
-        sequencia.ordenar ();
-        Validacao.setNumerosSorteados(sequencia.getNumeros());
-    }
-
-    private int getNumeroFromEditText(EditText edt){
-        String value = "0" + edt.getText().toString();
+    @SuppressLint("SetTextI18n")
+    private String getNumeroFromEditText(EditText edt){
+        String value = "000" + edt.getText().toString();
        try {
-           return Double.valueOf(value).intValue();
+           return value.substring(1,4);
        }catch (NumberFormatException nfe){
-           edt.setText(0);
-           return 0;
+           edt.setText("000");
+           return "000";
        }
     }
 
-    private void configEditText(EditText editText){
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus) {
-                    Sequencia sequencia = new Sequencia (lerValoresCampos());
-                    sequencia.ordenar ();
-                    setValidacaoValue(sequencia.getNumeros());
-                    exibirSequencias();
-                }
-            }
-        });
+    public void alert(Sorteio sorteio) {
+        int i = 0;
+        edtNum1.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum2.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum3.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum4.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum5.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum6.setText(sorteio.listaDezenas.get(i).substring(1,3));
     }
 
-    private void setValidacaoValue(int[] numeros){
-        Validacao.setNumerosSorteados(numeros);
+    public Context context() {
+        return this;
     }
 }
