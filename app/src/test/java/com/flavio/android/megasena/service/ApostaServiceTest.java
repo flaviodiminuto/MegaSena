@@ -2,7 +2,7 @@ package com.flavio.android.megasena.service;
 
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
-import com.flavio.android.megasena.Modelos.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
 
 import org.junit.Test;

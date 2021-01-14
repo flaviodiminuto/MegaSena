@@ -1,11 +1,11 @@
-package com.flavio.android.megasena.service.grafico;
+package com.flavio.android.megasena.service;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.flavio.android.megasena.Modelos.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.interfaces.SorteioSubcriber;
 import com.google.gson.Gson;
@@ -39,5 +39,10 @@ public class SorteioService {
             }
         };
         queue.add(stringRequest);
+    }
+
+    public boolean sorteioValido() {
+        return Validacao.getSorteio() != null &&
+                Validacao.getSorteio().numero != 0;
     }
 }

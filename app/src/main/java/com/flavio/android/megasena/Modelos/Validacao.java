@@ -1,5 +1,7 @@
 package com.flavio.android.megasena.Modelos;
 
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+
 public class Validacao {
     private static Sorteio sorteio = null;
 

@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
-import com.flavio.android.megasena.Modelos.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
 import com.flavio.android.megasena.interfaces.SorteioSubcriber;
-import com.flavio.android.megasena.service.grafico.SorteioService;
+import com.flavio.android.megasena.service.SorteioService;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -115,11 +115,17 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
     private void redirecionarParaSorteioVerificado() {
         Intent it = new Intent(VerificarSorteio.this, SorteioVerificado.class);
         if(aposta!=null) {
+            setSorteio();
+            it.putExtra("aposta_id", this.aposta.getId());
+            startActivity(it);
+        }
+    }
+
+    private void setSorteio() {
+        if(!sorteioService.sorteioValido()){
             Sorteio sorteio = new Sorteio();
             sorteio.listaDezenas = getValoresCampos();
             Validacao.setSorteio(sorteio);
-            it.putExtra("aposta_id", this.aposta.getId());
-            startActivity(it);
         }
     }
 
