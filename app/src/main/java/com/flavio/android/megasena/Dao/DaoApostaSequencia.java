@@ -54,20 +54,26 @@ public class DaoApostaSequencia {
         long apostaId = da.inserirAposta ( aposta );
         long sequenciaId;
         if(apostaId>=0){
-            for(Sequencia sequencia: aposta.getSequencias ()){
-                try {
-                    sequenciaId = ds.inserirSequencia ( sequencia );
-                    ContentValues cv = new ContentValues (  );
-                    cv.put ( "aposta_id",apostaId );
-                    cv.put("sequencia_id",sequenciaId);
-                    this.banco.inserir ( this.tabela, cv );
-                }catch (Exception e){
-                    System.out.println ("Falha a inserir sequencia em DaoApostaCompleta");
-                    return -2;
-                }
+            ds.inserirSequencia(aposta.getSequencias());
+            String sql = getSqlFromApostaSequenciaList(apostaId, ds.getIdsUltimasSequencias(aposta.getQuantidadeSequencias()));
+            try {
+                this.banco.exec(sql);
+            }catch (Exception e){
+                System.out.println ("Falha a inserir sequencia em DaoApostaCompleta");
+                return -2;
             }
         }
         return apostaId;
+    }
+
+    private String getSqlFromApostaSequenciaList(long apostaId, List<Integer> sequencias) {
+        StringBuilder sql = new StringBuilder("INSERT INTO ").append(tabela);
+        sql.append(" (aposta_id, sequencia_id) VALUES ");
+        for (Integer sequenciaId : sequencias) {
+            sql.append("( ").append(apostaId).append(", ");
+            sql.append(sequenciaId).append("),");
+        }
+        return sql.substring(0,sql.length()-1);
     }
 
     public Aposta cursorToApostaCompleta(Cursor cursor){

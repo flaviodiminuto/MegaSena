@@ -129,4 +129,15 @@ public class DaoGeneralista {
 
     } /**FIM DELETE*/
 
+    public void exec(String sql){
+        conexao.openDB ();
+        try{
+            conexao.getWritableDatabase().execSQL(sql);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            conexao.close ();
+        }
+    }
+
 }
