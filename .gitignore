@@ -30,3 +30,5 @@ app/app.iml
 *.iml
 .idea/
 local.properties
+build/
+gradle/wrapper/gradle-wrapper.properties

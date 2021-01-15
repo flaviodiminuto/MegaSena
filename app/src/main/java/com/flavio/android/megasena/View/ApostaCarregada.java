@@ -1,20 +1,24 @@
 package com.flavio.android.megasena.View;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
 import com.google.gson.Gson;
+
+import java.util.Arrays;
 
 public class ApostaCarregada extends AppCompatActivity {
     private TextView titulo;
@@ -39,6 +43,7 @@ public class ApostaCarregada extends AppCompatActivity {
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
 --------------------------------------------------------------*/
+
         Bundle bund = getIntent ().getExtras ();
         Gson g = new Gson ();
         this.aposta = g.fromJson (bund.getString ( "aposta" ),Aposta.class );

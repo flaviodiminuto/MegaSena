@@ -12,7 +12,7 @@
     android:paddingBottom="10dp"
     android:layout_marginTop="10dp">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_aposta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -72,6 +72,6 @@
                 android:textColorHint="@color/texto_cor" />
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

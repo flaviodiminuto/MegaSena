@@ -8,8 +8,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.CardSequencia"></activity>
+        <activity android:name=".View.SorteioVerificado"></activity>
+        <activity android:name=".View.NumerosMaisSorteados" />
+        <activity android:name=".GraficoPizza" />
+        <activity android:name=".View.CardSequencia" />
         <activity
             android:name=".View.Inicio"
             android:screenOrientation="portrait">
@@ -36,5 +40,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".View.Relatorio" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

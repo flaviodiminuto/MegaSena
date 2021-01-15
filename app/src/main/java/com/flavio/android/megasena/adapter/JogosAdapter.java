@@ -4,16 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.v7.content.res.AppCompatResources;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.Modelos.Validacao;
@@ -22,8 +21,7 @@ import com.flavio.android.megasena.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHolder> {
     private List<Sequencia> sequencias;
@@ -46,9 +44,9 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         this.sequencias = sequencias;
     }
 
-    @NonNull
+    
     @Override
-    public JogoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public JogoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view  = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_card_sequencia, parent, false);
         this.holder = new JogoViewHolder(view);
@@ -60,13 +58,16 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
     é portanto os processos contidos devem evitar consumir muito recurso
 --------------------------------------------------------------------------------------*/
     @Override
-    public void onBindViewHolder(@NonNull JogoViewHolder holder, int position) {
+    public void onBindViewHolder( JogoViewHolder holder, int position) {
         if(holder.preenchido) return;
 
         View view = holder.view;
         CardView card = view.findViewById(R.id.sequencias_card_view);
         setTituloCard(card, position);
-        preparaCamposNumericosCard(holder, sequencias.get(position).getNumeros().length);
+        Sequencia sequencia = sequencias.get(position);
+        int[] numeros = sequencia.getNumeros();
+        int tamanho = numeros.length;
+        preparaCamposNumericosCard(holder, tamanho);
         setValorJogoCard(card,position);
         setNumerosCard(holder.numerosTextView,position);
         holder.preenchido = true;
@@ -98,7 +99,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         for (int i = 0; i < sequencias.get(position).getNumeros().length; i++) {
             int value = sequencias.get(position).getNumeros()[i];
             numerosTextView.get(i).setText(String.valueOf(value));
-            if(isNumeroSorteado(value)){
+            if(Validacao.getSorteio() != null && isNumeroSorteado(value)){
                 changeColorNumeroSorteado(numerosTextView.get(i));
             }
         }
@@ -164,6 +165,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
     }
 
     public boolean isNumeroSorteado(Integer numero){
-        return Arrays.binarySearch(Validacao.getNumerosSorteados(), numero) > -1;
+        Predicate<String> numeroPredicate = n -> n.equals("0"+numero);
+        return Validacao.getSorteio().listaDezenas.stream().anyMatch(numeroPredicate);
     }
 }

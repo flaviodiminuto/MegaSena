@@ -1,25 +1,29 @@
 package com.flavio.android.megasena.View;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.R;
+import com.flavio.android.megasena.service.ApostaService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Informacoes extends AppCompatActivity {
     private ImageView returnBack;
+    private ApostaService apostaService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_informacoes );
         this.returnBack = findViewById ( R.id.btnInformaReturn );
+        this.apostaService = new ApostaService();
         List<Sequencia> sequenciasList = getSequencias();
         List<TextView> camposList = getCampos();
         String valor;
@@ -37,11 +41,12 @@ public class Informacoes extends AppCompatActivity {
         } );
     }
 
+    //todo - mudar esta classe para não precisar gerar sequencias somente para pegar o valor delas
     private List<Sequencia> getSequencias() {
         int tamanho = 6;
         Aposta aposta = new Aposta();
         while(tamanho <= 15){
-            aposta.adicionaSequencia(1,tamanho);
+            apostaService.adicionaSequencia(aposta,1,tamanho);
             tamanho++;
         }
         return aposta.getSequencias();

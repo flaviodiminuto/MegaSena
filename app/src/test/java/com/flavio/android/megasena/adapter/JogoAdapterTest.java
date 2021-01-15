@@ -3,13 +3,16 @@ package com.flavio.android.megasena.adapter;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.Modelos.Validacao;
+import com.flavio.android.megasena.service.ApostaService;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class JogoAdapterTest {
+    ApostaService apostaService = new ApostaService();
 
     @Test
     public void seisNumeros(){
@@ -47,12 +50,12 @@ public class JogoAdapterTest {
     public void numerosSorteados(){
         Aposta aposta = new Aposta();
         int[] numeros = {1,2,3,4,5,6};
-        aposta.adicionaSequencia(numeros);
+        apostaService.adicionaSequencia(aposta,numeros);
         JogosAdapter adapter = new JogosAdapter(aposta.getSequencias());
-        Validacao.setNumerosSorteados(numeros);
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
         int i = 0;
         while (++i < 7) {
-            Assert.assertEquals(true, adapter.isNumeroSorteado(i));
+            Assert.assertTrue(adapter.isNumeroSorteado(i));
         }
     }
 
@@ -60,10 +63,10 @@ public class JogoAdapterTest {
     public void numerosNaoSorteados(){
         Aposta aposta = new Aposta();
         int[] numeros = {1,2,3,4,5,6};
-        aposta.adicionaSequencia(numeros);
+        apostaService.adicionaSequencia(aposta,numeros);
         JogosAdapter adapter = new JogosAdapter(aposta.getSequencias());
-        Validacao.setNumerosSorteados(numeros);
-        Assert.assertEquals(false, adapter.isNumeroSorteado(7));
-        Assert.assertEquals(false, adapter.isNumeroSorteado(8));
+        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
+        Assert.assertFalse(adapter.isNumeroSorteado(7));
+        Assert.assertFalse(adapter.isNumeroSorteado(8));
     }
 }

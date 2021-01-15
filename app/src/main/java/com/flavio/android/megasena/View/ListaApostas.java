@@ -2,20 +2,22 @@ package com.flavio.android.megasena.View;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.flavio.android.megasena.Dao.DaoAposta;
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.ApostaAdapter;
+import com.flavio.android.megasena.service.ApostaService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class ListaApostas extends AppCompatActivity {
     private EditText apostaEscolhida;
     private ImageView btnVerificar,returnBack;
     private RecyclerView apostaRecycler;
+    private ApostaService apostaService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class ListaApostas extends AppCompatActivity {
         this.btnVerificar = findViewById ( R.id.btnListaApostaSelecionaAposta );
         this.returnBack = findViewById ( R.id.btnListaReturn );
         this.apostaRecycler = findViewById(R.id.lista_aposta_recycler);
+        this.apostaService = new ApostaService();
 
 
         this.apostas= da.listaApostas ();
@@ -53,7 +57,7 @@ public class ListaApostas extends AppCompatActivity {
                 Intent it = new Intent ( ListaApostas.this, VerificarSorteio.class );
                 Aposta aposta = consultarAposta();
                 if(aposta!=null) {
-                    it.putExtra ( "aposta", aposta.getJson () );
+                    it.putExtra ( "aposta", apostaService.getJson(aposta) );
                     startActivity ( it );
                 }
             }

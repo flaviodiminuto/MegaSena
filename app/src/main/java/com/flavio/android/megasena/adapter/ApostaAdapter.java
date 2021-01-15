@@ -2,23 +2,26 @@ package com.flavio.android.megasena.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.View.VerificarSorteio;
+import com.flavio.android.megasena.service.ApostaService;
 
 import java.util.List;
 
 public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaViewHolder> {
     private List<Aposta> apostaList;
     private DaoApostaSequencia dao;
+    private ApostaService apostaService;
     public class ApostaViewHolder extends RecyclerView.ViewHolder {
         public ApostaViewHolder(View view) {
             super(view);
@@ -28,11 +31,11 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
 
     public ApostaAdapter(List<Aposta> apostasList) {
         this.apostaList = apostasList;
+        this.apostaService = new ApostaService();
     }
 
-    @NonNull
     @Override
-    public ApostaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ApostaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_aposta,parent,false);
         this.dao = new DaoApostaSequencia(view.getContext());
@@ -40,7 +43,7 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ApostaViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final ApostaViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         TextView txtApostaIdentificador = holder.itemView.findViewById(R.id.txt_card_aposta_identificador);
         TextView txtApostaValor = holder.itemView.findViewById(R.id.txt_card_aposta_valor);
         TextView txtQuantidadeSequencias = holder.itemView.findViewById(R.id.txt_card_aposta_quantidade);
@@ -66,7 +69,7 @@ public class ApostaAdapter extends RecyclerView.Adapter<ApostaAdapter.ApostaView
     private void carregaAposta(View view, int position){
         Intent it = new Intent( view.getContext(), VerificarSorteio.class );
         Aposta aposta = dao.consultaApostaCompletaById(apostaList.get(position).getId());
-        it.putExtra ("aposta", aposta.getJson());
+        it.putExtra ("aposta", apostaService.getJson(aposta));
         view.getContext().startActivity( it );
     }
 
