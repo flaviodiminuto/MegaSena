@@ -27,7 +27,7 @@ public class Sorteio {
     public int valorTotalPremioFaixaUm;
     public int numeroConcursoFinal_0_5;
     public List<MuniciipUFGanhadores> listaMunicipioUFGanhadores;
-    public List<RateioPremio> rateioPremio;
+    public List<ListaRateioPremio> listaRateioPremio;
     public List<String> listaDezenas;
     public Object listaDezenasSegundoSorteio;
     public Long id;
