@@ -178,7 +178,7 @@ public class DaoSequencia {
                     .append(", ")
                     .append(sequencia.getValor())
                     .append(", ")
-                    .append(sequencia.istSorteado())
+                    .append(sequencia.istSorteado() ? 1 : 0)
                     .append(", ");
 
             int i = 0;
