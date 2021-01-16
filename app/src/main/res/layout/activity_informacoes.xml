@@ -25,13 +25,13 @@
 
     <ImageView
         android:id="@+id/btnInformaReturn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_arrow_back_white_18dp" />
@@ -387,15 +387,21 @@ Além da aposta convencional há também as modalidades Supresinha, Teimosinha e
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Informações obtidas no site da Mega sena em Janeiro de 2019 e estão sujeitas a mudanças"
+                android:text="Informações obtidas no "
                 android:textColor="@color/texto_cor" />
 
             <TextView
                 android:id="@+id/txtLinkSiteMegaSena"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="http://loterias.caixa.gov.br/wps/portal/loterias/landing/megasena/"
-                android:textColor="@android:color/holo_blue_dark" />
+                android:textColorLink="@android:color/holo_blue_dark"
+                android:text="@string/megaUrl"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" em Janeiro de 2021 e estão sujeitas a mudanças"
+                android:textColor="@color/texto_cor" />
 
         </LinearLayout>
 

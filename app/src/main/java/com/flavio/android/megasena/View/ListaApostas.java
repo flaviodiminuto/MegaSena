@@ -27,7 +27,7 @@ public class ListaApostas extends AppCompatActivity {
     private DaoAposta da;
     private TextView titulo;
     private EditText apostaEscolhida;
-    private ImageView btnVerificar,returnBack;
+    private ImageView btnVerificar, home, returnBack;
     private RecyclerView apostaRecycler;
     private ApostaService apostaService;
 
@@ -40,6 +40,7 @@ public class ListaApostas extends AppCompatActivity {
         this.da = new DaoAposta ( getApplicationContext () );
         this.apostaEscolhida = findViewById ( R.id.edtListaApostaNumSelecionado );
         this.btnVerificar = findViewById ( R.id.btnListaApostaSelecionaAposta );
+        this.home = findViewById(R.id.btnListaHome);
         this.returnBack = findViewById ( R.id.btnListaReturn );
         this.apostaRecycler = findViewById(R.id.lista_aposta_recycler);
         this.apostaService = new ApostaService();
@@ -62,6 +63,12 @@ public class ListaApostas extends AppCompatActivity {
                 }
             }
         } );
+
+        this.home.setOnClickListener(listener -> {
+            Intent it = new Intent(ListaApostas.this, Inicio.class);
+            startActivity(it);
+        });
+
 /*--------------------------------------------------------------
     Ação ao precionar o botão "returnBack"
 --------------------------------------------------------------*/
@@ -87,6 +94,7 @@ public class ListaApostas extends AppCompatActivity {
         }catch (Exception e) {
             this.apostaEscolhida.setText("1");
             Toast.makeText(this, "Selecione uma aposta da lista", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
         return null;
     }
