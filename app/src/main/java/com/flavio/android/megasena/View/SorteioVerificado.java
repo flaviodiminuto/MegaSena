@@ -150,7 +150,7 @@ public class SorteioVerificado extends AppCompatActivity {
 ;        BiFunction<String, Integer, String> plural = (palavra, quantidade) ->
         quantidade == 1 ? palavra : palavra + "s";
 
-        ultimoSorteioDTO.listaRateioPremioDTO.forEach(rateio -> {
+        ultimoSorteioDTO.listaRateioPremio.forEach(rateio -> {
             String value1 = String.format("%d %s %s",
                     rateio.numeroDeGanhadores,
                     plural.apply("aposta", rateio.numeroDeGanhadores),

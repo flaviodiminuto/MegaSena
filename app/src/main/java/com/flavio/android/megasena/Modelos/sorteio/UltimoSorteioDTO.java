@@ -26,8 +26,8 @@ public class UltimoSorteioDTO {
     public int numeroConcursoProximo;
     public int valorTotalPremioFaixaUm;
     public int numeroConcursoFinal_0_5;
-    public List<MuniciipUFGanhadoresDTO> listaMunicipioUFGanhadores;
-    public List<ListaRateioPremioDTO> listaRateioPremioDTO;
+    public List<MuniciipUFGanhadores> listaMunicipioUFGanhadores;
+    public List<ListaRateioPremio> listaRateioPremio;
     public List<String> listaDezenas;
     public Object listaDezenasSegundoSorteio;
     public Long id;
