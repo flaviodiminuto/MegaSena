@@ -5,9 +5,9 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
-import com.flavio.android.megasena.interfaces.SorteioSubcriber;
+import com.flavio.android.megasena.interfaces.subscriber;
 import com.google.gson.Gson;
 
 import java.util.Date;
@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SorteioService {
-    public void bindSorteio(SorteioSubcriber<Sorteio> subscrito){
-        if (Validacao.getSorteio() != null && Validacao.getSorteio().numero != 0) {
-            subscrito.alert(Validacao.getSorteio());
+    public void buscarUltimoSorteio(subscriber<UltimoSorteioDTO> subscrito){
+        if (sorteioValido()) {
+            subscrito.alert(Validacao.getUltimoSorteioDTO());
             return;
         }
 
@@ -26,9 +26,9 @@ public class SorteioService {
         url += new Date().getTime();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             Gson g = new Gson();
-            Sorteio sorteio =  g.fromJson(response, Sorteio.class);
-            Validacao.setSorteio(sorteio);
-            subscrito.alert(Validacao.getSorteio());
+            UltimoSorteioDTO ultimoSorteioDTO =  g.fromJson(response, UltimoSorteioDTO.class);
+            Validacao.setUltimoSorteioDTO(ultimoSorteioDTO);
+            subscrito.alert(Validacao.getUltimoSorteioDTO());
         }, Throwable::printStackTrace){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -42,7 +42,7 @@ public class SorteioService {
     }
 
     public boolean sorteioValido() {
-        return Validacao.getSorteio() != null &&
-                Validacao.getSorteio().numero != 0;
+        return Validacao.getUltimoSorteioDTO() != null &&
+                Validacao.getUltimoSorteioDTO().numero != 0;
     }
 }

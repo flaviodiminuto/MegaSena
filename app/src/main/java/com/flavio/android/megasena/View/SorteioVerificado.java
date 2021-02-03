@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.Modelos.Validacao;
-import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
 import com.flavio.android.megasena.service.ApostaService;
@@ -28,8 +28,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,7 +44,7 @@ public class SorteioVerificado extends AppCompatActivity {
     private SorteioService sorteioService;
     private Adapter adapter;
     private LinearLayout linear;
-    private Sorteio sorteio;
+    private UltimoSorteioDTO ultimoSorteioDTO;
     private DecimalFormat decimalFormatter;
 
     @Override
@@ -95,7 +93,7 @@ public class SorteioVerificado extends AppCompatActivity {
 
     private void preencherDadosDoSorteio() {
         if(!sorteioService.sorteioValido()) return;
-        this.sorteio = Validacao.getSorteio();
+        this.ultimoSorteioDTO = Validacao.getUltimoSorteioDTO();
         exibirNumeroEData();
         exibirSaidaDaMegaSena();
         exibirRateio();
@@ -107,7 +105,7 @@ public class SorteioVerificado extends AppCompatActivity {
     }
 
     private void exibirNumeroEData() {
-        String numero = String.valueOf(this.sorteio.numero);
+        String numero = String.valueOf(this.ultimoSorteioDTO.numero);
         TextView primeiraLinha = getTitulo("Número do sorteio");
         LinearLayout.LayoutParams params = getLayoutParamsBase();
         params.setMargins(30,80,0,0);
@@ -116,12 +114,12 @@ public class SorteioVerificado extends AppCompatActivity {
         addLinear(primeiraLinha);
         addLinear(getValue(numero));
         addLinear(getTitulo("Data do sorteio"));
-        addLinear(getValue(this.sorteio.dataApuracao));
+        addLinear(getValue(this.ultimoSorteioDTO.dataApuracao));
     }
 
     private void exibirSaidaDaMegaSena() {
         exibirSeAcumuou();
-        this.sorteio.listaMunicipioUFGanhadores.forEach(ganhador -> {
+        this.ultimoSorteioDTO.listaMunicipioUFGanhadores.forEach(ganhador -> {
             addLinear(getTitulo("Cidade - Estado"));
             String value = ganhador.municipio + " - " + ganhador.uf;
             addLinear(getValue(value));
@@ -132,7 +130,7 @@ public class SorteioVerificado extends AppCompatActivity {
     private void exibirSeAcumuou() {
         TextView textView = getTitulo("");
         textView.setTextColor(Color.parseColor("#00ff00"));
-        boolean sorteado = this.sorteio.listaMunicipioUFGanhadores
+        boolean sorteado = this.ultimoSorteioDTO.listaMunicipioUFGanhadores
                 .stream()
                 .anyMatch(ganhador -> ganhador.posicao == 1 && ganhador.ganhadores > 0);
         addMarginTop(textView);
@@ -152,7 +150,7 @@ public class SorteioVerificado extends AppCompatActivity {
 ;        BiFunction<String, Integer, String> plural = (palavra, quantidade) ->
         quantidade == 1 ? palavra : palavra + "s";
 
-        sorteio.listaRateioPremio.forEach(rateio -> {
+        ultimoSorteioDTO.listaRateioPremioDTO.forEach(rateio -> {
             String value1 = String.format("%d %s %s",
                     rateio.numeroDeGanhadores,
                     plural.apply("aposta", rateio.numeroDeGanhadores),
@@ -173,13 +171,13 @@ public class SorteioVerificado extends AppCompatActivity {
 
     private void exibirPremioProximoCorcurso() {
         exibirProximoSorteioTitulo();
-        String estimativaProximoConcurso = "Prêmio estimado para o concurso " + sorteio.numeroConcursoProximo;
+        String estimativaProximoConcurso = "Prêmio estimado para o concurso " + ultimoSorteioDTO.numeroConcursoProximo;
         addLinear(getTitulo(estimativaProximoConcurso));
-        String valorProximoConcurso = "RS " + decimalFormatter.format(sorteio.valorEstimadoProximoConcurso);
+        String valorProximoConcurso = "RS " + decimalFormatter.format(ultimoSorteioDTO.valorEstimadoProximoConcurso);
         addLinear(getValue(valorProximoConcurso));
 
         addLinear(getTitulo("Data do proximo sorteio"));
-        String data = sorteio.dataProximoConcurso;
+        String data = ultimoSorteioDTO.dataProximoConcurso;
         String proxData = String.format("%s (%s)", data, getDiaDaSemana(data));
         addLinear(getValue(proxData));
     }

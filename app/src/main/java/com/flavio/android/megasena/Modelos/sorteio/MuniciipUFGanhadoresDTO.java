@@ -1,6 +1,6 @@
 package com.flavio.android.megasena.Modelos.sorteio;
 
-public class MuniciipUFGanhadores {
+public class MuniciipUFGanhadoresDTO {
     public int posicao;
     public int ganhadores;
     public String municipio;

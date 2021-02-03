@@ -75,7 +75,7 @@ public class GerarAutomatico extends AppCompatActivity {
                 Intent it = new Intent ( GerarAutomatico.this, ApostaCarregada.class );
                 adicionarSequenciaNaAposta();
                 if(aposta.getQuantidadeSequencias() > 0) {
-                    Validacao.setSorteio(null);
+                    Validacao.setUltimoSorteioDTO(null);
                     it.putExtra ( "aposta", apostaService.getJson(aposta) );
                     startActivity ( it );
                 }else{

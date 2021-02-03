@@ -2,7 +2,7 @@ package com.flavio.android.megasena.Modelos.sorteio;
 
 import java.util.List;
 
-public class Sorteio {
+public class UltimoSorteioDTO {
     public String tipoJogo;
     public int numero;
     public String nomeMunicipioUFSorteio;
@@ -26,8 +26,8 @@ public class Sorteio {
     public int numeroConcursoProximo;
     public int valorTotalPremioFaixaUm;
     public int numeroConcursoFinal_0_5;
-    public List<MuniciipUFGanhadores> listaMunicipioUFGanhadores;
-    public List<ListaRateioPremio> listaRateioPremio;
+    public List<MuniciipUFGanhadoresDTO> listaMunicipioUFGanhadores;
+    public List<ListaRateioPremioDTO> listaRateioPremioDTO;
     public List<String> listaDezenas;
     public Object listaDezenasSegundoSorteio;
     public Long id;

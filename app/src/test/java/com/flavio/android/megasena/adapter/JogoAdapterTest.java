@@ -52,7 +52,7 @@ public class JogoAdapterTest {
         int[] numeros = {1,2,3,4,5,6};
         apostaService.adicionaSequencia(aposta,numeros);
         JogosAdapter adapter = new JogosAdapter(aposta.getSequencias());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
         int i = 0;
         while (++i < 7) {
             Assert.assertTrue(adapter.isNumeroSorteado(i));
@@ -65,7 +65,7 @@ public class JogoAdapterTest {
         int[] numeros = {1,2,3,4,5,6};
         apostaService.adicionaSequencia(aposta,numeros);
         JogosAdapter adapter = new JogosAdapter(aposta.getSequencias());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
         Assert.assertFalse(adapter.isNumeroSorteado(7));
         Assert.assertFalse(adapter.isNumeroSorteado(8));
     }

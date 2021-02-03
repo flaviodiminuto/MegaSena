@@ -2,7 +2,7 @@ package com.flavio.android.megasena.service;
 
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
-import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
 
 import org.junit.Test;
@@ -84,8 +84,8 @@ public class ApostaServiceTest {
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6};
         apostaService.adicionaSequencia(aposta,numeros);
-        Validacao.setSorteio(new Sorteio());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
+        Validacao.setUltimoSorteioDTO(new UltimoSorteioDTO());
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
 
         assertTrue(apostaService.verificaSorteio(aposta));
     }
@@ -93,8 +93,8 @@ public class ApostaServiceTest {
     @Test
     public void verificaSorteioApostaVazia(){
         Aposta aposta = new Aposta();
-        Validacao.setSorteio(new Sorteio());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
+        Validacao.setUltimoSorteioDTO(new UltimoSorteioDTO());
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "6");
 
         assertFalse(apostaService.verificaSorteio(aposta));
     }
@@ -105,8 +105,8 @@ public class ApostaServiceTest {
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         apostaService.adicionaSequencia(aposta,numeros);
-        Validacao.setSorteio(new Sorteio());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "12");
+        Validacao.setUltimoSorteioDTO(new UltimoSorteioDTO());
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "12");
 
         assertTrue(apostaService.verificaSorteio(aposta));
     }
@@ -117,8 +117,8 @@ public class ApostaServiceTest {
         apostaService.adicionaSequencia(aposta,10,6);
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         apostaService.adicionaSequencia(aposta,numeros);
-        Validacao.setSorteio(new Sorteio());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "13", "12");
+        Validacao.setUltimoSorteioDTO(new UltimoSorteioDTO());
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "13", "12");
 
         assertTrue(apostaService.verificaSorteio(aposta));
     }
@@ -130,8 +130,8 @@ public class ApostaServiceTest {
         int[] numeros = {1,2,3,4,5,6,7,8,9,10,11};
         apostaService.adicionaSequencia(aposta,numeros);
         int[] numerosVerificados = {1,2,3,4,5,11};
-        Validacao.setSorteio(new Sorteio());
-        Validacao.getSorteio().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "11");
+        Validacao.setUltimoSorteioDTO(new UltimoSorteioDTO());
+        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("1", "2", "3", "4", "5", "11");
 
         assertTrue(apostaService.verificaSorteio(aposta));
     }
