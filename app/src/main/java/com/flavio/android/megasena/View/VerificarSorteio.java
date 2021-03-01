@@ -37,7 +37,6 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
     private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
     private SorteioService sorteioService;
-    private UltimoSorteioDTO ultimoSorteioDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

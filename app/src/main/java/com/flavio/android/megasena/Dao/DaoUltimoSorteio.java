@@ -233,6 +233,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         Cursor cursorDezena = consulta ( "SELECT * FROM "+ tabelaDezenas );
 
         getSorteio(cursorSorteio);
+        if(this.id == null) return null;
         getRateio(cursorRateio);
         getMunicipio(cursorMunicipio);
         dezenaStr(cursorDezena);
@@ -349,6 +350,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
 
     public List<String>  dezenasToDTO(){
         List<String> listaDezenasStr = new ArrayList<>();
+        if(dezena == null) return listaDezenasStr;
         listaDezenasStr.add(dezenaStr(dezena.numero_1));
         listaDezenasStr.add(dezenaStr(dezena.numero_2));
         listaDezenasStr.add(dezenaStr(dezena.numero_3));

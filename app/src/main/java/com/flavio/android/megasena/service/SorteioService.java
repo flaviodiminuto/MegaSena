@@ -25,12 +25,12 @@ public class SorteioService {
 
     public void buscarUltimoSorteio(Subscriber<UltimoSorteioDTO> subscrito){
         Context context = subscrito.context();
+        buscaNoBancoInterno(context);
         this.dao = new DaoUltimoSorteio(context);
 
         if(precisaAtualizarUltimoSorteio()) {
             buscaNaApi(context, subscrito);
         } else {
-            buscaNoBancoInterno(context);
             subscrito.alert(Validacao.getUltimoSorteioDTO());
         }
     }

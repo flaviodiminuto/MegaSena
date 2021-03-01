@@ -10,16 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.flavio.android.megasena.Dao.DaoAposta;
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Dao.DaoSequencia;
-import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
-import com.flavio.android.megasena.service.SorteioService;
 
 public class Inicio extends AppCompatActivity {
     private ImageView btnGerar, btnVerificarSorteio, btnRelatorio, btnInformacoes, btnFechar;
     DaoSequencia ds;
     DaoAposta da;
     DaoApostaSequencia das;
-    private SorteioService sorteioService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -31,8 +28,6 @@ public class Inicio extends AppCompatActivity {
         this.btnRelatorio = findViewById(R.id.btnInicioRelatorio);
         this.btnInformacoes = findViewById(R.id.btnInicioInformacoes);
         this.btnFechar = findViewById(R.id.btn_fechar);
-        this.sorteioService = new SorteioService();
-        sorteioService.buscaNoBancoInterno(this);
 
 /*--------------------------------------------------------------
     Inicializa as tabelas do banco de dados caso ainda não existam (sequencia, aposta, aposta_sequencia)
