@@ -19,7 +19,6 @@ import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -99,7 +98,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         for (int i = 0; i < sequencias.get(position).getNumeros().length; i++) {
             int value = sequencias.get(position).getNumeros()[i];
             numerosTextView.get(i).setText(String.valueOf(value));
-            if(Validacao.getSorteio() != null && isNumeroSorteado(value)){
+            if(Validacao.getUltimoSorteioDTO() != null && isNumeroSorteado(value)){
                 changeColorNumeroSorteado(numerosTextView.get(i));
             }
         }
@@ -165,7 +164,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
     }
 
     public boolean isNumeroSorteado(Integer numero){
-        Predicate<String> numeroPredicate = n -> n.equals("0"+numero);
-        return Validacao.getSorteio().listaDezenas.stream().anyMatch(numeroPredicate);
+        Predicate<String> numeroPredicate = n -> n.equals("0"+numero) || n.equals("00"+numero);
+        return Validacao.getUltimoSorteioDTO().listaDezenas.stream().anyMatch(numeroPredicate);
     }
 }

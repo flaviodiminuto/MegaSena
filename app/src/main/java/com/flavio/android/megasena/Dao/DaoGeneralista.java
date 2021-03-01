@@ -6,6 +6,9 @@ import android.database.Cursor;
 
 import com.flavio.android.megasena.connectionfactory.ConnectionFactory;
 
+import java.util.Map;
+import java.util.Set;
+
 
 /**
  * Created by Flávio on 29/05/2018.
@@ -13,10 +16,8 @@ import com.flavio.android.megasena.connectionfactory.ConnectionFactory;
 
 public class DaoGeneralista {
     private ConnectionFactory conexao;
-    private Context context;
 
     public DaoGeneralista(Context context){
-        this.context = context;
         conexao = new ConnectionFactory (context );
     }
     /**CREATE Tabela*/
@@ -128,5 +129,36 @@ public class DaoGeneralista {
         }
 
     } /**FIM DELETE*/
+
+    public void exec(String sql){
+        conexao.openDB ();
+        try{
+            conexao.getWritableDatabase().execSQL(sql);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            conexao.close ();
+        }
+    }
+
+
+
+    public ContentValues toContentValue(Map<String, Object> campoValor) {
+        ContentValues cv = new ContentValues ();
+        if(campoValor == null) return cv;
+        Set<String> chaves = campoValor.keySet();
+        for(String chave: chaves){
+            Object obj = campoValor.get(chave);
+            if(obj instanceof Integer)
+                cv.put(chave, (Integer) obj);
+            if(obj instanceof Double)
+                cv.put(chave, (Double) obj);
+            if(obj instanceof String)
+                cv.put(chave, (String) obj);
+            if(obj instanceof Boolean)
+                cv.put(chave, (Boolean) obj);
+        }
+        return cv;
+    }
 
 }

@@ -151,11 +151,11 @@ public class ApostaService {
 
     /**
      * Verifica se a sequencia informada está contida na aposta
-     * @param sorteada contendo os números a serem verificados
+     * @param aposta contendo os números a serem verificados
      * @return true caso a sequencia esta contida na aposta
      */
     public boolean verificaSorteio(Aposta aposta){
-        if(Validacao.getSorteio() == null) return false;
+        if(Validacao.getUltimoSorteioDTO() == null) return false;
         int[] numerosSoteados = getNumerosSoteados();
         Sequencia sequenciaSorteada = new Sequencia(numerosSoteados);
 
@@ -167,7 +167,7 @@ public class ApostaService {
                 case 3: sequenciasComTresAcertos.add(sequenciaVerificada); break;
                 case 4: sequenciasComQuatroAcertos.add(sequenciaVerificada); break;
                 case 5: sequenciasComCincoAcertos.add(sequenciaVerificada); break;
-                default: sequenciasComSeisAcertos.add(sequenciaVerificada); break;
+                case 6: sequenciasComSeisAcertos.add(sequenciaVerificada); break;
             }
         }
 
@@ -178,8 +178,8 @@ public class ApostaService {
 
     private int[] getNumerosSoteados() {
         int[] numeros = new int[6];
-        for (int i = 0; i < Validacao.getSorteio().listaDezenas.size(); i++) {
-            numeros[i] = Integer.parseInt(Validacao.getSorteio().listaDezenas.get(i));
+        for (int i = 0; i < Validacao.getUltimoSorteioDTO().listaDezenas.size(); i++) {
+            numeros[i] = Integer.parseInt(Validacao.getUltimoSorteioDTO().listaDezenas.get(i));
         }
         return numeros;
     }

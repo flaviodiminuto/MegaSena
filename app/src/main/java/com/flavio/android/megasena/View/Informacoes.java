@@ -1,6 +1,7 @@
 package com.flavio.android.megasena.View;
 
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,18 +19,22 @@ import java.util.List;
 public class Informacoes extends AppCompatActivity {
     private ImageView returnBack;
     private ApostaService apostaService;
+    private TextView link;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate ( savedInstanceState );
         setContentView ( R.layout.activity_informacoes );
         this.returnBack = findViewById ( R.id.btnInformaReturn );
         this.apostaService = new ApostaService();
-        List<Sequencia> sequenciasList = getSequencias();
+        this.link = findViewById(R.id.txtLinkSiteMegaSena);
+
+        link.setMovementMethod(LinkMovementMethod.getInstance());
+        List<Double> numerosList = getNumerosList();
         List<TextView> camposList = getCampos();
         String valor;
 
         for (int i = 0; i <= 9; i++) {
-            valor = String.format("%.2f", sequenciasList.get(i).getValor());
+            valor = String.format("%.2f", numerosList.get(i));
             camposList.get(i).setText(valor);
         }
 
@@ -41,15 +46,15 @@ public class Informacoes extends AppCompatActivity {
         } );
     }
 
-    //todo - mudar esta classe para não precisar gerar sequencias somente para pegar o valor delas
-    private List<Sequencia> getSequencias() {
+    private List<Double> getNumerosList() {
         int tamanho = 6;
-        Aposta aposta = new Aposta();
+        List<Double> numerosList = new ArrayList<>();
         while(tamanho <= 15){
-            apostaService.adicionaSequencia(aposta,1,tamanho);
+            Sequencia sequencia = new Sequencia(tamanho);
+            numerosList.add(sequencia.getValor());
             tamanho++;
         }
-        return aposta.getSequencias();
+        return numerosList;
     }
 
     private List<TextView> getCampos(){

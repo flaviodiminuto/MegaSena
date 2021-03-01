@@ -6,6 +6,9 @@ import android.database.Cursor;
 
 import com.flavio.android.megasena.Modelos.Sequencia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DaoSequencia {
 
     private static final String tabelaSequencia = "sequencia";
@@ -62,8 +65,7 @@ public class DaoSequencia {
 --------------------------------------------------------------*/
     public Sequencia consultarSequenciaNumerica(Sequencia sequencia){
         ContentValues cv = sequenciaToContentValues ( sequencia );
-        String sql;
-        sql  = "SELECT * FROM "+this.tabelaSequencia+" WHERE ";
+        StringBuilder sql  = new StringBuilder("SELECT * FROM "+this.tabelaSequencia+" WHERE ");
         String campos ="";
         String key;
         for(int i = 0; i<cv.getAsInteger ( "tamanho" );i++){
@@ -73,8 +75,8 @@ public class DaoSequencia {
                 campos +=" AND ";
             }
         }
-        sql +=campos;
-        Cursor cursor = this.banco.consulta (sql);
+        sql .append(campos);
+        Cursor cursor = this.banco.consulta (sql.toString());
         return cursorToSequencia ( cursor );
     }
 
@@ -147,4 +149,68 @@ public class DaoSequencia {
 
     }
 
+    private String getSqlFromSequencias(List<Sequencia> sequenciasList) {
+        StringBuilder sql = new StringBuilder("INSERT INTO ").append(tabelaSequencia);
+        int c = 0; // náo dá pra perder a piada a seguir ;D
+        sql.append(" (tamanho , valor, sorteado ")
+            .append(" , campo").append(c++) //0
+            .append(" , campo").append(c++) //1
+            .append(" , campo").append(c++) //2
+            .append(" , campo").append(c++) //3
+            .append(" , campo").append(c++) //4
+            .append(" , campo").append(c++) //5
+            .append(" , campo").append(c++) //6
+            .append(" , campo").append(c++) //7
+            .append(" , campo").append(c++) //8
+            .append(" , campo").append(c++) //9
+            .append(" , campo").append(c++) //10
+            .append(" , campo").append(c++) //11
+            .append(" , campo").append(c++) //12
+            .append(" , campo").append(c++) //13
+            .append(" , campo").append(c) //14
+            .append(")")
+            .append(" VALUES ");
+
+        for(Sequencia sequencia: sequenciasList){
+            int tamanho = sequencia.getNumeros().length;
+            sql.append("(")
+                    .append(tamanho)
+                    .append(", ")
+                    .append(sequencia.getValor())
+                    .append(", ")
+                    .append(sequencia.istSorteado() ? 1 : 0)
+                    .append(", ");
+
+            int i = 0;
+            while (i < 15 ){
+                if(i < tamanho){
+                    sql.append(sequencia.getNumeros()[i]);
+                } else {
+                    sql.append("null");
+                }
+                sql.append(i == 14 ? " " : ", ");
+                i++;
+            }
+            sql.append("),");
+        }
+        return sql.substring(0, sql.length()-1);
+    }
+
+    public  void inserirSequencia(List<Sequencia> sequencias) {
+        String sql = getSqlFromSequencias(sequencias);
+        this.banco.exec(sql);
+    }
+
+
+    public List<Integer> getIdsUltimasSequencias(int quantidade){
+        String sql = "SELECT * FROM "+tabelaSequencia+" ORDER BY id DESC LIMIT "+quantidade;
+        List<Integer> idsList = new ArrayList<>();
+        Cursor cursor = this.banco.consulta(sql);
+        if(cursor.moveToFirst())
+            do{
+                idsList.add(cursor.getInt(0));
+            }while (cursor.moveToNext());
+
+        return idsList;
+    }
 }

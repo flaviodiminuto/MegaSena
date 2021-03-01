@@ -13,27 +13,28 @@ import com.flavio.android.megasena.Dao.DaoSequencia;
 import com.flavio.android.megasena.R;
 
 public class Inicio extends AppCompatActivity {
-    private ImageView btnGerar, btnVerificarSorteio, btnRelatorio, btnInformacoes;
+    private ImageView btnGerar, btnVerificarSorteio, btnRelatorio, btnInformacoes, btnFechar;
     DaoSequencia ds;
     DaoAposta da;
     DaoApostaSequencia das;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate ( savedInstanceState );
-        setContentView ( R.layout.activity_inicio );
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_inicio);
 
-        btnGerar = findViewById ( R.id.btnInicioGerarJogo  );
-        btnVerificarSorteio = findViewById ( R.id.btnInicioVerificarSorteio );
-        btnRelatorio = findViewById ( R.id.btnInicioRelatorio );
-        btnInformacoes = findViewById ( R.id.btnInicioInformacoes );
+        this.btnGerar = findViewById(R.id.btnInicioGerarJogo);
+        this.btnVerificarSorteio = findViewById(R.id.btnInicioVerificarSorteio);
+        this.btnRelatorio = findViewById(R.id.btnInicioRelatorio);
+        this.btnInformacoes = findViewById(R.id.btnInicioInformacoes);
+        this.btnFechar = findViewById(R.id.btn_fechar);
 
 /*--------------------------------------------------------------
     Inicializa as tabelas do banco de dados caso ainda não existam (sequencia, aposta, aposta_sequencia)
 --------------------------------------------------------------*/
-        ds = new DaoSequencia ( getApplicationContext ()  );
-        da = new DaoAposta ( getApplicationContext () );
-        das = new DaoApostaSequencia ( getApplicationContext () );
+        this.ds = new DaoSequencia ( getApplicationContext ()  );
+        this.da = new DaoAposta ( getApplicationContext () );
+        this.das = new DaoApostaSequencia ( getApplicationContext () );
 
 
         btnGerar.setOnClickListener ( new View.OnClickListener () {
@@ -59,6 +60,7 @@ public class Inicio extends AppCompatActivity {
                 startActivity ( it );
             }
         } );
+
         btnInformacoes.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
@@ -66,8 +68,9 @@ public class Inicio extends AppCompatActivity {
                 startActivity ( it );
             }
         } );
-
-
+        btnFechar.setOnClickListener(clickListener ->{
+            this.finishAffinity();
+        });
     }
 
     @Override

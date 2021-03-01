@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
-import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
-import com.flavio.android.megasena.interfaces.SorteioSubcriber;
+import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.service.SorteioService;
 import com.google.gson.Gson;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VerificarSorteio extends AppCompatActivity implements SorteioSubcriber<Sorteio> {
+public class VerificarSorteio extends AppCompatActivity implements Subscriber<UltimoSorteioDTO> {
     private Aposta aposta;
     private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
@@ -37,7 +37,6 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
     private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
     private SorteioService sorteioService;
-    private Sorteio sorteio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
         this.verificaSorteioRecycler = findViewById ( R.id.verifica_sorteio_recycler );
         this.sorteioService = new SorteioService();
 
-        this.sorteioService.bindSorteio(this);
+        this.sorteioService.buscarUltimoSorteio(this);
 
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
@@ -122,11 +121,9 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
     }
 
     private void setSorteio() {
-        if(!sorteioService.sorteioValido()){
-            Sorteio sorteio = new Sorteio();
-            sorteio.listaDezenas = getValoresCampos();
-            Validacao.setSorteio(sorteio);
-        }
+            UltimoSorteioDTO ultimoSorteioDTO = new UltimoSorteioDTO();
+            ultimoSorteioDTO.listaDezenas = getValoresCampos();
+            Validacao.setUltimoSorteioDTO(ultimoSorteioDTO);
     }
 
     private List<String> getValoresCampos() {
@@ -163,14 +160,14 @@ public class VerificarSorteio extends AppCompatActivity implements SorteioSubcri
        }
     }
 
-    public void alert(Sorteio sorteio) {
+    public void alert(UltimoSorteioDTO ultimoSorteioDTO) {
         int i = 0;
-        edtNum1.setText(sorteio.listaDezenas.get(i++).substring(1,3));
-        edtNum2.setText(sorteio.listaDezenas.get(i++).substring(1,3));
-        edtNum3.setText(sorteio.listaDezenas.get(i++).substring(1,3));
-        edtNum4.setText(sorteio.listaDezenas.get(i++).substring(1,3));
-        edtNum5.setText(sorteio.listaDezenas.get(i++).substring(1,3));
-        edtNum6.setText(sorteio.listaDezenas.get(i).substring(1,3));
+        edtNum1.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
+        edtNum2.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
+        edtNum3.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
+        edtNum4.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
+        edtNum5.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
+        edtNum6.setText(ultimoSorteioDTO.listaDezenas.get(i).substring(1,3));
 
         if(this.aposta != null) exibirSequencias();
     }

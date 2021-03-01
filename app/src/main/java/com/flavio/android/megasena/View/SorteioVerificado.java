@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,10 +16,10 @@ import android.widget.TextView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
-import com.flavio.android.megasena.Modelos.Validacao;
-import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
+import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.service.ApostaService;
 import com.flavio.android.megasena.service.SorteioService;
 import com.flavio.android.megasena.service.grafico.GraficoBarraService;
@@ -28,8 +29,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.temporal.Temporal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public class SorteioVerificado extends AppCompatActivity {
+public class SorteioVerificado extends AppCompatActivity implements Subscriber<UltimoSorteioDTO> {
     private TextView txtSequenciaComMaisAcertos;
     private RecyclerView recyclerView;
     private BarChart chart;
@@ -46,7 +45,7 @@ public class SorteioVerificado extends AppCompatActivity {
     private SorteioService sorteioService;
     private Adapter adapter;
     private LinearLayout linear;
-    private Sorteio sorteio;
+    private UltimoSorteioDTO ultimoSorteioDTO;
     private DecimalFormat decimalFormatter;
 
     @Override
@@ -89,17 +88,13 @@ public class SorteioVerificado extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setHasFixedSize(true);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.adapter = new JogosAdapter(apostaService.getSequenciaComMaisAcertos(1));
+        this.adapter = new JogosAdapter(list);
         this.recyclerView.setAdapter(this.adapter);
     }
 
     private void preencherDadosDoSorteio() {
-        if(!sorteioService.sorteioValido()) return;
-        this.sorteio = Validacao.getSorteio();
-        exibirNumeroEData();
-        exibirSaidaDaMegaSena();
-        exibirRateio();
-        exibirPremioProximoCorcurso();
+        //todo subscrever esta tela
+        sorteioService.buscarUltimoSorteio(this);
     }
 
     private void addLinear(TextView textView){
@@ -107,7 +102,7 @@ public class SorteioVerificado extends AppCompatActivity {
     }
 
     private void exibirNumeroEData() {
-        String numero = String.valueOf(this.sorteio.numero);
+        String numero = String.valueOf(this.ultimoSorteioDTO.numero);
         TextView primeiraLinha = getTitulo("Número do sorteio");
         LinearLayout.LayoutParams params = getLayoutParamsBase();
         params.setMargins(30,80,0,0);
@@ -116,12 +111,12 @@ public class SorteioVerificado extends AppCompatActivity {
         addLinear(primeiraLinha);
         addLinear(getValue(numero));
         addLinear(getTitulo("Data do sorteio"));
-        addLinear(getValue(this.sorteio.dataApuracao));
+        addLinear(getValue(this.ultimoSorteioDTO.dataApuracao));
     }
 
     private void exibirSaidaDaMegaSena() {
         exibirSeAcumuou();
-        this.sorteio.listaMunicipioUFGanhadores.forEach(ganhador -> {
+        this.ultimoSorteioDTO.listaMunicipioUFGanhadores.forEach(ganhador -> {
             addLinear(getTitulo("Cidade - Estado"));
             String value = ganhador.municipio + " - " + ganhador.uf;
             addLinear(getValue(value));
@@ -132,7 +127,7 @@ public class SorteioVerificado extends AppCompatActivity {
     private void exibirSeAcumuou() {
         TextView textView = getTitulo("");
         textView.setTextColor(Color.parseColor("#00ff00"));
-        boolean sorteado = this.sorteio.listaMunicipioUFGanhadores
+        boolean sorteado = this.ultimoSorteioDTO.listaMunicipioUFGanhadores
                 .stream()
                 .anyMatch(ganhador -> ganhador.posicao == 1 && ganhador.ganhadores > 0);
         addMarginTop(textView);
@@ -152,7 +147,7 @@ public class SorteioVerificado extends AppCompatActivity {
 ;        BiFunction<String, Integer, String> plural = (palavra, quantidade) ->
         quantidade == 1 ? palavra : palavra + "s";
 
-        sorteio.listaRateioPremio.forEach(rateio -> {
+        ultimoSorteioDTO.listaRateioPremio.forEach(rateio -> {
             String value1 = String.format("%d %s %s",
                     rateio.numeroDeGanhadores,
                     plural.apply("aposta", rateio.numeroDeGanhadores),
@@ -173,13 +168,13 @@ public class SorteioVerificado extends AppCompatActivity {
 
     private void exibirPremioProximoCorcurso() {
         exibirProximoSorteioTitulo();
-        String estimativaProximoConcurso = "Prêmio estimado para o concurso " + sorteio.numeroConcursoProximo;
+        String estimativaProximoConcurso = "Prêmio estimado para o concurso " + ultimoSorteioDTO.numeroConcursoProximo;
         addLinear(getTitulo(estimativaProximoConcurso));
-        String valorProximoConcurso = "RS " + decimalFormatter.format(sorteio.valorEstimadoProximoConcurso);
+        String valorProximoConcurso = "RS " + decimalFormatter.format(ultimoSorteioDTO.valorEstimadoProximoConcurso);
         addLinear(getValue(valorProximoConcurso));
 
         addLinear(getTitulo("Data do proximo sorteio"));
-        String data = sorteio.dataProximoConcurso;
+        String data = ultimoSorteioDTO.dataProximoConcurso;
         String proxData = String.format("%s (%s)", data, getDiaDaSemana(data));
         addLinear(getValue(proxData));
     }
@@ -249,4 +244,18 @@ public class SorteioVerificado extends AppCompatActivity {
         return dia;
     }
 
+    @Override
+    public void alert(UltimoSorteioDTO sorteioDTO) {
+        this.ultimoSorteioDTO = sorteioDTO;
+        if(this.ultimoSorteioDTO == null) return;;
+        exibirNumeroEData();
+        exibirSaidaDaMegaSena();
+        exibirRateio();
+        exibirPremioProximoCorcurso();
+    }
+
+    @Override
+    public Context context() {
+        return this;
+    }
 }
