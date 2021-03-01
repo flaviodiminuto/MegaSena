@@ -151,7 +151,7 @@ public class ApostaService {
 
     /**
      * Verifica se a sequencia informada está contida na aposta
-     * @param sorteada contendo os números a serem verificados
+     * @param aposta contendo os números a serem verificados
      * @return true caso a sequencia esta contida na aposta
      */
     public boolean verificaSorteio(Aposta aposta){
@@ -167,7 +167,7 @@ public class ApostaService {
                 case 3: sequenciasComTresAcertos.add(sequenciaVerificada); break;
                 case 4: sequenciasComQuatroAcertos.add(sequenciaVerificada); break;
                 case 5: sequenciasComCincoAcertos.add(sequenciaVerificada); break;
-                default: sequenciasComSeisAcertos.add(sequenciaVerificada); break;
+                case 6: sequenciasComSeisAcertos.add(sequenciaVerificada); break;
             }
         }
 

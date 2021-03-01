@@ -164,7 +164,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
     }
 
     public boolean isNumeroSorteado(Integer numero){
-        Predicate<String> numeroPredicate = n -> n.equals("0"+numero);
+        Predicate<String> numeroPredicate = n -> n.equals("0"+numero) || n.equals("00"+numero);
         return Validacao.getUltimoSorteioDTO().listaDezenas.stream().anyMatch(numeroPredicate);
     }
 }

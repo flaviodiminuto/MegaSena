@@ -88,7 +88,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setHasFixedSize(true);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.adapter = new JogosAdapter(apostaService.getSequenciaComMaisAcertos(1));
+        this.adapter = new JogosAdapter(list);
         this.recyclerView.setAdapter(this.adapter);
     }
 
