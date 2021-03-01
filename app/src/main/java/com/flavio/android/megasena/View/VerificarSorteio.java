@@ -19,7 +19,7 @@ import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
-import com.flavio.android.megasena.interfaces.subscriber;
+import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.service.SorteioService;
 import com.google.gson.Gson;
 
@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VerificarSorteio extends AppCompatActivity implements subscriber<UltimoSorteioDTO> {
+public class VerificarSorteio extends AppCompatActivity implements Subscriber<UltimoSorteioDTO> {
     private Aposta aposta;
     private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
@@ -122,11 +122,9 @@ public class VerificarSorteio extends AppCompatActivity implements subscriber<Ul
     }
 
     private void setSorteio() {
-        if(!sorteioService.sorteioValido()){
             UltimoSorteioDTO ultimoSorteioDTO = new UltimoSorteioDTO();
             ultimoSorteioDTO.listaDezenas = getValoresCampos();
             Validacao.setUltimoSorteioDTO(ultimoSorteioDTO);
-        }
     }
 
     private List<String> getValoresCampos() {

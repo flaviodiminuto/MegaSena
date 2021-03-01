@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -15,10 +16,10 @@ import android.widget.TextView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
-import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
+import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.service.ApostaService;
 import com.flavio.android.megasena.service.SorteioService;
 import com.flavio.android.megasena.service.grafico.GraficoBarraService;
@@ -35,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.BiFunction;
 
-public class SorteioVerificado extends AppCompatActivity {
+public class SorteioVerificado extends AppCompatActivity implements Subscriber<UltimoSorteioDTO> {
     private TextView txtSequenciaComMaisAcertos;
     private RecyclerView recyclerView;
     private BarChart chart;
@@ -92,12 +93,8 @@ public class SorteioVerificado extends AppCompatActivity {
     }
 
     private void preencherDadosDoSorteio() {
-        if(!sorteioService.sorteioValido()) return;
-        this.ultimoSorteioDTO = Validacao.getUltimoSorteioDTO();
-        exibirNumeroEData();
-        exibirSaidaDaMegaSena();
-        exibirRateio();
-        exibirPremioProximoCorcurso();
+        //todo subscrever esta tela
+        sorteioService.buscarUltimoSorteio(this);
     }
 
     private void addLinear(TextView textView){
@@ -247,4 +244,18 @@ public class SorteioVerificado extends AppCompatActivity {
         return dia;
     }
 
+    @Override
+    public void alert(UltimoSorteioDTO sorteioDTO) {
+        this.ultimoSorteioDTO = sorteioDTO;
+        if(this.ultimoSorteioDTO == null) return;;
+        exibirNumeroEData();
+        exibirSaidaDaMegaSena();
+        exibirRateio();
+        exibirPremioProximoCorcurso();
+    }
+
+    @Override
+    public Context context() {
+        return this;
+    }
 }

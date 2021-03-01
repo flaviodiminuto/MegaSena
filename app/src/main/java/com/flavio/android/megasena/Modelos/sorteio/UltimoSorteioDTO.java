@@ -29,6 +29,6 @@ public class UltimoSorteioDTO {
     public List<MuniciipUFGanhadores> listaMunicipioUFGanhadores;
     public List<ListaRateioPremio> listaRateioPremio;
     public List<String> listaDezenas;
-    public Object listaDezenasSegundoSorteio;
+    public List<String> listaDezenasSegundoSorteio;
     public Long id;
 }
