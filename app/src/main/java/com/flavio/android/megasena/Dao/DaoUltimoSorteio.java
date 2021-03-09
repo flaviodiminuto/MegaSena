@@ -317,6 +317,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         sorteio.listaMunicipioUFGanhadores = listaMunicipioUFGanhadores;
         sorteio.listaRateioPremio = listaRateioPremio;
         sorteio.listaDezenas = listaDezenas;
+        sorteio.valorEstimadoProximoConcurso = this.valorEstimadoProximoConcurso;
 
         return sorteio;
     }

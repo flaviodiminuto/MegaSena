@@ -36,7 +36,6 @@ public class SorteioService {
     }
 
     public void buscaNaApi(Context context, Subscriber<UltimoSorteioDTO> subscrito){
-        log("Realizando requisição à API para obter ultimo sorteio");
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = "http://loterias.caixa.gov.br/wps/portal/loterias/landing/megasena/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOLNDH0MPAzcDbwMPI0sDBxNXAOMwrzCjA0sjIEKIoEKnN0dPUzMfQwMDEwsjAw8XZw8XMwtfQ0MPM2I02-AAzgaENIfrh-FqsQ9wNnUwNHfxcnSwBgIDUyhCvA5EawAjxsKckMjDDI9FQE-F4ca/dl5/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_HGK818G0KO6H80AU71KG7J0072/res/id=buscaResultado/c=cacheLevelPage/?timestampAjax=";
         url += new Date().getTime();
@@ -59,7 +58,8 @@ public class SorteioService {
     }
 
     public boolean precisaAtualizarUltimoSorteio(){
-        if(Validacao.getUltimoSorteioDTO() == null) return true;
+        if(Validacao.getUltimoSorteioDTO() == null
+        || Validacao.getUltimoSorteioDTO().id == null) return true;
         try {
             final Date agora = new Date();
             String dataString= Validacao.getUltimoSorteioDTO().dataProximoConcurso + " 21:00:00" ;
@@ -74,17 +74,14 @@ public class SorteioService {
     public void buscaNoBancoInterno(Context context){
         if(dao == null)
             dao = new DaoUltimoSorteio(context);
-        log("Buscando ultimo sorteio no banco interno");
         Validacao.setUltimoSorteioDTO(dao.buscarUltimoSorteio());
     }
 
     public void persistirSorteio(){
-        log("Persistindo sorteio obtido na busca da API");
         dao.persistir(Validacao.getUltimoSorteioDTO());
     }
 
-
-    public void log(String log){
+    public void log(Object log){
         System.out.println("**************************************************");
         System.out.println(log);
         System.out.println("**************************************************");
