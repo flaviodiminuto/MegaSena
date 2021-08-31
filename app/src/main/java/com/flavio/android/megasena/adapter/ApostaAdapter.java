@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Dao.DaoApostaSequencia;
 import com.flavio.android.megasena.Modelos.Aposta;
-import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.View.VerificarSorteio;
 import com.flavio.android.megasena.service.ApostaService;

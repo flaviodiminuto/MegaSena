@@ -129,6 +129,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
 
     public List<MunicipioGanhador> municipioDtoToDao(List<MuniciipUFGanhadores> municipioDTOList){
         List<MunicipioGanhador> list = new ArrayList<>();
+        if(municipioDTOList == null) return list;
         for (MuniciipUFGanhadores municipioDTO : municipioDTOList ) {
             MunicipioGanhador municipioGanhador = new MunicipioGanhador();
             municipioGanhador.ganhadores = municipioDTO.ganhadores;

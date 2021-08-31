@@ -1,6 +1,7 @@
 package com.flavio.android.megasena.service;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -12,7 +13,9 @@ import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.util.DataUtil;
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -37,15 +40,20 @@ public class SorteioService {
 
     public void buscaNaApi(Context context, Subscriber<UltimoSorteioDTO> subscrito){
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "http://loterias.caixa.gov.br/wps/portal/loterias/landing/megasena/!ut/p/a1/04_Sj9CPykssy0xPLMnMz0vMAfGjzOLNDH0MPAzcDbwMPI0sDBxNXAOMwrzCjA0sjIEKIoEKnN0dPUzMfQwMDEwsjAw8XZw8XMwtfQ0MPM2I02-AAzgaENIfrh-FqsQ9wNnUwNHfxcnSwBgIDUyhCvA5EawAjxsKckMjDDI9FQE-F4ca/dl5/d5/L2dBISEvZ0FBIS9nQSEh/pw/Z7_HGK818G0KO6H80AU71KG7J0072/res/id=buscaResultado/c=cacheLevelPage/?timestampAjax=";
-        url += new Date().getTime();
+        String url = "https://super-megasena.herokuapp.com/sorteios/ultimo";
+        Toast.makeText ( context, "Buscando números do último sorteio", Toast.LENGTH_LONG ).show ();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-            Gson g = new Gson();
+            Gson g = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .create();
             UltimoSorteioDTO ultimoSorteioDTO =  g.fromJson(response, UltimoSorteioDTO.class);
             Validacao.setUltimoSorteioDTO(ultimoSorteioDTO);
-            persistirSorteio();
             subscrito.alert(Validacao.getUltimoSorteioDTO());
-        }, Throwable::printStackTrace){
+            persistirSorteio();
+        }, volleyError -> {
+            Toast.makeText ( context, "Não foi possível obter números atualizados", Toast.LENGTH_LONG ).show ();
+            volleyError.printStackTrace();
+        }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
