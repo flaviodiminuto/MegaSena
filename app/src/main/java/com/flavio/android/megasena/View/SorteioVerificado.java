@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
+import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
@@ -29,6 +30,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +49,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
     private LinearLayout linear;
     private UltimoSorteioDTO ultimoSorteioDTO;
     private DecimalFormat decimalFormatter;
+    private List<String> dezenasManuais = new ArrayList<>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +62,22 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
         this.linear = findViewById(R.id.sorteio_verificado_linear);
         this.apostaService = new ApostaService();
         this.sorteioService = new SorteioService();
-        Bundle bund = getIntent ().getExtras ();
-        int apostaId = bund != null ? bund.getInt ( "aposta_id" ) : 0;
+        Bundle extras = getIntent ().getExtras ();
+        int apostaId = extras != null ? extras.getInt ( "aposta_id" ) : 0;
+        String dezena_01 = extras != null ? extras.getString ( "dezena_01" ) : "00";
+        String dezena_02 = extras != null ? extras.getString ( "dezena_02" ) : "00";
+        String dezena_03 = extras != null ? extras.getString ( "dezena_03" ) : "00";
+        String dezena_04 = extras != null ? extras.getString ( "dezena_04" ) : "00";
+        String dezena_05 = extras != null ? extras.getString ( "dezena_05" ) : "00";
+        String dezena_06 = extras != null ? extras.getString ( "dezena_06" ) : "00";
+
+        dezenasManuais.add(dezena_01);
+        dezenasManuais.add(dezena_02);
+        dezenasManuais.add(dezena_03);
+        dezenasManuais.add(dezena_04);
+        dezenasManuais.add(dezena_05);
+        dezenasManuais.add(dezena_06);
+
         this.aposta = apostaService.getApostaCompletaById(apostaId, this);
         NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
         decimalFormatter = (DecimalFormat)nf;
@@ -93,7 +110,6 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
     }
 
     private void preencherDadosDoSorteio() {
-        //todo subscrever esta tela
         sorteioService.buscarUltimoSorteio(this);
     }
 
@@ -247,7 +263,8 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
     @Override
     public void alert(UltimoSorteioDTO sorteioDTO) {
         this.ultimoSorteioDTO = sorteioDTO;
-        if(this.ultimoSorteioDTO == null) return;;
+        if(this.ultimoSorteioDTO == null) return;
+        this.ultimoSorteioDTO.listaDezenas = this.dezenasManuais;
         exibirNumeroEData();
         exibirSaidaDaMegaSena();
         exibirRateio();
