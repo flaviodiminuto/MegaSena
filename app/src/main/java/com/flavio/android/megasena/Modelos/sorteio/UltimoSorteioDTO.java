@@ -4,7 +4,7 @@ import java.util.List;
 
 public class UltimoSorteioDTO {
     public String tipoJogo;
-    public int numero;
+    public int concurso;
     public String nomeMunicipioUFSorteio;
     public String dataApuracao;
     public double valorArrecadado;
