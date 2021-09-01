@@ -43,7 +43,7 @@ class Dezena {
 
 public class DaoUltimoSorteio extends DaoGeneralista {
     public Long id;
-    private Integer numero;
+    private Integer concurso;
     private String dataApuracao;
     private Double valorEstimadoProximoConcurso;
     private String dataProximoConcurso;
@@ -116,7 +116,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
     }
 
     public void persistir(UltimoSorteioDTO sorteio){
-        this.numero = sorteio.numero;
+        this.concurso = sorteio.concurso;
         this.dataApuracao = sorteio.dataApuracao;
         this.valorEstimadoProximoConcurso = sorteio.valorEstimadoProximoConcurso;
         this.dataProximoConcurso = sorteio.dataProximoConcurso;
@@ -129,6 +129,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
 
     public List<MunicipioGanhador> municipioDtoToDao(List<MuniciipUFGanhadores> municipioDTOList){
         List<MunicipioGanhador> list = new ArrayList<>();
+        if(municipioDTOList == null) return list;
         for (MuniciipUFGanhadores municipioDTO : municipioDTOList ) {
             MunicipioGanhador municipioGanhador = new MunicipioGanhador();
             municipioGanhador.ganhadores = municipioDTO.ganhadores;
@@ -188,7 +189,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
 
     public ContentValues sorteioToContentValue(){
         Map<String , Object> map = new HashMap<>();
-        map.put("numero", this.numero);
+        map.put("numero", this.concurso);
         map.put("data_apuracao", this.dataApuracao);
         map.put("valor_estimado_proximo_concurso", this.valorEstimadoProximoConcurso);
         map.put("data_proximo_concurso", this.dataProximoConcurso);
@@ -245,7 +246,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         if(cursor.moveToFirst ()){
             int i = 0;
             this.id = cursor.getLong(i++);
-            this.numero = cursor.getInt(i++);
+            this.concurso = cursor.getInt(i++);
             this.dataApuracao = cursor.getString(i++);
             this.valorEstimadoProximoConcurso = cursor.getDouble(i++);
             this.dataProximoConcurso = cursor.getString(i++);
@@ -310,13 +311,14 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         List<String> listaDezenas = dezenasToDTO();
 
         sorteio.id = this.id;
-        sorteio.numero = this.numero;
+        sorteio.concurso = this.concurso;
         sorteio.dataApuracao = this.dataApuracao;
         sorteio.dataProximoConcurso = this.dataProximoConcurso;
         sorteio.numeroConcursoProximo = this.numeroConcursoProximo;
         sorteio.listaMunicipioUFGanhadores = listaMunicipioUFGanhadores;
         sorteio.listaRateioPremio = listaRateioPremio;
         sorteio.listaDezenas = listaDezenas;
+        sorteio.valorEstimadoProximoConcurso = this.valorEstimadoProximoConcurso;
 
         return sorteio;
     }

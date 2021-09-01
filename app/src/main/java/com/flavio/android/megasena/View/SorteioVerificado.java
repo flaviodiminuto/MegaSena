@@ -102,7 +102,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
     }
 
     private void exibirNumeroEData() {
-        String numero = String.valueOf(this.ultimoSorteioDTO.numero);
+        String numero = String.valueOf(this.ultimoSorteioDTO.concurso);
         TextView primeiraLinha = getTitulo("Número do sorteio");
         LinearLayout.LayoutParams params = getLayoutParamsBase();
         params.setMargins(30,80,0,0);
