@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -71,6 +74,11 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         this.sorteioService = new SorteioService();
 
         this.sorteioService.buscarUltimoSorteio(this);
+/*--------------------------------------------------------------
+    Configurar EditText para atualizar os números nos quadrados das sequencias
+    ao alterar um numero sorteado
+--------------------------------------------------------------*/
+        this.camposNumerosSorteados.forEach(edt -> configurarEditText(edt));
 
 /*--------------------------------------------------------------
     Recebe uma String JSON e inicializa um Objecto Aposta
@@ -85,6 +93,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         this.btnVerificar.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
+                setSorteio();
                 redirecionarParaSorteioVerificado();
             }
         } );
@@ -114,8 +123,15 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
     private void redirecionarParaSorteioVerificado() {
         Intent it = new Intent(VerificarSorteio.this, SorteioVerificado.class);
         if(aposta!=null) {
+            int i = 0;
             setSorteio();
             it.putExtra("aposta_id", this.aposta.getId());
+            it.putExtra("dezena_01", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
+            it.putExtra("dezena_02", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
+            it.putExtra("dezena_03", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
+            it.putExtra("dezena_04", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
+            it.putExtra("dezena_05", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
+            it.putExtra("dezena_06", Validacao.getUltimoSorteioDTO().listaDezenas.get(i));
             startActivity(it);
         }
     }
@@ -138,6 +154,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
     }
 
     private void exibirSequencias() {
+        if(this.aposta == null) return;
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         this.verificaSorteioRecycler.setHasFixedSize(true);
         this.verificaSorteioRecycler.setLayoutManager(layoutManager);
@@ -169,10 +186,32 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         edtNum5.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
         edtNum6.setText(ultimoSorteioDTO.listaDezenas.get(i).substring(1,3));
 
-        if(this.aposta != null) exibirSequencias();
+        exibirSequencias();
     }
 
     public Context context() {
         return this;
     }
+
+    private void configurarEditText(EditText edt) {
+        edt.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                setSorteio();
+                exibirSequencias();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+            }
+        });
+    }
+
 }
