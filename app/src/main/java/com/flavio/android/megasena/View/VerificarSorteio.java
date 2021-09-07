@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
+import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
@@ -70,10 +71,13 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         this.btnVerificar = findViewById ( R.id.btnApostaGeradaVerificar );
         this.home = findViewById ( R.id.btnVerificarHome );
         this.returnBack = findViewById ( R.id.btnVerificarReturn );
-        this.verificaSorteioRecycler = findViewById ( R.id.verifica_sorteio_recycler );
         this.sorteioService = new SorteioService();
 
-        this.sorteioService.buscarUltimoSorteio(this);
+        this.verificaSorteioRecycler = findViewById ( R.id.verifica_sorteio_recycler );
+        this.adapter = new JogosAdapter(new ArrayList<>());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        this.verificaSorteioRecycler.setHasFixedSize(true);
+        this.verificaSorteioRecycler.setLayoutManager(layoutManager);
 /*--------------------------------------------------------------
     Configurar EditText para atualizar os números nos quadrados das sequencias
     ao alterar um numero sorteado
@@ -87,14 +91,11 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         Gson g = new Gson ();
         this.aposta = g.fromJson (bund.getString ( "aposta" ), Aposta.class );
 
-        setTitulo();
-        exibirSequencias();
-
         this.btnVerificar.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                setSorteio();
-                redirecionarParaSorteioVerificado();
+                if(Validacao.getUltimoSorteioDTO() != null)
+                    redirecionarParaSorteioVerificado();
             }
         } );
 
@@ -118,6 +119,8 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
                 onBackPressed ();
             }
         } );
+
+        this.sorteioService.buscarUltimoSorteio(this);
     }
 
     private void redirecionarParaSorteioVerificado() {
@@ -155,14 +158,13 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
 
     private void exibirSequencias() {
         if(this.aposta == null) return;
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        this.verificaSorteioRecycler.setHasFixedSize(true);
-        this.verificaSorteioRecycler.setLayoutManager(layoutManager);
         this.adapter = new JogosAdapter(this.aposta.getSequencias());
         this.verificaSorteioRecycler.setAdapter(this.adapter);
     }
+
     private void setTitulo() {
-        final String titulo = "Quantidade de sequencias: " + this.aposta.getQuantidadeSequencias();
+        String prefix =  "Quantidade de sequencias: ";
+        final String titulo = this.aposta == null ? prefix + "00" : prefix + this.aposta.getQuantidadeSequencias();
         this.txtTitulo.setText (titulo) ;
     }
 
@@ -187,6 +189,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         edtNum6.setText(ultimoSorteioDTO.listaDezenas.get(i).substring(1,3));
 
         exibirSequencias();
+        setTitulo();
     }
 
     public Context context() {

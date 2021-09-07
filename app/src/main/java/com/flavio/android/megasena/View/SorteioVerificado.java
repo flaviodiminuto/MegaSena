@@ -132,6 +132,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
 
     private void exibirSaidaDaMegaSena() {
         exibirSeAcumuou();
+        if(this.ultimoSorteioDTO == null || this.ultimoSorteioDTO.listaMunicipioUFGanhadores == null) return;
         this.ultimoSorteioDTO.listaMunicipioUFGanhadores.forEach(ganhador -> {
             addLinear(getTitulo("Cidade - Estado"));
             String value = ganhador.municipio + " - " + ganhador.uf;
@@ -143,9 +144,11 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<U
     private void exibirSeAcumuou() {
         TextView textView = getTitulo("");
         textView.setTextColor(Color.parseColor("#00ff00"));
-        boolean sorteado = this.ultimoSorteioDTO.listaMunicipioUFGanhadores
-                .stream()
-                .anyMatch(ganhador -> ganhador.posicao == 1 && ganhador.ganhadores > 0);
+        boolean sorteado = this.ultimoSorteioDTO != null
+                && this.ultimoSorteioDTO.listaMunicipioUFGanhadores != null
+                && this.ultimoSorteioDTO.listaMunicipioUFGanhadores
+                    .stream()
+                    .anyMatch(ganhador -> ganhador.posicao == 1 && ganhador.ganhadores > 0);
         addMarginTop(textView);
         String value = sorteado ? "A MEGA SAIU!" : "A Mega Acumulou!";
         textView.setText(value);

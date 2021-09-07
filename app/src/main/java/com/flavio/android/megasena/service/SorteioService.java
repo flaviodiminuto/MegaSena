@@ -67,7 +67,8 @@ public class SorteioService {
 
     public boolean precisaAtualizarUltimoSorteio(){
         if(Validacao.getUltimoSorteioDTO() == null
-        || Validacao.getUltimoSorteioDTO().id == null) return true;
+        || Validacao.getUltimoSorteioDTO().id == null
+        || Validacao.getUltimoSorteioDTO().dataProximoConcurso == null) return true;
         try {
             final Date agora = new Date();
             String dataString= Validacao.getUltimoSorteioDTO().dataProximoConcurso + " 21:00:00" ;

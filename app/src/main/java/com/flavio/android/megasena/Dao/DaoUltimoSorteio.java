@@ -142,6 +142,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
 
     public List<Rateio> rateioDtoToDao(List<ListaRateioPremio> rateioDTOList){
         List<Rateio> list = new ArrayList<>();
+        if(rateioDTOList == null) return list;
         for (ListaRateioPremio rateioDto : rateioDTOList ) {
             Rateio rateio = new Rateio();
             rateio.faixa = rateioDto.faixa;
