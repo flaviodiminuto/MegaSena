@@ -1,6 +1,6 @@
 package com.flavio.android.megasena.service;
 
-import com.flavio.android.megasena.Modelos.sorteio.SorteioHistoricoDTO;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,15 +8,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class ProcessamentoHistoricoService {
-    public Map<Integer, Integer> NumerosMaisSorteados(List<SorteioHistoricoDTO> historicoList) {
+    public Map<Integer, Integer> NumerosMaisSorteados(List<Sorteio> historicoList) {
         Map<Integer, Integer>  sorteados= new HashMap<>();
         historicoList.forEach(sorteio -> {
-            incrementarQuantidade(sorteados, sorteio.numero_sorteado_1);
-            incrementarQuantidade(sorteados, sorteio.numero_sorteado_2);
-            incrementarQuantidade(sorteados, sorteio.numero_sorteado_3);
-            incrementarQuantidade(sorteados, sorteio.numero_sorteado_4);
-            incrementarQuantidade(sorteados, sorteio.numero_sorteado_5);
-            incrementarQuantidade(sorteados, sorteio.numero_sorteado_6);
+            sorteio.listaDezenas.forEach(dezenaStr -> {
+                    Integer dezena = Integer.parseInt(dezenaStr);
+                    incrementarQuantidade(sorteados, dezena);
+            });
         });
         return sorteados;
     }

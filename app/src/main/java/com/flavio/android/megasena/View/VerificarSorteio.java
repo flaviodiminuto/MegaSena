@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,8 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.Aposta;
-import com.flavio.android.megasena.Modelos.Sequencia;
-import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.R;
 import com.flavio.android.megasena.adapter.JogosAdapter;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VerificarSorteio extends AppCompatActivity implements Subscriber<UltimoSorteioDTO> {
+public class VerificarSorteio extends AppCompatActivity implements Subscriber<Sorteio> {
     private Aposta aposta;
     private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
@@ -94,7 +92,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
         this.btnVerificar.setOnClickListener ( new View.OnClickListener () {
             @Override
             public void onClick(View v) {
-                if(Validacao.getUltimoSorteioDTO() != null)
+                if(Validacao.getSorteio() != null)
                     redirecionarParaSorteioVerificado();
             }
         } );
@@ -129,20 +127,20 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
             int i = 0;
             setSorteio();
             it.putExtra("aposta_id", this.aposta.getId());
-            it.putExtra("dezena_01", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
-            it.putExtra("dezena_02", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
-            it.putExtra("dezena_03", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
-            it.putExtra("dezena_04", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
-            it.putExtra("dezena_05", Validacao.getUltimoSorteioDTO().listaDezenas.get(i++));
-            it.putExtra("dezena_06", Validacao.getUltimoSorteioDTO().listaDezenas.get(i));
+            it.putExtra("dezena_01", Validacao.getSorteio().listaDezenas.get(i++));
+            it.putExtra("dezena_02", Validacao.getSorteio().listaDezenas.get(i++));
+            it.putExtra("dezena_03", Validacao.getSorteio().listaDezenas.get(i++));
+            it.putExtra("dezena_04", Validacao.getSorteio().listaDezenas.get(i++));
+            it.putExtra("dezena_05", Validacao.getSorteio().listaDezenas.get(i++));
+            it.putExtra("dezena_06", Validacao.getSorteio().listaDezenas.get(i));
             startActivity(it);
         }
     }
 
     private void setSorteio() {
-            UltimoSorteioDTO ultimoSorteioDTO = new UltimoSorteioDTO();
-            ultimoSorteioDTO.listaDezenas = getValoresCampos();
-            Validacao.setUltimoSorteioDTO(ultimoSorteioDTO);
+            Sorteio sorteio = new Sorteio();
+            sorteio.listaDezenas = getValoresCampos();
+            Validacao.setSorteio(sorteio);
     }
 
     private List<String> getValoresCampos() {
@@ -179,14 +177,14 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<Ul
        }
     }
 
-    public void alert(UltimoSorteioDTO ultimoSorteioDTO) {
+    public void alert(Sorteio sorteio) {
         int i = 0;
-        edtNum1.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
-        edtNum2.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
-        edtNum3.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
-        edtNum4.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
-        edtNum5.setText(ultimoSorteioDTO.listaDezenas.get(i++).substring(1,3));
-        edtNum6.setText(ultimoSorteioDTO.listaDezenas.get(i).substring(1,3));
+        edtNum1.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum2.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum3.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum4.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum5.setText(sorteio.listaDezenas.get(i++).substring(1,3));
+        edtNum6.setText(sorteio.listaDezenas.get(i).substring(1,3));
 
         exibirSequencias();
         setTitulo();

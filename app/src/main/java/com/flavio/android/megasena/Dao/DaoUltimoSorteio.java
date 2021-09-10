@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import com.flavio.android.megasena.Modelos.sorteio.ListaRateioPremio;
 import com.flavio.android.megasena.Modelos.sorteio.MuniciipUFGanhadores;
-import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +115,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         criarTabela ( this.tabelaDezenas, campos);
     }
 
-    public void persistir(UltimoSorteioDTO sorteio){
+    public void persistir(Sorteio sorteio){
         this.concurso = sorteio.concurso;
         this.dataApuracao = sorteio.dataApuracao;
         this.valorEstimadoProximoConcurso = sorteio.valorEstimadoProximoConcurso;
@@ -228,7 +228,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         return toContentValue(map);
     }
 
-    public UltimoSorteioDTO buscarUltimoSorteio() {
+    public Sorteio buscarUltimoSorteio() {
         Cursor cursorSorteio = consulta ( "SELECT * FROM "+ tabelaSorteio );
         Cursor cursorRateio = consulta ( "SELECT * FROM "+ tabelaRateio );
         Cursor cursorMunicipio = consulta ( "SELECT * FROM "+ tabelaMunicipio );
@@ -305,8 +305,8 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         }
     }
 
-    public UltimoSorteioDTO mapToUltimoSorteio() {
-        UltimoSorteioDTO sorteio = new UltimoSorteioDTO();
+    public Sorteio mapToUltimoSorteio() {
+        Sorteio sorteio = new Sorteio();
         List<MuniciipUFGanhadores> listaMunicipioUFGanhadores = municipiosToDTO();
         List<ListaRateioPremio> listaRateioPremio = rateioToDTO();
         List<String> listaDezenas = dezenasToDTO();
