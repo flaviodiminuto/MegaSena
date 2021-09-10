@@ -8,6 +8,7 @@ import com.flavio.android.megasena.Modelos.sorteio.ListaRateioPremio;
 import com.flavio.android.megasena.Modelos.sorteio.MuniciipUFGanhadores;
 import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
     public Long id;
     private Integer concurso;
     private String dataApuracao;
-    private Double valorEstimadoProximoConcurso;
+    private BigDecimal valorEstimadoProximoConcurso;
     private String dataProximoConcurso;
     public Integer numeroConcursoProximo;
     public List<MunicipioGanhador> listaMunicipioUFGanhadores;
@@ -249,7 +250,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
             this.id = cursor.getLong(i++);
             this.concurso = cursor.getInt(i++);
             this.dataApuracao = cursor.getString(i++);
-            this.valorEstimadoProximoConcurso = cursor.getDouble(i++);
+            this.valorEstimadoProximoConcurso = BigDecimal.valueOf(cursor.getDouble(i++));
             this.dataProximoConcurso = cursor.getString(i++);
             this.numeroConcursoProximo = cursor.getInt(i);
         }

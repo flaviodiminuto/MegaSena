@@ -18,17 +18,18 @@ import com.flavio.android.megasena.util.DataUtil;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SorteioService {
 
     private DaoUltimoSorteio dao = null;
 
-    public void buscaSorteiosAPartirDe(Subscriber<Sorteio> subscrito, String queryString){
+    public void buscaSorteiosAPartirDe(Subscriber subscrito, String queryString){
         buscaNaApi(subscrito, Rota.ULTIMOS_POR_DATA, queryString);
     }
 
-    public void buscarUltimoSorteio(Subscriber<Sorteio> subscrito){
+    public void buscarUltimoSorteio(Subscriber subscrito){
         Context context = subscrito.context();
         buscaNoBancoInterno(context);
         this.dao = new DaoUltimoSorteio(context);
@@ -40,11 +41,12 @@ public class SorteioService {
         }
     }
 
-    public void buscaNaApi( Subscriber<Sorteio> subscrito, Rota rota, String queryString){
+    public void buscaNaApi( Subscriber subscrito, Rota rota, String queryString){
         Context context = subscrito.context();
         RequestQueue queue = Volley.newRequestQueue(context);
         String params = queryString == null || queryString.isEmpty() ? "" : "?".concat(queryString);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, rota.getUrl().concat(params), response -> {
+        String url = rota.getUrl().concat(params);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             subscrito.alert(rota.get(response));
             persistirSorteio();
         }, volleyError -> {

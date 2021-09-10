@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ProcessamentoHistoricoService {
-    public Map<Integer, Integer> NumerosMaisSorteados(List<Sorteio> historicoList) {
+    public static Map<Integer, Integer> NumerosMaisSorteados(List<Sorteio> historicoList) {
         Map<Integer, Integer>  sorteados= new HashMap<>();
         historicoList.forEach(sorteio -> {
             sorteio.listaDezenas.forEach(dezenaStr -> {
@@ -19,7 +19,7 @@ public class ProcessamentoHistoricoService {
         return sorteados;
     }
 
-    public void incrementarQuantidade(Map<Integer, Integer> sorteados, Integer numero){
+    public static void incrementarQuantidade(Map<Integer, Integer> sorteados, Integer numero){
         if(sorteados == null) return;
         int novaQuantidade = (sorteados.get(numero) == null) ? 1 : sorteados.get(numero) + 1;
         sorteados.put(numero,novaQuantidade);
