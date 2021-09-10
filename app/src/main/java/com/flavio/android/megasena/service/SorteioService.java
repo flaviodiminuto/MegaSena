@@ -9,11 +9,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.flavio.android.megasena.Dao.DaoUltimoSorteio;
-import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.enumeradores.Rota;
 import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.util.DataUtil;
-import com.flavio.android.megasena.util.GsonUtil;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -24,29 +24,31 @@ public class SorteioService {
 
     private DaoUltimoSorteio dao = null;
 
+    public void buscaSorteiosAPartirDe(Subscriber<Sorteio> subscrito, String parameters){
+        buscaNaApi(subscrito, Rota.ULTIMOS_POR_DATA, parameters);
+    }
+
     public void buscarUltimoSorteio(Subscriber<Sorteio> subscrito){
         Context context = subscrito.context();
         buscaNoBancoInterno(context);
         this.dao = new DaoUltimoSorteio(context);
 
         if(precisaAtualizarUltimoSorteio()) {
-            buscaNaApi(context, subscrito);
+            buscaNaApi(subscrito, Rota.ULTIMO_SORTEIO, null);
         } else {
             subscrito.alert(Validacao.getSorteio());
         }
     }
 
-    public void buscaNaApi(Context context, Subscriber<Sorteio> subscrito){
+    public void buscaNaApi( Subscriber<Sorteio> subscrito, Rota rota, String parameters){
+        Context context = subscrito.context();
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "https://super-megasena.herokuapp.com/sorteios/ultimo";
-        Toast.makeText ( context, "Buscando números do último sorteio", Toast.LENGTH_LONG ).show ();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-            Sorteio sorteio =  GsonUtil.fromJson(response, Sorteio.class);
-            Validacao.setSorteio(sorteio);
-            subscrito.alert(Validacao.getSorteio());
+        String params = parameters == null || parameters.isEmpty() ? "" : "?".concat(parameters);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, rota.getUrl().concat(params), response -> {
+            subscrito.alert(rota.get(response));
             persistirSorteio();
         }, volleyError -> {
-            Toast.makeText ( context, "Não foi possível obter números atualizados", Toast.LENGTH_LONG ).show ();
+            Toast.makeText ( context, "Não foi possivel obter as informações atualizadas, verifique sua conexão", Toast.LENGTH_LONG ).show ();
             volleyError.printStackTrace();
         }){
             @Override
@@ -90,4 +92,6 @@ public class SorteioService {
         System.out.println(log);
         System.out.println("**************************************************");
     }
+
+
 }
