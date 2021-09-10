@@ -24,8 +24,8 @@ public class SorteioService {
 
     private DaoUltimoSorteio dao = null;
 
-    public void buscaSorteiosAPartirDe(Subscriber<Sorteio> subscrito, String parameters){
-        buscaNaApi(subscrito, Rota.ULTIMOS_POR_DATA, parameters);
+    public void buscaSorteiosAPartirDe(Subscriber<Sorteio> subscrito, String queryString){
+        buscaNaApi(subscrito, Rota.ULTIMOS_POR_DATA, queryString);
     }
 
     public void buscarUltimoSorteio(Subscriber<Sorteio> subscrito){
@@ -40,10 +40,10 @@ public class SorteioService {
         }
     }
 
-    public void buscaNaApi( Subscriber<Sorteio> subscrito, Rota rota, String parameters){
+    public void buscaNaApi( Subscriber<Sorteio> subscrito, Rota rota, String queryString){
         Context context = subscrito.context();
         RequestQueue queue = Volley.newRequestQueue(context);
-        String params = parameters == null || parameters.isEmpty() ? "" : "?".concat(parameters);
+        String params = queryString == null || queryString.isEmpty() ? "" : "?".concat(queryString);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, rota.getUrl().concat(params), response -> {
             subscrito.alert(rota.get(response));
             persistirSorteio();
