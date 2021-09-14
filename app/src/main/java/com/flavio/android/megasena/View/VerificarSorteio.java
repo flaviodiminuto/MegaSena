@@ -188,6 +188,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<So
 
         exibirSequencias();
         setTitulo();
+        sorteioService.persistirSorteio();
     }
 
     public Context context() {

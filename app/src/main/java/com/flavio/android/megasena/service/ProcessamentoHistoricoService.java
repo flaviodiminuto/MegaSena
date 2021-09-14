@@ -1,11 +1,15 @@
 package com.flavio.android.megasena.service;
 
 import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.google.gson.internal.LinkedTreeMap;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 public class ProcessamentoHistoricoService {
     public static Map<Integer, Integer> NumerosMaisSorteados(List<Sorteio> historicoList) {
@@ -16,7 +20,7 @@ public class ProcessamentoHistoricoService {
                     incrementarQuantidade(sorteados, dezena);
             });
         });
-        return sorteados;
+        return ordenarDecrescente(sorteados);
     }
 
     public static void incrementarQuantidade(Map<Integer, Integer> sorteados, Integer numero){
@@ -25,7 +29,7 @@ public class ProcessamentoHistoricoService {
         sorteados.put(numero,novaQuantidade);
     }
 
-    public void ordenarCrescente(Integer[][] numerosSorteados){
+    public static void ordenarCrescente(Integer[][] numerosSorteados){
         //booblesort
         for (int i = 0; i < numerosSorteados.length; i++) {
             for (int j = 0; j < numerosSorteados.length; j++) {
@@ -40,7 +44,21 @@ public class ProcessamentoHistoricoService {
         }
     }
 
-    public void ordenarDecrescente(Integer[][] numerosSorteados){
+    public static Map<Integer, Integer> ordenarDecrescente(Map<Integer, Integer> numerosSorteados){
+        Integer[][] numerosArray = mapToArray(numerosSorteados);
+        ordenarDecrescente(numerosArray);
+        return arrayToMap(numerosArray);
+    }
+
+    private static Map<Integer, Integer> arrayToMap(Integer[][] numerosArray) {
+        Map<Integer, Integer> map = new LinkedHashMap<>();
+        Arrays.stream(numerosArray).forEach(linha -> {
+            map.put(linha[0], linha[1]);
+        });
+        return map;
+    }
+
+    public static void ordenarDecrescente(Integer[][] numerosSorteados){
         //booblesort
         for (int i = 0; i < numerosSorteados.length; i++) {
             for (int j = 0; j < numerosSorteados.length; j++) {
@@ -55,7 +73,7 @@ public class ProcessamentoHistoricoService {
         }
     }
 
-    public Integer[][] mapToArray(Map<Integer, Integer> numerosSorteados){
+    public static Integer[][] mapToArray(Map<Integer, Integer> numerosSorteados){
         Integer[][] arrayList = new Integer[numerosSorteados.size()][2];
         Set<Integer> chaveSet = numerosSorteados.keySet();
         int i = 0;
