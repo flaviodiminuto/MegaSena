@@ -41,14 +41,13 @@ public class SorteioService {
         }
     }
 
-    public void buscaNaApi( Subscriber subscrito, Rota rota, String queryString){
+    private void buscaNaApi( Subscriber subscrito, Rota rota, String queryString){
         Context context = subscrito.context();
         RequestQueue queue = Volley.newRequestQueue(context);
         String params = queryString == null || queryString.isEmpty() ? "" : "?".concat(queryString);
         String url = rota.getUrl().concat(params);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
             subscrito.alert(rota.get(response));
-            persistirSorteio();
         }, volleyError -> {
             Toast.makeText ( context, "Não foi possivel obter as informações atualizadas, verifique sua conexão", Toast.LENGTH_LONG ).show ();
             volleyError.printStackTrace();
@@ -79,14 +78,15 @@ public class SorteioService {
         return true;
     }
 
-    public void buscaNoBancoInterno(Context context){
+    private void buscaNoBancoInterno(Context context){
         if(dao == null)
             dao = new DaoUltimoSorteio(context);
         Validacao.setSorteio(dao.buscarUltimoSorteio());
     }
 
     public void persistirSorteio(){
-        dao.persistir(Validacao.getSorteio());
+        if(Validacao.getSorteio() != null)
+            dao.persistir(Validacao.getSorteio());
     }
 
     public void log(Object log){
