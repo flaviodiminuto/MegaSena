@@ -8,16 +8,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Dao.DaoGeneralista;
+import com.flavio.android.megasena.Modelos.adapter.TopDezModel;
 import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.R;
+import com.flavio.android.megasena.adapter.TopDezAdapter;
 import com.flavio.android.megasena.enumeradores.Rota;
 import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.service.ProcessamentoHistoricoService;
 import com.flavio.android.megasena.service.SorteioService;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.gson.internal.LinkedTreeMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +31,7 @@ import java.util.Map;
 
 public class Relatorio extends AppCompatActivity implements Subscriber<List<Sorteio>> {
     private final SorteioService sorteioService = new SorteioService();
+    private RecyclerView recycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,24 @@ public class Relatorio extends AppCompatActivity implements Subscriber<List<Sort
             }
         } );
 
+/*--------------------------------------------------------------
+    Configura  a lista de "RecyclerViews top 10"
+--------------------------------------------------------------*/
+        //todo - obter a lista atravez do servico historico
+        List<TopDezModel> topList = new ArrayList<>();
+        String[] dezenas = {"01", "02"};
+        topList.add(new TopDezModel("Top 10 sorteados do mes", ArrayUtils.toArrayList(dezenas), false));
+        topList.add(new TopDezModel("Top 10 sorteados (Trimestre)", ArrayUtils.toArrayList(dezenas), false));
+
+        TopDezAdapter adapter = new TopDezAdapter(topList);
+        recycler = findViewById(R.id.top_10_recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        recycler.setAdapter(adapter);
+
+
         sorteioService.buscaSorteiosAPartirDe(this, "data-inicial=2021-01-01&quantidade=1000");
+
+
     }
 
     @Override
