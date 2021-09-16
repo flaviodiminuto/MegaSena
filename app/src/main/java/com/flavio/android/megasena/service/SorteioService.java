@@ -31,9 +31,8 @@ public class SorteioService {
 
     public void buscarUltimoSorteio(Subscriber subscrito){
         Context context = subscrito.context();
-        buscaNoBancoInterno(context);
-        this.dao = new DaoUltimoSorteio(context);
-
+        Sorteio sorteio = buscaNoBancoInterno(context);
+        Validacao.setSorteio(sorteio);
         if(precisaAtualizarUltimoSorteio()) {
             buscaNaApi(subscrito, Rota.ULTIMO_SORTEIO, null);
         } else {
@@ -78,15 +77,15 @@ public class SorteioService {
         return true;
     }
 
-    private void buscaNoBancoInterno(Context context){
+    private Sorteio buscaNoBancoInterno(Context context){
         if(dao == null)
             dao = new DaoUltimoSorteio(context);
-        Validacao.setSorteio(dao.buscarUltimoSorteio());
+       return dao.buscarUltimoSorteio();
     }
 
-    public void persistirSorteio(){
-        if(Validacao.getSorteio() != null)
-            dao.persistir(Validacao.getSorteio());
+    public void persistirSorteio(Sorteio sorteio){
+        if(sorteio != null)
+            dao.persistir(sorteio);
     }
 
     public void log(Object log){

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class VerificarSorteio extends AppCompatActivity implements Subscriber<Sorteio> {
+public class VerificarSorteio extends AppCompatActivity {
     private Aposta aposta;
     private TextView txtTitulo;
     private RecyclerView verificaSorteioRecycler;
@@ -38,7 +38,6 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<So
     private ImageView home, returnBack;
     private RecyclerView.Adapter adapter;
     private List<EditText> camposNumerosSorteados;
-    private SorteioService sorteioService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,6 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<So
         this.btnVerificar = findViewById ( R.id.btnApostaGeradaVerificar );
         this.home = findViewById ( R.id.btnVerificarHome );
         this.returnBack = findViewById ( R.id.btnVerificarReturn );
-        this.sorteioService = new SorteioService();
 
         this.verificaSorteioRecycler = findViewById ( R.id.verifica_sorteio_recycler );
         this.adapter = new JogosAdapter(new ArrayList<>());
@@ -118,7 +116,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<So
             }
         } );
 
-        this.sorteioService.buscarUltimoSorteio(this);
+        if(Validacao.getSorteio() != null) list(Validacao.getSorteio());
     }
 
     private void redirecionarParaSorteioVerificado() {
@@ -177,7 +175,7 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<So
        }
     }
 
-    public void alert(Sorteio sorteio) {
+    public void list(Sorteio sorteio) {
         int i = 0;
         edtNum1.setText(sorteio.listaDezenas.get(i++).substring(1,3));
         edtNum2.setText(sorteio.listaDezenas.get(i++).substring(1,3));
@@ -188,7 +186,6 @@ public class VerificarSorteio extends AppCompatActivity implements Subscriber<So
 
         exibirSequencias();
         setTitulo();
-        sorteioService.persistirSorteio();
     }
 
     public Context context() {
