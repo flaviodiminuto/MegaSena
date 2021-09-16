@@ -316,7 +316,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         sorteio.concurso = this.concurso;
         sorteio.dataApuracao = this.dataApuracao;
         sorteio.dataProximoConcurso = this.dataProximoConcurso;
-        sorteio.numeroConcursoProximo = this.numeroConcursoProximo;
+        sorteio.numeroConcursoProximo = (this.concurso + 1);
         sorteio.listaMunicipioUFGanhadores = listaMunicipioUFGanhadores;
         sorteio.listaRateioPremio = listaRateioPremio;
         sorteio.listaDezenas = listaDezenas;
