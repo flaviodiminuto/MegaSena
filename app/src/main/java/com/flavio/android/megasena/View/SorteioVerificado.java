@@ -44,11 +44,10 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<S
     private Aposta aposta;
     private ApostaService apostaService;
     private SorteioService sorteioService;
-    private Adapter adapter;
     private LinearLayout linear;
     private Sorteio sorteio;
     private DecimalFormat decimalFormatter;
-    private List<String> dezenasManuais = new ArrayList<>();;
+    private final List<String> dezenasManuais = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +103,8 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<S
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setHasFixedSize(true);
         this.recyclerView.setLayoutManager(layoutManager);
-        this.adapter = new JogosAdapter(list);
-        this.recyclerView.setAdapter(this.adapter);
+        JogosAdapter adapter = new JogosAdapter(list);
+        this.recyclerView.setAdapter(adapter);
     }
 
     private void preencherDadosDoSorteio() {
@@ -162,7 +161,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<S
 
     @SuppressLint("DefaultLocale")
     private void exibirRateio(){
-;        BiFunction<String, Integer, String> plural = (palavra, quantidade) ->
+        BiFunction<String, Integer, String> plural = (palavra, quantidade) ->
         quantidade == 1 ? palavra : palavra + "s";
 
         sorteio.listaRateioPremio.forEach(rateio -> {
@@ -186,7 +185,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<S
 
     private void exibirPremioProximoCorcurso() {
         exibirProximoSorteioTitulo();
-        String estimativaProximoConcurso = "Prêmio estimado para o concurso " + sorteio.numeroConcursoProximo;
+        String estimativaProximoConcurso = "Prêmio estimado para o concurso " + (sorteio.concurso+1);
         addLinear(getTitulo(estimativaProximoConcurso));
         String valorProximoConcurso = "RS " + decimalFormatter.format(sorteio.valorEstimadoProximoConcurso);
         addLinear(getValue(valorProximoConcurso));
@@ -263,7 +262,7 @@ public class SorteioVerificado extends AppCompatActivity implements Subscriber<S
     }
 
     @Override
-    public void alert(Sorteio sorteioDTO) {
+    public void async_alert(Sorteio sorteioDTO) {
         this.sorteio = sorteioDTO;
         if(this.sorteio == null) return;
         this.sorteio.listaDezenas = this.dezenasManuais;
