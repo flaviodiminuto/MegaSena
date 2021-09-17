@@ -1,24 +1,29 @@
 package com.flavio.android.megasena.Modelos.adapter;
 
-import java.util.List;
+import com.flavio.android.megasena.service.ProcessamentoHistoricoService.Ranking;
 
 public class TopDezModel {
     private final String titulo;
-    private final List<String> dezenas;
+    private Ranking ranking;
     private boolean visivel;
 
-    public TopDezModel(String titulo, List<String> dezenas, boolean visivel) {
+    public TopDezModel(String titulo, Ranking ranking, boolean visivel) {
         this.titulo = titulo;
-        this.dezenas = dezenas;
+        this.ranking = ranking;
         this.visivel = visivel;
     }
+
 
     public String getTitulo() {
         return titulo;
     }
 
-    public List<String> getDezenas() {
-        return dezenas;
+    public Ranking getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Ranking ranking) {
+        this.ranking = ranking;
     }
 
     public boolean isVisivel() {

@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley;
 import com.flavio.android.megasena.Dao.DaoUltimoSorteio;
 import com.flavio.android.megasena.Modelos.Validacao;
 import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.enumeradores.Periodo;
 import com.flavio.android.megasena.enumeradores.Rota;
 import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.util.DataUtil;
@@ -18,12 +19,16 @@ import com.flavio.android.megasena.util.DataUtil;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class SorteioService {
 
     private DaoUltimoSorteio dao = null;
+
+    public void buscaSorteiosAPartirDe(Subscriber subscrito, Periodo periodo, int quantidade){
+        String queryString = String.format("quantidade=%d&data-inicial=%s".trim(), quantidade, periodo.dataString());
+        buscaSorteiosAPartirDe(subscrito, queryString);
+    }
 
     public void buscaSorteiosAPartirDe(Subscriber subscrito, String queryString){
         buscaNaApi(subscrito, Rota.ULTIMOS_POR_DATA, queryString);
@@ -36,7 +41,7 @@ public class SorteioService {
         if(precisaAtualizarUltimoSorteio()) {
             buscaNaApi(subscrito, Rota.ULTIMO_SORTEIO, null);
         } else {
-            subscrito.alert(Validacao.getSorteio());
+            subscrito.async_alert(Validacao.getSorteio());
         }
     }
 
@@ -46,7 +51,7 @@ public class SorteioService {
         String params = queryString == null || queryString.isEmpty() ? "" : "?".concat(queryString);
         String url = rota.getUrl().concat(params);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-            subscrito.alert(rota.get(response));
+            subscrito.async_alert(rota.get(response));
         }, volleyError -> {
             Toast.makeText ( context, "Não foi possivel obter as informações atualizadas, verifique sua conexão", Toast.LENGTH_LONG ).show ();
             volleyError.printStackTrace();

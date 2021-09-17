@@ -33,33 +33,76 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/top_10_primeiro"
-                    android:layout_width="0dp"
+                    android:id="@+id/top_dez_1"
                     android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_weight="1"
-                    android:text="Primeira linha"
                     android:textColor="@color/texto_cor" />
-            </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/top_dez_2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
 
-                <TextView
-                    android:id="@+id/top_10_segundo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Segunda Linha"
-                    android:textColor="@color/texto_cor" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/top_dez_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
+
+            <TextView
+                android:id="@+id/top_dez_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

@@ -14,11 +14,12 @@ import com.flavio.android.megasena.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class TopDezAdapter extends RecyclerView.Adapter<TopDezAdapter.Holder> {
+public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.Holder> {
     List<TopDezModel> topList;
 
-    public TopDezAdapter(List<TopDezModel> topList) {
+    public RankingAdapter(List<TopDezModel> topList) {
         this.topList = topList;
     }
 
@@ -37,13 +38,16 @@ public class TopDezAdapter extends RecyclerView.Adapter<TopDezAdapter.Holder> {
         TextView titulo = holder.titulo;
 
         titulo.setText(top.getTitulo());
-        int menor = Math.min(top.getDezenas().size(), holder.dezenas.size());
+        int menor = Math.min(top.getRanking().sorteados.size(), holder.dezenas.size());
+        List<Integer> keys = new ArrayList<>(top.getRanking().sorteados.keySet());
         for (int i = 0; i < menor; i++) {
-            String dezena = top.getDezenas().get(i);
-            holder.dezenas.get(i).setText(dezena != null ? dezena : "");
+            Integer chave = keys.get(i);
+            String dezena = Objects.requireNonNull(top.getRanking().sorteados.get(chave)).toString();
+            String text = String.format("Dezena = %s: Quantidade = %s", chave.toString(), dezena);
+            holder.dezenas.get(i).setText(text);
         }
 
-        holder.dezenasArea.setVisibility(top.isVisivel() ? View.VISIBLE : View.GONE);
+        holder.dezenasArea.setVisibility(top.getRanking().sorteados.size() > 0 && top.isVisivel() ? View.VISIBLE : View.GONE);
 
     }
 
@@ -61,9 +65,16 @@ public class TopDezAdapter extends RecyclerView.Adapter<TopDezAdapter.Holder> {
             titulo = itemView.findViewById(R.id.top_dez_titulo);
             dezenasArea = itemView.findViewById(R.id.top_10_dezenas_constraint);
             dezenas = new ArrayList<>();
-            dezenas.add(itemView.findViewById(R.id.top_10_primeiro));
-            dezenas.add(itemView.findViewById(R.id.top_10_segundo));
-
+            dezenas.add(itemView.findViewById(R.id.top_dez_1));
+            dezenas.add(itemView.findViewById(R.id.top_dez_2));
+            dezenas.add(itemView.findViewById(R.id.top_dez_3));
+            dezenas.add(itemView.findViewById(R.id.top_dez_4));
+            dezenas.add(itemView.findViewById(R.id.top_dez_5));
+            dezenas.add(itemView.findViewById(R.id.top_dez_6));
+            dezenas.add(itemView.findViewById(R.id.top_dez_7));
+            dezenas.add(itemView.findViewById(R.id.top_dez_8));
+            dezenas.add(itemView.findViewById(R.id.top_dez_9));
+            dezenas.add(itemView.findViewById(R.id.top_dez_10));
 
             titulo.setOnClickListener(view ->{
                 TopDezModel top = topList.get(getAdapterPosition());

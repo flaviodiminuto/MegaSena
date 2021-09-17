@@ -88,7 +88,7 @@ public class Inicio extends AppCompatActivity implements Subscriber {
     }
 
     @Override
-    public void alert(Object obj) {
+    public void async_alert(Object obj) {
         if(obj instanceof Sorteio) {
             Sorteio sorteio = (Sorteio) obj;
             sorteioService.persistirSorteio((Sorteio) sorteio);

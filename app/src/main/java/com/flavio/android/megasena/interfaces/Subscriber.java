@@ -4,6 +4,6 @@ import android.content.Context;
 
 public interface Subscriber<T> {
 
-    void alert(T obj);
+    void async_alert(T obj);
     Context context();
 }
