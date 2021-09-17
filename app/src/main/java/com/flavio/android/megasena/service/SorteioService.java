@@ -9,13 +9,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.flavio.android.megasena.Dao.DaoUltimoSorteio;
-import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
 import com.flavio.android.megasena.Modelos.Validacao;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
+import com.flavio.android.megasena.enumeradores.Periodo;
+import com.flavio.android.megasena.enumeradores.Rota;
 import com.flavio.android.megasena.interfaces.Subscriber;
 import com.flavio.android.megasena.util.DataUtil;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -26,32 +25,35 @@ public class SorteioService {
 
     private DaoUltimoSorteio dao = null;
 
-    public void buscarUltimoSorteio(Subscriber<UltimoSorteioDTO> subscrito){
-        Context context = subscrito.context();
-        buscaNoBancoInterno(context);
-        this.dao = new DaoUltimoSorteio(context);
+    public void buscaSorteiosAPartirDe(Subscriber subscrito, Periodo periodo, int quantidade){
+        String queryString = String.format("quantidade=%d&data-inicial=%s".trim(), quantidade, periodo.dataString());
+        buscaSorteiosAPartirDe(subscrito, queryString);
+    }
 
+    public void buscaSorteiosAPartirDe(Subscriber subscrito, String queryString){
+        buscaNaApi(subscrito, Rota.ULTIMOS_POR_DATA, queryString);
+    }
+
+    public void buscarUltimoSorteio(Subscriber subscrito){
+        Context context = subscrito.context();
+        Sorteio sorteio = buscaNoBancoInterno(context);
+        Validacao.setSorteio(sorteio);
         if(precisaAtualizarUltimoSorteio()) {
-            buscaNaApi(context, subscrito);
+            buscaNaApi(subscrito, Rota.ULTIMO_SORTEIO, null);
         } else {
-            subscrito.alert(Validacao.getUltimoSorteioDTO());
+            subscrito.async_alert(Validacao.getSorteio());
         }
     }
 
-    public void buscaNaApi(Context context, Subscriber<UltimoSorteioDTO> subscrito){
+    private void buscaNaApi( Subscriber subscrito, Rota rota, String queryString){
+        Context context = subscrito.context();
         RequestQueue queue = Volley.newRequestQueue(context);
-        String url = "https://super-megasena.herokuapp.com/sorteios/ultimo";
-        Toast.makeText ( context, "Buscando números do último sorteio", Toast.LENGTH_LONG ).show ();
+        String params = queryString == null || queryString.isEmpty() ? "" : "?".concat(queryString);
+        String url = rota.getUrl().concat(params);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, response -> {
-            Gson g = new GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .create();
-            UltimoSorteioDTO ultimoSorteioDTO =  g.fromJson(response, UltimoSorteioDTO.class);
-            Validacao.setUltimoSorteioDTO(ultimoSorteioDTO);
-            subscrito.alert(Validacao.getUltimoSorteioDTO());
-            persistirSorteio();
+            subscrito.async_alert(rota.get(response));
         }, volleyError -> {
-            Toast.makeText ( context, "Não foi possível obter números atualizados", Toast.LENGTH_LONG ).show ();
+            Toast.makeText ( context, "Não foi possivel obter as informações atualizadas, verifique sua conexão", Toast.LENGTH_LONG ).show ();
             volleyError.printStackTrace();
         }){
             @Override
@@ -66,11 +68,12 @@ public class SorteioService {
     }
 
     public boolean precisaAtualizarUltimoSorteio(){
-        if(Validacao.getUltimoSorteioDTO() == null
-        || Validacao.getUltimoSorteioDTO().id == null) return true;
+        if(Validacao.getSorteio() == null
+        || Validacao.getSorteio().id == null
+        || Validacao.getSorteio().dataProximoConcurso == null) return true;
         try {
             final Date agora = new Date();
-            String dataString= Validacao.getUltimoSorteioDTO().dataProximoConcurso + " 21:00:00" ;
+            String dataString= Validacao.getSorteio().dataProximoConcurso + " 21:00:00" ;
             final Date dataHoraSorteio = DataUtil.toDataHoraBr(dataString);
             return dataHoraSorteio.before(agora);
         } catch (ParseException e) {
@@ -79,14 +82,15 @@ public class SorteioService {
         return true;
     }
 
-    public void buscaNoBancoInterno(Context context){
+    private Sorteio buscaNoBancoInterno(Context context){
         if(dao == null)
             dao = new DaoUltimoSorteio(context);
-        Validacao.setUltimoSorteioDTO(dao.buscarUltimoSorteio());
+       return dao.buscarUltimoSorteio();
     }
 
-    public void persistirSorteio(){
-        dao.persistir(Validacao.getUltimoSorteioDTO());
+    public void persistirSorteio(Sorteio sorteio){
+        if(sorteio != null)
+            dao.persistir(sorteio);
     }
 
     public void log(Object log){
@@ -94,4 +98,6 @@ public class SorteioService {
         System.out.println(log);
         System.out.println("**************************************************");
     }
+
+
 }

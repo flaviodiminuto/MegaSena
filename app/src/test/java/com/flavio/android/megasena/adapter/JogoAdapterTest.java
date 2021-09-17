@@ -3,7 +3,7 @@ package com.flavio.android.megasena.adapter;
 import com.flavio.android.megasena.Modelos.Aposta;
 import com.flavio.android.megasena.Modelos.Sequencia;
 import com.flavio.android.megasena.Modelos.Validacao;
-import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 import com.flavio.android.megasena.service.ApostaService;
 
 import org.junit.After;
@@ -19,13 +19,13 @@ public class JogoAdapterTest {
 
     @Before
     public void setup(){
-        Validacao.setUltimoSorteioDTO(new UltimoSorteioDTO());
-        Validacao.getUltimoSorteioDTO().listaDezenas = Arrays.asList("01", "02", "03", "04", "05", "06");
+        Validacao.setSorteio(new Sorteio());
+        Validacao.getSorteio().listaDezenas = Arrays.asList("01", "02", "03", "04", "05", "06");
     }
 
     @After
     public void tearDown(){
-        Validacao.setUltimoSorteioDTO(null);
+        Validacao.setSorteio(null);
     }
 
     @Test

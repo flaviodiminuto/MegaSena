@@ -52,23 +52,6 @@ public class DaoGeneralista {
         }
     }
 
-    public ConnectionFactory returnConexao (){
-        return this.conexao;
-    }
-
-    public Cursor listaTeste (String query){
-
-        Cursor cursor;
-        try {
-            cursor = conexao.getWritableDatabase ().rawQuery ( query, null );
-            return cursor;
-        }catch (Exception e){
-            cursor = null;
-            return cursor;
-        }
-
-    }
-
     /**UPDATE Campos*/
     public long inserir(String tabela, ContentValues cv){
         conexao.openDB ();

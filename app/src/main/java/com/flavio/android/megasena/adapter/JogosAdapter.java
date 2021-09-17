@@ -98,7 +98,7 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
         for (int i = 0; i < sequencias.get(position).getNumeros().length; i++) {
             int value = sequencias.get(position).getNumeros()[i];
             numerosTextView.get(i).setText(String.valueOf(value));
-            if(Validacao.getUltimoSorteioDTO() != null && isNumeroSorteado(value)){
+            if(Validacao.getSorteio() != null && isNumeroSorteado(value)){
                 changeColorNumeroSorteado(numerosTextView.get(i));
             }
         }
@@ -165,6 +165,6 @@ public class JogosAdapter extends RecyclerView.Adapter<JogosAdapter.JogoViewHold
 
     public boolean isNumeroSorteado(Integer numero){
         Predicate<String> numeroPredicate = n -> n.equals("0"+numero) || n.equals("00"+numero);
-        return Validacao.getUltimoSorteioDTO().listaDezenas.stream().anyMatch(numeroPredicate);
+        return Validacao.getSorteio().listaDezenas.stream().anyMatch(numeroPredicate);
     }
 }

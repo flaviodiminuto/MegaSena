@@ -1,15 +1,15 @@
 package com.flavio.android.megasena.Modelos;
 
-import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 
 public class Validacao {
-    private static UltimoSorteioDTO ultimoSorteioDTO = null;
+    private static Sorteio sorteio = null;
 
-    public static UltimoSorteioDTO getUltimoSorteioDTO() {
-        return ultimoSorteioDTO;
+    public static Sorteio getSorteio() {
+        return sorteio;
     }
 
-    public static void setUltimoSorteioDTO(UltimoSorteioDTO ultimoSorteioDTO) {
-        Validacao.ultimoSorteioDTO = ultimoSorteioDTO;
+    public static void setSorteio(Sorteio sorteio) {
+        Validacao.sorteio = sorteio;
     }
 }

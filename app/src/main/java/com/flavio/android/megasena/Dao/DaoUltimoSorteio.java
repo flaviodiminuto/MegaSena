@@ -6,8 +6,9 @@ import android.database.Cursor;
 
 import com.flavio.android.megasena.Modelos.sorteio.ListaRateioPremio;
 import com.flavio.android.megasena.Modelos.sorteio.MuniciipUFGanhadores;
-import com.flavio.android.megasena.Modelos.sorteio.UltimoSorteioDTO;
+import com.flavio.android.megasena.Modelos.sorteio.Sorteio;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
     public Long id;
     private Integer concurso;
     private String dataApuracao;
-    private Double valorEstimadoProximoConcurso;
+    private BigDecimal valorEstimadoProximoConcurso;
     private String dataProximoConcurso;
     public Integer numeroConcursoProximo;
     public List<MunicipioGanhador> listaMunicipioUFGanhadores;
@@ -115,7 +116,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         criarTabela ( this.tabelaDezenas, campos);
     }
 
-    public void persistir(UltimoSorteioDTO sorteio){
+    public void persistir(Sorteio sorteio){
         this.concurso = sorteio.concurso;
         this.dataApuracao = sorteio.dataApuracao;
         this.valorEstimadoProximoConcurso = sorteio.valorEstimadoProximoConcurso;
@@ -142,6 +143,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
 
     public List<Rateio> rateioDtoToDao(List<ListaRateioPremio> rateioDTOList){
         List<Rateio> list = new ArrayList<>();
+        if(rateioDTOList == null) return list;
         for (ListaRateioPremio rateioDto : rateioDTOList ) {
             Rateio rateio = new Rateio();
             rateio.faixa = rateioDto.faixa;
@@ -227,7 +229,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         return toContentValue(map);
     }
 
-    public UltimoSorteioDTO buscarUltimoSorteio() {
+    public Sorteio buscarUltimoSorteio() {
         Cursor cursorSorteio = consulta ( "SELECT * FROM "+ tabelaSorteio );
         Cursor cursorRateio = consulta ( "SELECT * FROM "+ tabelaRateio );
         Cursor cursorMunicipio = consulta ( "SELECT * FROM "+ tabelaMunicipio );
@@ -248,7 +250,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
             this.id = cursor.getLong(i++);
             this.concurso = cursor.getInt(i++);
             this.dataApuracao = cursor.getString(i++);
-            this.valorEstimadoProximoConcurso = cursor.getDouble(i++);
+            this.valorEstimadoProximoConcurso = BigDecimal.valueOf(cursor.getDouble(i++));
             this.dataProximoConcurso = cursor.getString(i++);
             this.numeroConcursoProximo = cursor.getInt(i);
         }
@@ -304,8 +306,8 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         }
     }
 
-    public UltimoSorteioDTO mapToUltimoSorteio() {
-        UltimoSorteioDTO sorteio = new UltimoSorteioDTO();
+    public Sorteio mapToUltimoSorteio() {
+        Sorteio sorteio = new Sorteio();
         List<MuniciipUFGanhadores> listaMunicipioUFGanhadores = municipiosToDTO();
         List<ListaRateioPremio> listaRateioPremio = rateioToDTO();
         List<String> listaDezenas = dezenasToDTO();
@@ -314,7 +316,7 @@ public class DaoUltimoSorteio extends DaoGeneralista {
         sorteio.concurso = this.concurso;
         sorteio.dataApuracao = this.dataApuracao;
         sorteio.dataProximoConcurso = this.dataProximoConcurso;
-        sorteio.numeroConcursoProximo = this.numeroConcursoProximo;
+        sorteio.numeroConcursoProximo = (this.concurso + 1);
         sorteio.listaMunicipioUFGanhadores = listaMunicipioUFGanhadores;
         sorteio.listaRateioPremio = listaRateioPremio;
         sorteio.listaDezenas = listaDezenas;
