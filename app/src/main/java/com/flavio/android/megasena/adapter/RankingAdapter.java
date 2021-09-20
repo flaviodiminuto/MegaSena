@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.flavio.android.megasena.Modelos.adapter.TopDezModel;
 import com.flavio.android.megasena.R;
+import com.flavio.android.megasena.service.grafico.GraficoBarraService;
+import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +45,17 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.Holder> 
         for (int i = 0; i < menor; i++) {
             Integer chave = keys.get(i);
             String dezena = Objects.requireNonNull(top.getRanking().sorteados.get(chave)).toString();
-            String text = String.format("Dezena = %s: Quantidade = %s", chave.toString(), dezena);
+            String text = String.format("%d° - A dezena %s foi sorteada %s vezes", (i+1), chave.toString(), dezena);
             holder.dezenas.get(i).setText(text);
         }
 
         holder.dezenasArea.setVisibility(top.getRanking().sorteados.size() > 0 && top.isVisivel() ? View.VISIBLE : View.GONE);
 
+        int[] colunasDestacadas = {0};
+        GraficoBarraService.getBarChart(topList.get(position).getRanking().sorteados,
+                holder.barChart,
+                 "",
+                colunasDestacadas);
     }
 
     @Override
@@ -57,6 +64,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.Holder> 
     }
 
     class Holder extends RecyclerView.ViewHolder {
+        BarChart barChart;
         TextView titulo;
         List<TextView> dezenas;
         ConstraintLayout dezenasArea;
@@ -75,6 +83,8 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.Holder> 
             dezenas.add(itemView.findViewById(R.id.top_dez_8));
             dezenas.add(itemView.findViewById(R.id.top_dez_9));
             dezenas.add(itemView.findViewById(R.id.top_dez_10));
+
+            barChart = itemView.findViewById(R.id.top_10_barchart);
 
             titulo.setOnClickListener(view ->{
                 TopDezModel top = topList.get(getAdapterPosition());

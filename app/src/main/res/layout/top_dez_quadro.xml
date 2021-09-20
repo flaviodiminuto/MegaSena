@@ -33,13 +33,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/top_10_barchart"
+                android:layout_width="match_parent"
+                android:layout_height="600dp">
 
-                <TextView
-                    android:id="@+id/top_dez_1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@color/texto_cor" />
+            </com.github.mikephil.charting.charts.BarChart>
+
+            <TextView
+                android:id="@+id/top_dez_1"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:textColor="@color/texto_cor" />
 
             <TextView
                 android:id="@+id/top_dez_2"

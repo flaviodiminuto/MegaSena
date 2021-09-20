@@ -99,11 +99,14 @@ public class GraficoBarraService {
     private static int[] getColors(int tamanho, int[] colunasDeDestaque) {
         int i = 0;
         int[] colors = new int[tamanho];
+        int anterior = -1;
         while(i < tamanho){
-            if(Arrays.binarySearch(colunasDeDestaque, i) != -1)
+            int busca = Arrays.binarySearch(colunasDeDestaque, i);
+            if( busca > anterior)
                 colors[i] =  Color.parseColor("#00FF00");
             else
                 colors[i] = i % 2 == 0 ? Color.parseColor("#394A4A") :  Color.WHITE;
+            anterior = busca;
             i++;
         }
         return colors;
