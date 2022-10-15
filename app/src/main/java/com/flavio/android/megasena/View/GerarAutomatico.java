@@ -33,26 +33,28 @@ public class GerarAutomatico extends AppCompatActivity {
 /*--------------------------------------------------------------
     Inicializa os campos da tela
 --------------------------------------------------------------*/
-            this.txt6 = findViewById (R.id.edtGerar6);
-            this.txt6.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt7 = findViewById ( R.id.edtGerar7 );
-            this.txt7.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt8 = findViewById ( R.id.edtGerar8 );
-            this.txt8.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt9 = findViewById ( R.id.edtGerar9 );
-            this.txt9.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt10 = findViewById ( R.id.edtGerar10 );
-            this.txt10.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt11 = findViewById ( R.id.edtGerar11 );
-            this.txt11.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt12 = findViewById ( R.id.edtGerar12 );
-            this.txt12.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt13 = findViewById ( R.id.edtGerar13 );
-            this.txt13.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt14 = findViewById ( R.id.edtGerar14 );
-            this.txt14.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
-            this.txt15 = findViewById ( R.id.edtGerar15 ) ;
-            this.txt15.setFilters(new InputFilter[]{new InputFilterMinMax("1", "1000")});
+        final String min = "1";
+        final String max = "2000";
+        this.txt6 = findViewById (R.id.edtGerar6);
+        this.txt6.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt7 = findViewById ( R.id.edtGerar7 );
+        this.txt7.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt8 = findViewById ( R.id.edtGerar8 );
+        this.txt8.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt9 = findViewById ( R.id.edtGerar9 );
+        this.txt9.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt10 = findViewById ( R.id.edtGerar10 );
+        this.txt10.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt11 = findViewById ( R.id.edtGerar11 );
+        this.txt11.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt12 = findViewById ( R.id.edtGerar12 );
+        this.txt12.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt13 = findViewById ( R.id.edtGerar13 );
+        this.txt13.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt14 = findViewById ( R.id.edtGerar14 );
+        this.txt14.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt15 = findViewById ( R.id.edtGerar15 ) ;
+        this.txt15.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
 
 /*--------------------------------------------------------------
     Inicializa os botões

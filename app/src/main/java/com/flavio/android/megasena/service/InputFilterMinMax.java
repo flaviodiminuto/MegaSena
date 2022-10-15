@@ -11,7 +11,7 @@ public class InputFilterMinMax implements InputFilter {
         this.max = max;
     }
 
-    public InputFilterMinMax(String min, String max) {
+    public InputFilterMinMax(String min, String max) throws NumberFormatException{
         this.min = Integer.parseInt(min);
         this.max = Integer.parseInt(max);
     }
@@ -19,14 +19,14 @@ public class InputFilterMinMax implements InputFilter {
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
         try {
-            int input = Integer.parseInt(dest.toString() + source.toString());
-            if (isInRange(min, max, input))
+            int value = Integer.parseInt(dest.toString() + source.toString());
+            if (isInRange(min, max, value))
                 return null;
         } catch (NumberFormatException nfe) { }
         return "";
     }
 
-    private boolean isInRange(int a, int b, int c) {
-        return b > a ? c >= a && c <= b : c >= b && c <= a;
+    private boolean isInRange(int min, int max, int value) {
+        return max > min ? value >= min && value <= max : value >= max && value <= min;
     }
 }

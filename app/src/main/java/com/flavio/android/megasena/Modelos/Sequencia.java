@@ -49,8 +49,8 @@ public class Sequencia {
      */
     public Sequencia(int[] numeros){
         int quantidade = numeros.length;
-        if(quantidade<6) this.tamanho=6;
-        if(quantidade>15) this.tamanho=15;
+        if(quantidade<6) quantidade = 6;
+        if(quantidade>15) quantidade = 15;
         this.tamanho = quantidade;
         this.numeros = new int[this.tamanho];
         this.sorteado= false;
