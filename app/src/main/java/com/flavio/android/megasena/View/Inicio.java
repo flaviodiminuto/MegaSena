@@ -79,6 +79,7 @@ public class Inicio extends AppCompatActivity implements Subscriber {
         btnFechar.setOnClickListener(clickListener ->{
             this.finishAffinity();
         });
+
         this.sorteioService.buscarUltimoSorteio(this);
     }
 
@@ -91,7 +92,6 @@ public class Inicio extends AppCompatActivity implements Subscriber {
     public void async_alert(Object obj) {
         if(obj instanceof Sorteio) {
             Sorteio sorteio = (Sorteio) obj;
-            sorteioService.persistirSorteio((Sorteio) sorteio);
             Validacao.setSorteio(sorteio);
         }
     }

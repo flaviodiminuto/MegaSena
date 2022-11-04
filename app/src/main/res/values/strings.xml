@@ -5,4 +5,5 @@
             site da Loteria Caixa - Mega-Sena
         </a>
     </string>
+    <string name="megasena_api">https://servicebus2.caixa.gov.br/portaldeloterias/api/megasena/</string>
 </resources>

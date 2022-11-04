@@ -24,6 +24,8 @@ public class GerarAutomatico extends AppCompatActivity {
     private EditText txt6, txt7, txt8, txt9, txt10, txt11, txt12, txt13, txt14, txt15;
     private ImageView gerarSequencia, home, returnBack;
     private ApostaService apostaService;
+    private final String MIN = "1";
+    private final String MAX = "2000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,28 +35,26 @@ public class GerarAutomatico extends AppCompatActivity {
 /*--------------------------------------------------------------
     Inicializa os campos da tela
 --------------------------------------------------------------*/
-        final String min = "1";
-        final String max = "2000";
         this.txt6 = findViewById (R.id.edtGerar6);
-        this.txt6.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt6.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt7 = findViewById ( R.id.edtGerar7 );
-        this.txt7.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt7.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt8 = findViewById ( R.id.edtGerar8 );
-        this.txt8.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt8.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt9 = findViewById ( R.id.edtGerar9 );
-        this.txt9.setFilters(new InputFilter[]{new InputFilterMinMax(min, max)});
+        this.txt9.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt10 = findViewById ( R.id.edtGerar10 );
-        this.txt10.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt10.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt11 = findViewById ( R.id.edtGerar11 );
-        this.txt11.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt11.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt12 = findViewById ( R.id.edtGerar12 );
-        this.txt12.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt12.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt13 = findViewById ( R.id.edtGerar13 );
-        this.txt13.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt13.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt14 = findViewById ( R.id.edtGerar14 );
-        this.txt14.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt14.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
         this.txt15 = findViewById ( R.id.edtGerar15 ) ;
-        this.txt15.setFilters(new InputFilter[]{new InputFilterMinMax(min,max)});
+        this.txt15.setFilters(new InputFilter[]{new InputFilterMinMax(MIN, MAX)});
 
 /*--------------------------------------------------------------
     Inicializa os botões
@@ -133,7 +133,7 @@ public class GerarAutomatico extends AppCompatActivity {
         getNumero(this.txt15) ;
 
         if(soma > 1000)
-            Toast.makeText(this, "O limite para geração é de 1.000 sequencias", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "O limite para geração é de " + MAX + " sequencias", Toast.LENGTH_LONG).show();
 
         this.aposta = new Aposta ();
         this.apostaService.adicionaSequencia(this.aposta, getNumero(this.txt6),6);
